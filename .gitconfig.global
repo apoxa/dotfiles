@@ -1,0 +1,51 @@
+[alias]
+    s = status -sb
+    hist = log --graph --pretty=format:'%C(yellow)%h%C(cyan)%d%Creset %s %C(white)- %an, %ar%Creset'
+    outgoing = log @{u}..
+    incoming = "!git remote update -p; git log --reverse ..@{u}"
+    pulled = log -p --reverse --no-merges --stat @{1}..
+[branch]
+    autosetuprebase = always
+[core]
+    whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
+[diff]
+    submodule = log
+[filter "media"]
+    clean = git-media-clean %f
+    smudge = git-media-smudge %f
+[help]
+    autocorrect = 1
+[log]
+    decorate = short
+[merge]
+    tool = fugitive
+[mergetool]
+    prompt = false
+[mergetool "fugitive"]
+    cmd = vim -f -c \"set dip=vertical\" -c \"Gdiff\" \"$MERGED\"
+    trustExitCode = false
+[pull]
+    rebase = true
+[push]
+    default = simple
+[status]
+    submoduleSummary = true
+[color]
+    ui = auto
+    interactive = auto
+[color "branch"]
+    current = yellow reverse
+    local = yellow
+    remote = green
+[color "diff"]
+    meta = blue bold
+    frag = magenta bold
+    old = red
+    new = green
+    whitespace = red reverse
+[color "status"]
+    added = yellow
+    changed = green
+    untracked = cyan
+
+# vim: ft=gitconfig

@@ -1,0 +1,16 @@
+# schalter aus den "best practices"
+-l=78   # Max. Zeilenlaenge
+-i=4    # einrueckung um 4 spalten
+-ci=4   # einrueckung bei fortsetzungslinien
+-st     # ausgabe an stdout
+-se     # fehler an stderr
+-vt=2   # maximale vertikale dichte
+-cti=0  # keine zusaetzliche Einrueckung fuer schliessende Klammern
+-pt=1   # mittlere dichte fuer runde klammern
+-bt=1   # mittlere dichte fuer geschweifte klammern
+-sbt=1  # mittlere dichte fuer eckige klammern
+-bbt=1  # mittlere dichte fuer block-klammern
+-nsfs   # kein leerzeichen fuer semikolons
+-nolq   # kein negativer einzug fuer lange strings in anfuehrungszeichen
+-wbb="% + - * / x != == >= =~ !~ < > | & <= = **= += *= &= <<= &&= -= /= |= >>= ||= .= %= ^= x="
+        # umbruch vor allen operatoren

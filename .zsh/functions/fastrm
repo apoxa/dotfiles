@@ -1,0 +1,58 @@
+# vim: ft=zsh
+local args options force YES_OR_NO
+
+options=$(getopt -o f -l "force" -- "$@")
+
+if [[ $? -ne 0 ]]; then
+    echo "Failed to parse options"
+    return 1
+fi
+
+eval set -- "${options}"
+
+# Analyze options
+while true; do
+    case "$1" in
+        -f|--force)
+            force=1
+            shift
+            ;;
+       --)
+            shift
+            break
+            ;;
+    esac
+done
+
+if [ $# -lt 1 ]
+then
+        echo "Wrong number of arguments. Needs at least one directory"
+        return 99
+fi
+tmp=${TMPDIR-/tmp}/empty-$$
+mkdir ${tmp}
+for delete_dir in ${@}; do
+    # Check if directory even exists
+    if [[ ! -d ${delete_dir} ]]; then
+        continue
+    fi
+
+    # Confirm
+    if [[ ${force} == 1 ]]; then
+        YES_OR_NO=YES
+    else
+        read "YES_OR_NO?Really delete ${delete_dir}? [y|N] "
+    fi
+    case ${YES_OR_NO} in
+        [yY][eE][sS]|[yY])
+            rsync -a --delete ${tmp}/ ${delete_dir}/
+            rmdir ${delete_dir}
+            ;;
+        [nN][oO]|[nN])
+            ;;
+        *)
+            echo "Unkown answer, skipping ${delete_dir}"
+            ;;
+    esac
+done
+rmdir ${tmp}

@@ -1,0 +1,99 @@
+" load plugins
+
+" Install vim-plug if we don't already have it
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+
+call plug#begin('~/.vim/plugged')
+
+" Colorschemes
+Plug 'chriskempson/base16-vim'
+
+" Syntax
+Plug 'tpope/vim-git', { 'for': 'git'}
+
+" Syntax
+Plug 'pearofducks/ansible-vim'
+
+" Completion
+Plug 'mattn/emmet-vim', { 'for': 'html' }
+
+" Make % match xml tags
+Plug 'tmhedberg/matchit', { 'for': ['html','xml'] }
+
+" Make tab handle all completions
+Plug 'ervandew/supertab'
+
+" Fuzzy file opener
+Plug 'ctrlpvim/ctrlp.vim' | Plug 'sgur/ctrlp-extensions.vim' | Plug 'tacahiroy/ctrlp-funky'
+
+Plug 'w0rp/ale'
+
+" Fugitive: A git wrapper so awesome, it should be illegal
+Plug 'tpope/vim-fugitive'
+
+" Change brackets and quotes
+Plug 'tpope/vim-surround'
+
+" Make commenting easier
+Plug 'tpope/vim-commentary'
+
+" Fancy statusline
+Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
+" Plug 'edkolev/tmuxline.vim'
+
+" Rename/remove files from within vim
+Plug 'tpope/vim-eunuch'
+
+" Split and join liens of code intelligently
+Plug 'AndrewRadev/splitjoin.vim'
+
+" Make vim-surround repeatable with .
+Plug 'tpope/vim-repeat'
+
+" A secure alternative to Vim modelines
+Plug 'ciaranm/securemodelines'
+
+" Call perldoc in vim buffer
+Plug 'hotchpotch/perldoc-vim', { 'for': 'perl' }
+
+" Intelligently reopen files at your last edit position
+Plug 'farmergreg/vim-lastplace'
+
+" Enhanced terminal support. Enables pasting etc
+Plug 'wincent/terminus'
+
+" Templates for filetypes
+Plug 'aperezdc/vim-template'
+
+" Handle swap files intelligently
+Plug 'gioele/vim-autoswap'
+
+" fzf fuzzy finder for shell
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all ' }
+
+" Colorizer: display color codes as their colors inline
+Plug 'lilydjwg/colorizer'
+
+" Maximize current window with <C-W>m
+Plug 'dhruvasagar/vim-zoom'
+
+" Powershell syntax
+Plug 'PProvost/vim-ps1'
+
+" sessions
+Plug 'tpope/vim-obsession'
+
+" perl
+Plug 'vim-perl/vim-perl', { 'for': 'perl', 'do': 'make clean carp dancer highlight-all-pragmas moose test-more try-tiny' }
+
+" vim local lib helper
+Plug 'yuuki/perl-local-lib-path.vim'
+
+Plug 'luochen1990/rainbow'
+
+call plug#end()
