@@ -27,6 +27,7 @@ functions_path=( themes functions completions )
 functions_path=($HOME/.zsh/${^functions_path})        # prepend local dir
 
 fpath=(
+  /usr/local/share/zsh/site-functions
   $functions_path
   $fpath
 )
