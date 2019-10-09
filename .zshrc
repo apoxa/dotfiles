@@ -50,5 +50,9 @@ if (( $+commands[hub] )); then
     eval "$(hub alias -s)"
 fi
 
+if (( $+commands[plenv] )); then
+    eval "$(plenv init - zsh)"
+fi
+
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_COMPLETION_OPTS='+c -x'
