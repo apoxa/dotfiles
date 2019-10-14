@@ -83,7 +83,7 @@ Plug 'lilydjwg/colorizer'
 Plug 'dhruvasagar/vim-zoom'
 
 " Powershell syntax
-Plug 'PProvost/vim-ps1'
+Plug 'apoxa/vim-ps1'
 
 " sessions
 Plug 'tpope/vim-obsession'
