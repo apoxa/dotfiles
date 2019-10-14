@@ -12,3 +12,10 @@ spoon.MiroWindowsManager:bindHotkeys({
   left = {hyper, "h"},
   fullscreen = {hyper, "f"}
 })
+
+hs.hotkey.bind({'ctrl','cmd'},'t', function()
+    if hs.application.title(hs.application.frontmostApplication()) ~= 'iTerm2' then
+        hs.application.launchOrFocus('iTerm')
+    end
+    hs.eventtap.keyStroke('cmd','n')
+end)
