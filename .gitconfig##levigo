@@ -1,0 +1,7 @@
+[user]
+	name = Benjamin Stier
+	email = b.stier@levigo.de
+[include]
+    path = .gitconfig.global
+
+# vim: ft=gitconfig
