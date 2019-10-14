@@ -335,11 +335,31 @@ imap <silent> <F1> <nop>
 " Don't leave .swp files everywhere. Put them in a central place
 set directory=$HOME/.vim/swapdir/
 set nobackup 		" don't save backup files
+
+function Tmpwatch(path, days)
+    let l:path = expand(a:path)
+    if isdirectory(l:path)
+        for file in split(globpath(l:path, "*"), "\n")
+            if localtime() > getftime(file) + 86400 * a:days && delete(file) != 0
+                echo "Tmpwatch(): Error deleting '" . file . "'"
+            endif
+        endfor
+    else
+        echo "Tmpwatch(): Directory '" . l:path . "' not found"
+    endif
+endfunction
+
 if exists('+undodir')
+    if !isdirectory($HOME . '/.vim/undodir')
+        mkdir($HOME . "/.vim/undodir")
+    endif
     set undodir=$HOME/.vim/undodir
     set undofile
     set undolevels=1000
     set undoreload=10000
+
+    " remove undo files which have not been modified for 31 days
+    call Tmpwatch(&undodir, 31)
 endif
 
 " Don't sync swapfile after every write

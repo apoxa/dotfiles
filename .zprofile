@@ -4,6 +4,7 @@
 # Authors:
 #   Sorin Ionescu <sorin.ionescu@gmail.com>
 #
+#
 
 #
 # Browser
@@ -85,8 +86,6 @@ export LESS='-F -g -i -M -R -S -w -X -z-4'
 if (( $#commands[(i)lesspipe(|.sh)] )); then
   export LESSOPEN="| /usr/bin/env $commands[(i)lesspipe(|.sh)] %s 2>&-"
 fi
-
-HISTSIZE=100000
 
 # use local profile if exists
 test -f $HOME/.zprofile.local && . $HOME/.zprofile.local

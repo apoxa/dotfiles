@@ -12,7 +12,7 @@ fi
 
 # load antigen
 _ANTIGEN_COMP_ENABLED=0
-source "${HOME}/.dotfiles/antigen/antigen.zsh"
+source "${HOME}/.antigen/antigen.zsh"
 antigen bundle voronkovich/gitignore.plugin.zsh
 antigen bundle marzocchi/zsh-notify
 antigen bundle knu/zsh-git-escape-magic
