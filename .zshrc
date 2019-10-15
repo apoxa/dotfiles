@@ -10,14 +10,18 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
-# load antigen
-_ANTIGEN_COMP_ENABLED=0
-source "${HOME}/.antigen/antigen.zsh"
-antigen bundle voronkovich/gitignore.plugin.zsh
-antigen bundle marzocchi/zsh-notify
-antigen bundle knu/zsh-git-escape-magic
-antigen bundle chriskempson/base16-shell
-antigen apply
+# load zplug
+if [[ -s "${ZDOTDIR:-$HOME}/.zplug/init.zsh" ]]; then
+    source "${ZDOTDIR:-$HOME}/.zplug/init.zsh"
+    zplug "voronkovich/gitignore.plugin.zsh"
+    zplug "marzocchi/zsh-notify"
+    zplug "knu/zsh-git-escape-magic"
+    zplug "chriskempson/base16-shell", use:"scripts/profile_helper.sh", defer:0
+    if ! zplug check; then
+        zplug install
+    fi
+    zplug load
+fi
 
 unsetopt SHARE_HISTORY
 
@@ -55,7 +59,6 @@ if (( $+commands[plenv] )); then
 fi
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-export FZF_COMPLETION_OPTS='+c -x'
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
