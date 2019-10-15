@@ -325,6 +325,12 @@ augroup END
 " Nobody ever uses "Ex" mode, and it's annoying to leave
 noremap Q <nop>
 
+" Easier window movement
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
 " Disable help button
 nmap <silent> <F1> <nop>
 imap <silent> <F1> <nop>
