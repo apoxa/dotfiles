@@ -21,3 +21,12 @@ hs.hotkey.bind({'ctrl','cmd'},'t', function()
     end
     hs.eventtap.keyStroke('cmd','n')
 end)
+
+
+ht = hs.loadSpoon("HammerText")
+ht.keywords = {
+    ["..shrug"] = "¯\\_(ツ)_/¯",
+    ["..tf"] = "(╯°□°）╯︵ ┻━┻",
+    ["..paste"] = function() return hs.pasteboard.getContents() end,
+}
+ht:start()
