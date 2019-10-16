@@ -240,32 +240,6 @@ let g:ale_perl_perlcritic_showrules = 1
 let g:ale_perl_perl_options = '-c Mwarnings -Ilocal/lib/perl5'
 noremap <F2> <ESC>:ALEFix<C-M>:ALELint<C-M>
 
-" Ctrl-P
-let g:ctrlp_working_path_mode = 'rw'
-let g:ctrlp_custom_ignore = {
-    \ 'dir':  '\v[\/]\.(git|hg|svn|sass-cache|pip_download_cache|wheel_cache)$',
-    \ 'file': '\v\.(png|jpg|jpeg|gif|DS_Store|pyc)$',
-    \ 'link': '',
-    \ }
-let g:ctrlp_show_hidden = 1
-let g:ctrlp_clear_cache_on_exit = 0
-" Wait to update results (This should fix the fact that backspace is so slow)
-let g:ctrlp_lazy_update = 1
-" Show as many results as our screen will allow
-let g:ctrlp_match_window = 'max:1000'
-
-" Use The Silver Searcher https://github.com/ggreer/the_silver_searcher
-if executable('ag')
-  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-  let g:ctrlp_user_command = 'ag -l --nocolor --hidden -g "" %s'
-
-  " ag is fast enough that CtrlP doesn't need to cache
-  let g:ctrlp_use_caching = 0
-else
-  " Fall back to using git ls-files if Ag is not available
-  let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . --cached --exclude-standard --others']
-endif
-
 " Templates
 let g:templates_directory = '~/.vim/templates'
 let g:email = 'ben@unpatched.de'
@@ -286,6 +260,14 @@ let g:TerminusMouse = 0
 let g:rainbow_active = 0
 nmap <silent> <leader>rb :RainbowToggle<CR>
 
+nnoremap <C-p> :Files<Cr>
+let g:fzf_layout = { 'down': '30%' }
+let g:fzf_action = {
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-h': 'split',
+  \ 'ctrl-v': 'vsplit' }
+" [Buffers] Jump to the existing window if possible
+let g:fzf_buffers_jump = 1
 
 " }}}-------------------------------------------------------------------------
 "   Custom filetypes                                                      {{{
