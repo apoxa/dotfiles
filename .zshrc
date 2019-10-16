@@ -58,7 +58,14 @@ if (( $+commands[plenv] )); then
     eval "$(plenv init - zsh)"
 fi
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+if [ -f ~/.fzf.zsh ]; then
+    source ~/.fzf.zsh
+    if (( $+commands[fd] )); then
+        _fzf_compgen_path() {
+            fd --hidden --follow --exclude ".git" . "$1"
+        }
+    fi
+fi
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
