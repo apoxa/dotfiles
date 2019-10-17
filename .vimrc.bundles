@@ -28,6 +28,9 @@ Plug 'tmhedberg/matchit', { 'for': ['html','xml'] }
 " Make tab handle all completions
 Plug 'ervandew/supertab'
 
+" Fuzzy file opener
+Plug 'ctrlpvim/ctrlp.vim' | Plug 'sgur/ctrlp-extensions.vim' | Plug 'tacahiroy/ctrlp-funky'
+
 Plug 'w0rp/ale'
 
 " Fugitive: A git wrapper so awesome, it should be illegal
@@ -72,7 +75,6 @@ Plug 'gioele/vim-autoswap'
 
 " fzf fuzzy finder for shell
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all ' }
-Plug 'junegunn/fzf.vim'
 
 " Colorizer: display color codes as their colors inline
 Plug 'lilydjwg/colorizer'
