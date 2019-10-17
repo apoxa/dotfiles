@@ -83,7 +83,7 @@ Plug 'lilydjwg/colorizer'
 Plug 'dhruvasagar/vim-zoom'
 
 " Powershell syntax
-Plug 'apoxa/vim-ps1'
+Plug 'zigford/vim-powershell'
 
 " sessions
 Plug 'tpope/vim-obsession'
@@ -92,7 +92,7 @@ Plug 'tpope/vim-obsession'
 Plug 'vim-perl/vim-perl', { 'for': 'perl', 'do': 'make clean carp dancer highlight-all-pragmas moose test-more try-tiny' }
 
 " vim local lib helper
-Plug 'yuuki/perl-local-lib-path.vim'
+Plug 'yuuki/perl-local-lib-path.vim', { 'for': 'perl' }
 
 Plug 'luochen1990/rainbow'
 
