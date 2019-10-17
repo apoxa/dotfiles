@@ -64,6 +64,7 @@ set laststatus=2                " The last window will have a status line always
 set noshowmode                  " Don't show the mode in the last line of the screen, vim-airline takes care of it
 set ruler                       " Show the line and column number of the cursor position, separated by a comma.
 set lazyredraw                  " Don't update the screen while executing macros/commands
+autocmd VimEnter * redrawstatus!
 
 " My command line autocomplete is case insensitive. Keep vim consistent with
 " that. It's a recent feature to vim, test to make sure it's supported first.
