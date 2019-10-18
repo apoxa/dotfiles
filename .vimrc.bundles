@@ -96,4 +96,7 @@ Plug 'yuuki/perl-local-lib-path.vim', { 'for': 'perl' }
 
 Plug 'luochen1990/rainbow'
 
+Plug 'tmhedberg/SimpylFold', { 'for': 'python' }
+Plug 'jmcantrell/vim-virtualenv', { 'for': 'python' }
+
 call plug#end()

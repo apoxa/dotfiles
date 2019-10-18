@@ -287,6 +287,9 @@ let g:TerminusMouse = 0
 let g:rainbow_active = 0
 nmap <silent> <leader>rb :RainbowToggle<CR>
 
+" Preview docstring in fold text
+let g:SimpylFold_docstring_preview = 1
+
 
 " }}}-------------------------------------------------------------------------
 "   Custom filetypes                                                      {{{
@@ -314,6 +317,7 @@ augroup vimrcEx
     autocmd FileType perl vmap & :call RunWith("perl")<CR>
     autocmd FileType sh,bash,zsh nmap & :call RunWith("sh")<CR>
     autocmd FileType powershell nmap & :call RunWith("pwsh")<CR>
+    autocmd FileType python nmap & :term python3 %<CR>
 
     " Open quickfix-windows for fugitive
     autocmd QuickFixCmdPost *grep* cwindow
