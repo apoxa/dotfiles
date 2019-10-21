@@ -12,11 +12,8 @@ fi
 
 # load zplug
 if [[ -s "${ZDOTDIR:-$HOME}/.zplug/init.zsh" ]]; then
+    ZPLUG_LOADFILE="${ZDOTDIR:-$HOME}/.zplug.bundle"
     source "${ZDOTDIR:-$HOME}/.zplug/init.zsh"
-    zplug "voronkovich/gitignore.plugin.zsh"
-    zplug "marzocchi/zsh-notify"
-    zplug "knu/zsh-git-escape-magic"
-    zplug "chriskempson/base16-shell", defer:0
     if ! zplug check; then
         zplug install
     fi

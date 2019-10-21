@@ -1,0 +1,5 @@
+zplug "voronkovich/gitignore.plugin.zsh"
+zplug "marzocchi/zsh-notify"
+zplug "knu/zsh-git-escape-magic"
+zplug "chriskempson/base16-shell"
+zplug "pndurette/zsh-lux"
