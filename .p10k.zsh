@@ -33,7 +33,8 @@ fi
 
   # The list of segments shown on the left. Fill it with the most important segments.
   typeset -g POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(
-      os_icon                 # os identifier
+      # os_icon                 # os identifier
+      context                 # user@host
       dir                     # current directory
       vcs                     # git status
       prompt_char             # prompt symbol
@@ -60,7 +61,6 @@ fi
       rvm                     # ruby version from rvm (https://rvm.io)
       kubecontext             # current kubernetes context (https://kubernetes.io/)
       terraform               # terraform workspace (https://www.terraform.io)
-      context                 # user@host
       nordvpn                 # nordvpn connection status, linux only (https://nordvpn.com/)
       ranger                  # ranger shell (https://github.com/ranger/ranger)
       # ram                   # free RAM
