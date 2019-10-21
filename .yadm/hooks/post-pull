@@ -1,0 +1,26 @@
+#!/bin/bash
+# Looks for changes in specific files and runs tasks for them.
+# Does not run if your local branch is behind the remote.
+
+oldRef=$1
+newRef=$2
+
+# Exit early if the local branch is behind the remote
+LOCAL=$(git rev-parse @)
+REMOTE=$(git rev-parse @{u} 2> /dev/null)
+BASE=$(git merge-base @ @{u} 2> /dev/null)
+
+if [[ "$LOCAL" != "$REMOTE" && "$LOCAL" = "$BASE" ]]; then
+  echo "You are behind origin, not running bundle/migrate post-checkout hook."
+  exit 1
+fi
+
+
+function changed {
+  git diff --name-only $oldRef $newRef | grep "^$1" > /dev/null 2>&1
+}
+
+if changed '.vimrc.bundles'; then
+  echo "VIM bundles changed"
+  vim '+PlugUpdate' '+PlugClean!' '+PlugUpdate' '+qall'
+fi
