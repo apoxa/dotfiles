@@ -230,6 +230,7 @@ let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
 \   'sh': ['shfmt'],
 \   'perl': ['perltidy'],
+\   'python': ['reorder-python-imports'],
 \}
 let g:ale_linters = {
 \   'perl': ['perl','perlcritic'],
