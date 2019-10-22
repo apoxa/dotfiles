@@ -285,9 +285,6 @@ let g:TerminusCursorShape = 0
 " Don't enable mouse
 let g:TerminusMouse = 0
 
-let g:rainbow_active = 0
-nmap <silent> <leader>rb :RainbowToggle<CR>
-
 " Preview docstring in fold text
 let g:SimpylFold_docstring_preview = 1
 

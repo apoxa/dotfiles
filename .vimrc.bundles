@@ -15,22 +15,19 @@ Plug 'chriskempson/base16-vim'
 
 " Syntax
 Plug 'tpope/vim-git', { 'for': 'git'}
-
-" Syntax
 Plug 'pearofducks/ansible-vim'
+Plug 'zigford/vim-powershell'
+Plug 'vim-perl/vim-perl', { 'for': 'perl', 'do': 'make clean carp dancer highlight-all-pragmas moose test-more try-tiny' }
 
 " Completion
-Plug 'mattn/emmet-vim', { 'for': 'html' }
-
-" Make % match xml tags
-Plug 'tmhedberg/matchit', { 'for': ['html','xml'] }
-
-" Make tab handle all completions
 Plug 'ervandew/supertab'
+Plug 'davidhalter/jedi-vim', { 'for': 'python' }
+    autocmd FileType python let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
 
 " Fuzzy file opener
 Plug 'ctrlpvim/ctrlp.vim' | Plug 'sgur/ctrlp-extensions.vim' | Plug 'tacahiroy/ctrlp-funky'
 
+" Linter
 Plug 'w0rp/ale'
 
 " Fugitive: A git wrapper so awesome, it should be illegal
@@ -38,22 +35,20 @@ Plug 'tpope/vim-fugitive'
 
 " Change brackets and quotes
 Plug 'tpope/vim-surround'
+" Make vim-surround repeatable with .
+Plug 'tpope/vim-repeat'
+
+" Insert or delete brackets, parens, quotes in pair.
+Plug 'jiangmiao/auto-pairs'
 
 " Make commenting easier
 Plug 'tpope/vim-commentary'
 
 " Fancy statusline
 Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
-" Plug 'edkolev/tmuxline.vim'
-
-" Rename/remove files from within vim
-Plug 'tpope/vim-eunuch'
 
 " Split and join liens of code intelligently
 Plug 'AndrewRadev/splitjoin.vim'
-
-" Make vim-surround repeatable with .
-Plug 'tpope/vim-repeat'
 
 " A secure alternative to Vim modelines
 Plug 'ciaranm/securemodelines'
@@ -79,22 +74,14 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all ' }
 " Colorizer: display color codes as their colors inline
 Plug 'lilydjwg/colorizer'
 
-" Maximize current window with <C-W>m
-Plug 'dhruvasagar/vim-zoom'
-
-" Powershell syntax
-Plug 'zigford/vim-powershell'
+"
+Plug 'blueyed/vim-diminactive'
 
 " sessions
 Plug 'tpope/vim-obsession'
 
-" perl
-Plug 'vim-perl/vim-perl', { 'for': 'perl', 'do': 'make clean carp dancer highlight-all-pragmas moose test-more try-tiny' }
-
 " vim local lib helper
 Plug 'yuuki/perl-local-lib-path.vim', { 'for': 'perl' }
-
-Plug 'luochen1990/rainbow'
 
 Plug 'tmhedberg/SimpylFold', { 'for': 'python' }
 Plug 'jmcantrell/vim-virtualenv', { 'for': 'python' }
