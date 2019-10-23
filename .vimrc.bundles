@@ -21,8 +21,6 @@ Plug 'vim-perl/vim-perl', { 'for': 'perl', 'do': 'make clean carp dancer highlig
 
 " Completion
 Plug 'ervandew/supertab'
-Plug 'davidhalter/jedi-vim', { 'for': 'python' }
-    autocmd FileType python let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
 
 " Fuzzy file opener
 Plug 'ctrlpvim/ctrlp.vim' | Plug 'sgur/ctrlp-extensions.vim' | Plug 'tacahiroy/ctrlp-funky'
@@ -73,9 +71,6 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all ' }
 
 " Colorizer: display color codes as their colors inline
 Plug 'lilydjwg/colorizer'
-
-"
-Plug 'blueyed/vim-diminactive'
 
 " sessions
 Plug 'tpope/vim-obsession'
