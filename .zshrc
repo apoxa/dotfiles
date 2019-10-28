@@ -10,14 +10,11 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
-# load zplug
-if [[ -s "${ZDOTDIR:-$HOME}/.zplug/init.zsh" ]]; then
-    ZPLUG_LOADFILE="${ZDOTDIR:-$HOME}/.zplug.bundle"
-    source "${ZDOTDIR:-$HOME}/.zplug/init.zsh"
-    if ! zplug check; then
-        zplug install
-    fi
-    zplug load
+# load zsh plugins
+PLUGMAN="${ZDOTDIR:-$HOME}/.zplugin/bin/zplugin.zsh"
+if [[ -s "${PLUGMAN}" ]]; then
+    source "${PLUGMAN}"
+    source "${ZDOTDIR:-$HOME}/.zsh.bundle"
 fi
 
 unsetopt SHARE_HISTORY
