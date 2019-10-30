@@ -45,9 +45,6 @@ Plug 'tpope/vim-commentary'
 " Fancy statusline
 Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
 
-" Split and join liens of code intelligently
-Plug 'AndrewRadev/splitjoin.vim'
-
 " A secure alternative to Vim modelines
 Plug 'ciaranm/securemodelines'
 
