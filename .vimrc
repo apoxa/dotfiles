@@ -288,6 +288,9 @@ let g:TerminusMouse = 0
 " Preview docstring in fold text
 let g:SimpylFold_docstring_preview = 1
 
+" tt2 syntax
+let b:tt2_syn_tags = '<% %>'
+
 
 " }}}-------------------------------------------------------------------------
 "   Custom filetypes                                                      {{{
@@ -304,6 +307,7 @@ augroup vimrcEx
     autocmd BufRead,BufNewFile *.git/config,.gitconfig,.gitmodules,gitconfig set ft=gitconfig
     autocmd BufRead,BufNewFile *.py setlocal foldmethod=indent
     autocmd BufRead,BufNewFile *.yml setlocal shiftwidth=2
+    autocmd BufRead,BufNewFile *.tt setlocal ft=tt2html
 
     " Tidy perl files
     autocmd FileType perl nmap _ :call DoTidy()<CR>
