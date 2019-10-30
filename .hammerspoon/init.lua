@@ -16,10 +16,8 @@ spoon.MiroWindowsManager:bindHotkeys({
 hs.hotkey.bind({'ctrl','cmd'}, 'q', function() hs.caffeinate.startScreensaver() end )
 
 hs.hotkey.bind({'ctrl','cmd'},'t', function()
-    if hs.application.title(hs.application.frontmostApplication()) ~= 'iTerm2' then
-        hs.application.launchOrFocus('iTerm')
-    end
-    hs.eventtap.keyStroke('cmd','n')
+    term=hs.application.find('iTerm2') or hs.application.open('iTerm')
+    term:selectMenuItem('New Window')
 end)
 
 
