@@ -30,4 +30,4 @@ fi
 # be run from within $HOME (assuming this is the root of your dotfiles)
 cd "$HOME"
 echo "Update submodules"
-yadm submodule update --recursive --remote
+yadm submodule update --recursive
