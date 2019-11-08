@@ -24,3 +24,10 @@ if changed '.vimrc.bundles'; then
   echo "VIM bundles changed"
   vim '+PlugUpdate' '+PlugClean!' '+PlugUpdate' '+qall'
 fi
+
+
+# Because Git submodule commands cannot operate without a work tree, they must
+# be run from within $HOME (assuming this is the root of your dotfiles)
+cd "$HOME"
+echo "Update submodules"
+yadm submodule update --recursive --remote

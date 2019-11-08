@@ -302,6 +302,7 @@ augroup vimrcEx
     autocmd BufRead,BufNewFile *.dsc setlocal textwidth=0
     autocmd FileType gitcommit setlocal textwidth=72
     autocmd FileType json setlocal shiftwidth=2 tabstop=2
+    autocmd FileType html setlocal shiftwidth=2 tabstop=2
     autocmd FileType xml setlocal foldmethod=syntax
     autocmd BufRead,BufNewFile *.md,*.markdown set filetype=markdown
     autocmd BufRead,BufNewFile *.git/config,.gitconfig,.gitmodules,gitconfig set ft=gitconfig
