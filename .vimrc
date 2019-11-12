@@ -85,9 +85,6 @@ set ttimeoutlen=10
 set nowrap                  " Don't wrap lines
 set linebreak               " Break the line on words
 set textwidth=79            " Break lines at just under 80 characters
-if exists('+colorcolumn')
-    " set colorcolumn=+1    " Highlight the column after textwidth
-endif
 set numberwidth=4       " Width of the line number column
 
 " show fold column, fold by markers
