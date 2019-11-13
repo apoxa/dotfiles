@@ -1,0 +1,2 @@
+# vim: ft=zsh
+killall -USR1 zsh
