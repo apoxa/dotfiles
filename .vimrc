@@ -288,6 +288,13 @@ let g:SimpylFold_docstring_preview = 1
 " tt2 syntax
 let b:tt2_syn_tags = '<% %>'
 
+nnoremap <Leader>f :NERDTreeToggle<CR>
+nnoremap <silent> <Leader>v :NERDTreeFind<CR>
+let NERDTreeQuitOnOpen = 1
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+let NERDTreeAutoDeleteBuffer = 1
+let NERDTreeMinimalUI = 1
+
 
 " }}}-------------------------------------------------------------------------
 "   Custom filetypes                                                      {{{
