@@ -149,7 +149,6 @@ let g:airline#extensions#tabline#show_tab_nr = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline#extensions#branch#enabled = 1
 let g:airline_section_z = airline#section#create([
-    \ '%{ObsessionStatus(''$'', '''')}',
     \ 'windowswap',
     \ '%3p%% ',
     \ 'linenr',
@@ -265,6 +264,12 @@ else
   let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . --cached --exclude-standard --others']
 endif
 
+" Session
+" If you don't want help windows to be restored:
+set sessionoptions-=help
+" Don't save hidden and unloaded buffers in sessions.
+set sessionoptions-=buffers
+
 " Templates
 let g:templates_directory = '~/.vim/templates'
 let g:email = 'ben@unpatched.de'
@@ -305,8 +310,7 @@ augroup vimrcEx
 
     autocmd BufRead,BufNewFile *.dsc setlocal textwidth=0
     autocmd FileType gitcommit setlocal textwidth=72
-    autocmd FileType json setlocal shiftwidth=2 tabstop=2
-    autocmd FileType html setlocal shiftwidth=2 tabstop=2
+    autocmd FileType json,html,powershell setlocal shiftwidth=2 tabstop=2
     autocmd FileType xml setlocal foldmethod=syntax
     autocmd BufRead,BufNewFile *.md,*.markdown set filetype=markdown
     autocmd BufRead,BufNewFile *.git/config,.gitconfig,.gitmodules,gitconfig set ft=gitconfig

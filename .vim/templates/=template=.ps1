@@ -25,22 +25,21 @@
   <Example goes here. Repeat this attribute for more than one example>
 #>
 
-#---------------------------------------------------------[Initialisations]--------------------------------------------------------
+#--------------------------------[Parameters]---------------------------------
+Param(
+  [ValidateNotNull()]
+  [parameter(Mandatory=$True)]
+  [string]$MyParam
+)
 
-#Set Error Action to Silently Continue
-$ErrorActionPreference = "SilentlyContinue"
+#-------------------------------[Initialisation]------------------------------
 
-#----------------------------------------------------------[Declarations]----------------------------------------------------------
+Set-StrictMode -Version Latest
+$ErrorActionPreference = "Stop"
 
-#Script Version
-$sScriptVersion = "1.0"
+#--------------------------------[Declarations]--------------------------------
 
-#Log File Info
-$sLogPath = "C:\Windows\Temp"
-$sLogName = "%FILE%.log"
-$sLogFile = Join-Path -Path $sLogPath -ChildPath $sLogName
-
-#-----------------------------------------------------------[Functions]------------------------------------------------------------
+#----------------------------------[Functions]---------------------------------
 
 <#
 
@@ -48,7 +47,6 @@ Function <FunctionName>{
   Param()
 
   Begin{
-    Log-Write -LogPath $sLogFile -LineValue "<description of what is going on>..."
   }
 
   Process{
@@ -57,23 +55,17 @@ Function <FunctionName>{
     }
 
     Catch{
-      Log-Error -LogPath $sLogFile -ErrorDesc $_.Exception -ExitGracefully $True
       Break
     }
   }
 
   End{
     If($?){
-      Log-Write -LogPath $sLogFile -LineValue "Completed Successfully."
-      Log-Write -LogPath $sLogFile -LineValue " "
+      Write-Verbose "Completed successfully."
     }
   }
 }
 
 #>
 
-#-----------------------------------------------------------[Execution]------------------------------------------------------------
-
-Log-Start -LogPath $sLogPath -LogName $sLogName -ScriptVersion $sScriptVersion
-#Script Execution goes here
-Log-Finish -LogPath $sLogFile
+#----------------------------------[Execution]---------------------------------

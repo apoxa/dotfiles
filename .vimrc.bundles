@@ -70,7 +70,7 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all ' }
 Plug 'lilydjwg/colorizer'
 
 " sessions
-Plug 'tpope/vim-obsession'
+Plug 'powerman/vim-plugin-autosess'
 
 " vim local lib helper
 Plug 'yuuki/perl-local-lib-path.vim', { 'for': 'perl' }
