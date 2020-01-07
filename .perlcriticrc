@@ -28,3 +28,9 @@ forbid = abstract bases close last left no record right second set
 allow_name_regex = _build_\w+
 
 [-Subroutines::RequireArgUnpacking]
+
+[TestingAndDebugging::RequireUseWarnings]
+equivalent_modules = Spot::Lite::Ourperl
+
+[TestingAndDebugging::RequireUseStrict]
+equivalent_modules = Spot::Lite::Ourperl
