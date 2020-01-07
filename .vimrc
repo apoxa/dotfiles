@@ -133,6 +133,7 @@ if filereadable(expand("~/.vimrc_background"))
   let base16colorspace=256
   source ~/.vimrc_background
 endif
+set t_RB=1
 
 " When completing, fill with the longest common string
 " Auto select the first option
