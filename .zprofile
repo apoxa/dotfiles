@@ -60,9 +60,14 @@ path=($^path(N))
 
 manpath=(
   $HOME/perl5/man
-  ${(s.:.)"$(manpath)"}
   $manpath
 )
+if (( $#commands[manpath] )); then
+  manpath=(
+     ${(s.:.)"$(manpath)"}
+     $manpath
+  )
+fi
 manpath=($^manpath(N))
 
 infopath=(
