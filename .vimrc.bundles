@@ -39,6 +39,9 @@ Plug 'tpope/vim-repeat'
 " Make commenting easier
 Plug 'tpope/vim-commentary'
 
+" UNIX helpers
+Plug 'tpope/vim-eunuch'
+
 " Fancy statusline
 Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
 
