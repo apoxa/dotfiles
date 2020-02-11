@@ -1,6 +1,6 @@
-zplugin ice lucid wait'!0'; zplugin light "voronkovich/gitignore.plugin.zsh"
-zplugin ice lucid wait'!0'; zplugin light "knu/zsh-git-escape-magic"
 export BASE16_SHELL_HOOKS=$HOME/.config/base16/hooks
-zplugin ice lucid; zplugin light "chriskempson/base16-shell"
-zplugin ice lucid wait'!0'; zplugin light "gimbo/venv-lite.zsh"
-zplugin ice lucid wait'!0'; zplugin light "chrissicool/zsh-256color"
+zinit lucid for "chriskempson/base16-shell"
+zinit lucid for "chrissicool/zsh-256color"
+zinit lucid for "voronkovich/gitignore.plugin.zsh"
+zinit lucid for "knu/zsh-git-escape-magic"
+zinit lucid for "gimbo/venv-lite.zsh"

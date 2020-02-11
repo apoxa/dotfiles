@@ -17,7 +17,7 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 fi
 
 # load zsh plugins
-PLUGMAN="${ZDOTDIR:-$HOME}/.zplugin/bin/zplugin.zsh"
+PLUGMAN="${ZDOTDIR:-$HOME}/.zinit/bin/zinit.zsh"
 if [[ -s "${PLUGMAN}" ]]; then
     source "${PLUGMAN}"
     source "${ZDOTDIR:-$HOME}/.zsh.bundle"
