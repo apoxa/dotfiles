@@ -1,4 +1,5 @@
 # schalter aus den "best practices"
+
 -l=78   # Max. Zeilenlaenge
 -i=4    # einrueckung um 4 spalten
 -ci=4   # einrueckung bei fortsetzungslinien
@@ -12,5 +13,5 @@
 -bbt=1  # mittlere dichte fuer block-klammern
 -nsfs   # kein leerzeichen fuer semikolons
 -nolq   # kein negativer einzug fuer lange strings in anfuehrungszeichen
--wbb="% + - * / x != == >= =~ !~ < > | & <= = **= += *= &= <<= &&= -= /= |= >>= ||= .= %= ^= x="
+-wbb="% + - * / x != == >= <= =~ !~ < > | & = **= += *= &= <<= &&= -= /= |= >>= ||= //= .= %= ^= x="
         # umbruch vor allen operatoren
