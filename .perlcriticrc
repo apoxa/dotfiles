@@ -32,7 +32,7 @@ allow_name_regex = _build_\w+
 
 
 [TestingAndDebugging::RequireUseWarnings]
-equivalent_modules = Spot::Lite::Ourperl
+equivalent_modules = Spot::Lite::Ourperl SpotBack::Ourperl
 
 [TestingAndDebugging::RequireUseStrict]
-equivalent_modules = Spot::Lite::Ourperl
+equivalent_modules = Spot::Lite::Ourperl SpotBack::Ourperl
