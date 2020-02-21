@@ -1,5 +1,4 @@
 " load plugins
-
 " Install vim-plug if we don't already have it
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
@@ -44,6 +43,21 @@ Plug 'tpope/vim-eunuch'
 
 " Fancy statusline
 Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
+let g:airline_powerline_fonts=1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#tab_nr_type = 2
+let g:airline#extensions#tabline#show_tab_nr = 1
+let g:airline#extensions#tabline#fnamemod = ':t'
+let g:airline#extensions#branch#enabled = 1
+function! AirlineInit()
+    let g:airline_section_z = airline#section#create([
+        \ 'windowswap',
+        \ '%3p%% ',
+        \ 'linenr',
+        \ ':%3v '
+        \ ])
+endfunction
+autocmd VimEnter * call AirlineInit()
 
 " A secure alternative to Vim modelines
 Plug 'ciaranm/securemodelines'

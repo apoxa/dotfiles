@@ -143,20 +143,6 @@ set completeopt=longest,menuone
 "  Style for terminal vim                                               {{{
 " ----------------------------------------------------------------------------
 
-let g:airline_powerline_fonts=1
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#tab_nr_type = 2
-let g:airline#extensions#tabline#show_tab_nr = 1
-let g:airline#extensions#tabline#fnamemod = ':t'
-let g:airline#extensions#branch#enabled = 1
-let g:airline_section_z = airline#section#create([
-    \ 'windowswap',
-    \ '%3p%% ',
-    \ 'linenr',
-    \ ':%3v '
-    \ ])
-
-
 set mouse=      " Disable mouse support
 
 " set title of screen/tmux correctly
