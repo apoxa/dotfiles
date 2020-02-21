@@ -4,13 +4,23 @@
 # be run from within $HOME (assuming this is the root of your dotfiles)
 cd "$HOME"
 
-echo "Init submodules"
-yadm submodule update --recursive --init
+# Guess path to yadm
+for P in yadm $HOME/.local/bin/yadm; do
+    if command -v $P >/dev/null 2>&1; then
+        YADM="$P"
+        break
+    fi
+done
+
+if test -n "${YADM}"; then
+    echo "Init submodules"
+    $YADM submodule update --recursive --init
+fi
 
 # Bootstrap vim with plugins
 if command -v vim >/dev/null 2>&1; then
   echo "Bootstraping Vim"
-  vim '+PlugUpdate' '+PlugClean!' '+PlugUpdate' '+qall'
+  vim '+PlugUpdate' '+PlugClean!' '+qall'
 fi
 
 # Bootstrap zsh plugins
