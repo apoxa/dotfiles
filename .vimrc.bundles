@@ -17,6 +17,7 @@ Plug 'tpope/vim-git', { 'for': 'git'}
 Plug 'pearofducks/ansible-vim'
 Plug 'zigford/vim-powershell'
 Plug 'vim-perl/vim-perl', { 'for': 'perl', 'do': 'make clean carp dancer highlight-all-pragmas moose test-more try-tiny' }
+Plug 'shmup/vim-sql-syntax', { 'for': 'sql' }
 
 " Completion
 Plug 'ervandew/supertab'
