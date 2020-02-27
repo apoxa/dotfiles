@@ -20,6 +20,8 @@ zflai-assert() { mylogs+=( "$4"${${${1:#$2}:+FAIL}:-OK}": $3" ); }
 module_path+=( "${HOME}/.zinit/bin/zmodules/Src" )
 zmodload zdharma/zplugin &>/dev/null
 
+typeset -g HISTSIZE=290000 SAVEHIST=290000 HISTFILE=~/.zhistory
+
 #
 # setopts
 #
