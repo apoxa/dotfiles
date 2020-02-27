@@ -50,7 +50,8 @@ zinit wait lucid for \
  atload"!_zsh_autosuggest_start" atinit"ZSH_AUTOSUGGEST_USE_ASYNC=1"\
     zsh-users/zsh-autosuggestions \
  blockf \
-    zsh-users/zsh-completions
+    zsh-users/zsh-completions \
+    PZT::modules/completion/init.zsh
 
 # lib/git.zsh is loaded mostly to stay in touch with the plugin (for the users)
 # and for the themes 2 & 3 (lambda-mod-zsh-theme & lambda-gitster)
