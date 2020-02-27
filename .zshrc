@@ -164,7 +164,9 @@ zinit wait lucid if"(( ! $+EMACS )) && [[ $TERM != 'dumb' ]] && (( ! $+VIM_TERMI
 
 # A few wait"1 plugins
 zinit wait"1" lucid for \
- atinit'zstyle ":history-search-multi-word" page-size "7"' \
+ atinit'zstyle ":history-search-multi-word" page-size "10"
+        zstyle ":history-search-multi-word" highlight-color "fg=yellow,bold,bg=red"
+ ' \
     zdharma/history-search-multi-word
 
 # Gitignore plugin – commands gii and gi
@@ -187,11 +189,6 @@ zinit wait"2" lucid as"null" from"gh-r" for \
 zinit wait"2" lucid for \
     zdharma/declare-zsh \
     zdharma/zflai \
- blockf \
-    zdharma/zui \
-    zinit-zsh/zinit-console \
- trigger-load'!crasis' \
-    zdharma/zplugin-crasis \
  atinit"forgit_ignore='fgi'" \
     wfxr/forgit
 
