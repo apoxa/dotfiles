@@ -4,8 +4,8 @@ ZINIT_BIN_DIR_NAME="${${ZINIT_BIN_DIR_NAME:-$ZPLG_BIN_DIR_NAME}:-bin}"
 if [[ ! -f $ZINIT_HOME/$ZINIT_BIN_DIR_NAME/zinit.zsh ]]; then
     print -P "%F{33}▓▒░ %F{220}Installing DHARMA Initiative Plugin Manager (zdharma/zinit)…%f"
     command mkdir -p $ZINIT_HOME
-    command git clone https://github.com/zdharma/zinit $ZINIT_HOME/$ZINIT_BIN_DIR_NAME && \\
-        print -P "%F{33}▓▒░ %F{34}Installation successful.%f" || \\
+    command git clone https://github.com/zdharma/zinit $ZINIT_HOME/$ZINIT_BIN_DIR_NAME && \
+        print -P "%F{33}▓▒░ %F{34}Installation successful.%f" || \
         print -P "%F{160}▓▒░ The clone has failed.%f"
 fi
 source "$ZINIT_HOME/$ZINIT_BIN_DIR_NAME/zinit.zsh"
@@ -88,7 +88,7 @@ zinit lucid load'![[ $MYPROMPT = 4 ]]' unload'![[ $MYPROMPT != 4 ]]' \
         GEOMETRY_STATUS_COLOR="$(geometry::hostcolor)"
         geometry::prompt' \
  atinit'GEOMETRY_PROMPT=(geometry_echo geometry_status geometry_hostname geometry_path)
-        GEOMETRY_RPROMPT+=(geometry_jobs)' \
+        GEOMETRY_RPROMPT=(geometry_jobs geometry_exec_time geometry_git geometry_echo)' \
  nocd for \
     geometry-zsh/geometry
 
