@@ -62,6 +62,10 @@ zinit wait lucid for \
  atload"unalias grv g" \
     OMZ::plugins/git/git.plugin.zsh
 
+# ssh-agent
+zinit wait lucid for \
+    bobsoppe/zsh-ssh-agent
+
 # Theme no. 1 - zprompts
 zinit lucid \
  load'![[ $MYPROMPT = 1 ]]' \
