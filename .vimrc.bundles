@@ -78,9 +78,6 @@ Plug 'aperezdc/vim-template'
 " Handle swap files intelligently
 Plug 'gioele/vim-autoswap'
 
-" fzf fuzzy finder for shell
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all ' }
-
 " Colorizer: display color codes as their colors inline
 Plug 'lilydjwg/colorizer'
 

@@ -1,6 +1,5 @@
 export BASE16_SHELL_HOOKS=$HOME/.config/base16/hooks
 zinit light "chriskempson/base16-shell"
 zinit light "chrissicool/zsh-256color"
-zinit light "voronkovich/gitignore.plugin.zsh"
 zinit light "knu/zsh-git-escape-magic"
 zinit light "gimbo/venv-lite.zsh"

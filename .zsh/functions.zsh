@@ -29,14 +29,5 @@ fpath=($^fpath(N))
 # Autoload functions
 autoload -Uz $HOME/.zsh/functions/^*.*sh(:t)
 
-if [ -f ~/.fzf.zsh ]; then
-    source ~/.fzf.zsh
-    if (( $+commands[fd] )); then
-        _fzf_compgen_path() {
-            fd --hidden --follow --exclude ".git" . "$1"
-        }
-    fi
-fi
-
 # Load perl5 local::lib
 [[ -d ~/perl5/lib/perl5 ]] && eval $(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib)
