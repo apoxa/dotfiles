@@ -49,7 +49,7 @@ zinit light-mode for \
 zinit wait lucid for \
  atinit"ZINIT[COMPINIT_OPTS]=-C; zpcompinit; zpcdreplay" \
     zdharma/fast-syntax-highlighting \
- atload"!_zsh_autosuggest_start" atinit"ZSH_AUTOSUGGEST_USE_ASYNC=1"\
+ atload"!_zsh_autosuggest_start" \
     zsh-users/zsh-autosuggestions \
  blockf \
     zsh-users/zsh-completions \
