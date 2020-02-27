@@ -81,8 +81,7 @@ zinit lucid load'![[ $MYPROMPT = 3 ]]' unload'![[ $MYPROMPT != 3 ]]' nocd for \
 
 # Theme no. 4 – geometry
 zinit lucid load'![[ $MYPROMPT = 4 ]]' unload'![[ $MYPROMPT != 4 ]]' \
- atload'!geometry::prompt' nocd \
- atinit'GEOMETRY_COLOR_DIR=63 GEOMETRY_PATH_COLOR=63' for \
+ atload'!geometry::prompt' nocd for \
     geometry-zsh/geometry
 
 # Theme no. 5 – pure
@@ -93,7 +92,7 @@ zinit lucid load'![[ $MYPROMPT = 5 ]]' unload'![[ $MYPROMPT != 5 ]]' \
 # Theme no. 6 - agkozak-zsh-theme
 zinit lucid load'![[ $MYPROMPT = 6 ]]' unload'![[ $MYPROMPT != 6 ]]' \
  atload'!_agkozak_precmd' nocd \
-    atinit"AGKOZAK_FORCE_ASYNC_METHOD=subst-async\
+    atinit"AGKOZAK_FORCE_ASYNC_METHOD=subst-async
            AGKOZAK_MULTILINE=0
            AGKOZAK_CUSTOM_SYMBOLS=( '⇣⇡' '⇣' '⇡' '+' 'x' '!' '>' '?' 'S')
            AGKOZAK_LEFT_PROMPT_ONLY=1
@@ -195,7 +194,7 @@ zinit as"null" wait"3" lucid for \
 zflai-msg "[zshrc] Zplugin block took ${(M)$(( SECONDS * 1000 ))#*.?} ms"
 
 # set prompt
-MYPROMPT=6
+MYPROMPT=4
 
 # Load perl5 local::lib
 [[ -d ~/perl5/lib/perl5 ]] && eval $(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib)
@@ -221,6 +220,52 @@ if (( $+commands[ag] )); then
     alias ag='ag --pager less'
     export FZF_DEFAULT_COMMAND='ag -l -g ""'
     export FZF_DEFAULT_OPTS='--no-extended'
+fi
+
+if (( $+commands[dircolors] )); then
+    alias ls="${aliases[ls]:-ls} --color=auto"
+else
+    alias ls="${aliases[ls]:-ls} -G"
+fi
+
+alias l='ls -1A'    # Lists in one column, hidden files
+alias ll='ls -lh'   # Lists human readable sizes
+alias la='ll -A'    # Lists human readable sizes, hidden files.
+alias sl='ls'       # Catch typos.
+
+alias grep="${aliases[grep]:-grep} --color=auto"
+
+# Disable globbing for some commands
+alias find='noglob find'
+alias history='noglob history'
+(( $+commands[rsync] )) && alias rsync='noglob rsync'
+alias scp='noglob scp'
+
+# General aliases
+alias _='sudo'
+alias mkdir="${aliases[mkdir]:-mkdir} -p"
+if [[ "$OSTYPE" == darwin* ]]; then
+    alias o='open'
+else
+    alias o='xdg-open'
+    if (( $+commands[xclip] )); then
+        alias pbcopy='xclip -selection clipboard -in'
+        alias pbpaste='xclip -selection clipboard -out'
+    elif (( $+commands[xsel] )); then
+        alias pbcopy='xsel --clipboard --input'
+        alias pbpaste='xsel --clipboard --output'
+    fi
+fi
+
+alias pbc='pbcopy'
+alias pbp='pbpaste'
+
+if [[ "$OSTYPE" == (darwin*|*bsd*) ]]; then
+  alias topc='top -o cpu'
+  alias topm='top -o vsize'
+else
+  alias topc='top -o %CPU'
+  alias topm='top -o %MEM'
 fi
 
 (( $+commands[ip] )) && alias ip='ip -c'
