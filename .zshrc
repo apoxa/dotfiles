@@ -80,7 +80,9 @@ zinit lucid load'![[ $MYPROMPT = 3 ]]' unload'![[ $MYPROMPT != 3 ]]' nocd for \
 
 # Theme no. 4 – geometry
 zinit lucid load'![[ $MYPROMPT = 4 ]]' unload'![[ $MYPROMPT != 4 ]]' \
- atload'!geometry::prompt' \
+ atload'!geometry_hostname() {echo ${SSH_TTY:+"%F{9}%n%f%F{7}@%f%F{3}%m%f "}};
+        GEOMETRY_STATUS_COLOR="$(geometry::hostcolor)"
+        geometry::prompt' \
  atinit'GEOMETRY_PROMPT=(geometry_echo geometry_status geometry_hostname geometry_path)
         GEOMETRY_RPROMPT+=(geometry_jobs)' \
  nocd for \
