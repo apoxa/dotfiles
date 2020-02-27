@@ -58,7 +58,6 @@ zinit wait lucid for \
 # lib/git.zsh is loaded mostly to stay in touch with the plugin (for the users)
 # and for the themes 2 & 3 (lambda-mod-zsh-theme & lambda-gitster)
 zinit wait lucid for \
-    zdharma/zsh-unique-id \
     OMZ::lib/git.zsh \
  atload"unalias grv g" \
     OMZ::plugins/git/git.plugin.zsh
@@ -81,7 +80,11 @@ zinit lucid load'![[ $MYPROMPT = 3 ]]' unload'![[ $MYPROMPT != 3 ]]' nocd for \
 
 # Theme no. 4 – geometry
 zinit lucid load'![[ $MYPROMPT = 4 ]]' unload'![[ $MYPROMPT != 4 ]]' \
- atload'!geometry::prompt' nocd for \
+ atload'!geometry::prompt' \
+ atinit'GEOMETRY_PROMPT=(geometry_echo geometry_hostname geometry_status geometry_path)
+        geometry_hostname() { echo "${SSH_TTY:+\"%F{9}%n%f%F{7}@%f%F{3}%m%f \"}"}
+        GEOMETRY_RPROMPT+=(geometry_jobs)' \
+ nocd for \
     geometry-zsh/geometry
 
 # Theme no. 5 – pure
