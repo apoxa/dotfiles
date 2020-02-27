@@ -93,7 +93,6 @@ zinit lucid load'![[ $MYPROMPT = 6 ]]' unload'![[ $MYPROMPT != 6 ]]' \
     atinit"AGKOZAK_FORCE_ASYNC_METHOD=subst-async\
            AGKOZAK_MULTILINE=0
            AGKOZAK_CUSTOM_SYMBOLS=( '⇣⇡' '⇣' '⇡' '+' 'x' '!' '>' '?' 'S')
-           AGKOZAK_USER_HOST_DISPLAY=0
            AGKOZAK_LEFT_PROMPT_ONLY=1
            " \
  for \
