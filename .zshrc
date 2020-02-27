@@ -168,15 +168,10 @@ zinit wait"2" lucid trigger-load'!man' \
     for \
         ael-code/zsh-colored-man-pages
 
-# ogham/exa, sharkdp/fd, fzf
+# sharkdp/fd, fzf
 zinit wait"2" lucid as"null" from"gh-r" for \
-    mv"exa* -> exa" sbin  ogham/exa \
     mv"fd* -> fd" sbin"fd/fd"  @sharkdp/fd \
     sbin junegunn/fzf-bin
-
-# aliases for exa
-zinit wait"2" lucid for \
-    DarrinTisdale/zsh-aliases-exa
 
 # A few wait'2' plugins
 zinit wait"2" lucid for \
