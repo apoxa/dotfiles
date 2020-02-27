@@ -35,12 +35,6 @@ unsetopt CLOBBER            # Do not overwrite existing files with > and >>. Use
 unsetopt BG_NICE            # Don't run all background jobs at a lower priority.
 unsetopt HUP                # Don't kill jobs on shell exit.
 unsetopt MAIL_WARNING       # Don't print a warning message if a mail file has been accessed.
-
-# Source Prezto.
-# if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
-#   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
-# fi
-
 unsetopt SHARE_HISTORY
 
 #
@@ -53,7 +47,7 @@ zinit light-mode for \
 zinit wait lucid for \
  atinit"ZINIT[COMPINIT_OPTS]=-C; zpcompinit; zpcdreplay" \
     zdharma/fast-syntax-highlighting \
- atload"!_zsh_autosuggest_start" \
+ atload"!_zsh_autosuggest_start" atinit"ZSH_AUTOSUGGEST_USE_ASYNC=1"\
     zsh-users/zsh-autosuggestions \
  blockf \
     zsh-users/zsh-completions
@@ -95,7 +89,14 @@ zinit lucid load'![[ $MYPROMPT = 5 ]]' unload'![[ $MYPROMPT != 5 ]]' \
 
 # Theme no. 6 - agkozak-zsh-theme
 zinit lucid load'![[ $MYPROMPT = 6 ]]' unload'![[ $MYPROMPT != 6 ]]' \
- atload'!_agkozak_precmd' nocd atinit'AGKOZAK_FORCE_ASYNC_METHOD=subst-async' for \
+ atload'!_agkozak_precmd' nocd \
+    atinit"AGKOZAK_FORCE_ASYNC_METHOD=subst-async\
+           AGKOZAK_MULTILINE=0
+           AGKOZAK_CUSTOM_SYMBOLS=( '⇣⇡' '⇣' '⇡' '+' 'x' '!' '>' '?' 'S')
+           AGKOZAK_USER_HOST_DISPLAY=0
+           AGKOZAK_LEFT_PROMPT_ONLY=1
+           " \
+ for \
     agkozak/agkozak-zsh-theme
 
 # Theme no. 7 - zinc
@@ -121,9 +122,14 @@ zinit wait"2" lucid as"null" for \
  sbin"color.zsh -> color" \
     molovo/color
 
+# base16 colorscheme
+zinit lucid atinit"BASE16_SHELL_HOOKS=$HOME/.config/base16/hooks" for \
+    chriskempson/base16-shell \
+    chrissicool/zsh-256color
+
 # On OSX, you might need to install coreutils from homebrew and use the
 # g-prefix – gsed, gdircolors
-: zinit wait"0c" lucid reset \
+zinit wait"0c" lucid reset \
  atclone"local P=${${(M)OSTYPE:#*darwin*}:+g}
         \${P}sed -i \
         '/DIR/c\DIR 38;5;63;1' LS_COLORS; \
@@ -140,13 +146,12 @@ zinit wait"1" lucid as"program" pick"$ZPFX/bin/fzy*" \
 
 # zsh-autopair
 zinit wait lucid for \
-    hlissner/zsh-autopair
+ hlissner/zsh-autopair
 
 # zsh-titles causes dittography in Emacs shell and Vim terminal
-#
-if (( ! $+EMACS )) && [[ $TERM != 'dumb' ]] && (( ! $+VIM_TERMINAL )); then
-    zinit lucid wait for jreese/zsh-titles
-fi
+zinit wait lucid if"(( ! $+EMACS )) && [[ $TERM != 'dumb' ]] && (( ! $+VIM_TERMINAL ))" \
+ for \
+    jreese/zsh-titles
 
 # A few wait"1 plugins
 zinit wait"1" lucid for \
@@ -170,6 +175,10 @@ zinit wait"2" lucid as"null" from"gh-r" for \
     mv"fd* -> fd" sbin"fd/fd"  @sharkdp/fd \
     sbin junegunn/fzf-bin
 
+# aliases for exa
+zinit wait"2" lucid for \
+    DarrinTisdale/zsh-aliases-exa
+
 # A few wait'2' plugins
 zinit wait"2" lucid for \
     zdharma/declare-zsh \
@@ -188,15 +197,35 @@ zinit as"null" wait"3" lucid for \
 
 zflai-msg "[zshrc] Zplugin block took ${(M)$(( SECONDS * 1000 ))#*.?} ms"
 
-# Try to source
-# for file in "${ZDOTDIR:-$HOME}/.zsh/aliases.zsh" \
-#             "${ZDOTDIR:-$HOME}/.zsh/functions.zsh" \
-#             "${ZDOTDIR:-$HOME}/.zsh/prompts.zsh"
-# do
-#     [ -s "${file}" ] && source "${file}"
-# done
-
-source "${ZDOTDIR:-$HOME}/.zsh.bundle"
-
 # set prompt
-MYPROMPT=5
+MYPROMPT=6
+
+# Load perl5 local::lib
+[[ -d ~/perl5/lib/perl5 ]] && eval $(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib)
+
+# Change dark-mode
+if [[ "$OSTYPE" == darwin* ]]; then
+    change_color() {
+        C=$1; shift
+        $HOME/lbin/ALL/iterm_change_colorpreset.py "${C}"
+        eval base16_default-${C:l}
+    }
+    if (( $+commands[dark-mode] )); then
+        val=$(dark-mode status)
+        if [[ "${BASE16_THEME}" == *-light && "$val" == "on" ]]; then
+            change_color Dark
+        elif [[ "${BASE16_THEME}" == *-dark && "$val" == "off" ]]; then
+            change_color Light
+        fi
+    fi
+fi
+
+if (( $+commands[ag] )); then
+    alias ag='ag --pager less'
+    export FZF_DEFAULT_COMMAND='ag -l -g ""'
+    export FZF_DEFAULT_OPTS='--no-extended'
+fi
+
+(( $+commands[ip] )) && alias ip='ip -c'
+(( $+commands[hub] )) && eval "$(hub alias -s)"
+(( $+commands[plenv] )) && eval "$(plenv init - zsh)"
