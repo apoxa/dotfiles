@@ -5,7 +5,6 @@ colour = on
 exclude = t/
 
 [-RegularExpressions::RequireExtendedFormatting]
-[-RegularExpressions::RequireExtendedFormattingExceptForSplit]
 
 [BuiltinFunctions::ProhibitStringyEval]
 allow_includes = 1
@@ -13,13 +12,7 @@ allow_includes = 1
 [Bangs::ProhibitCommentedOutCode]
 severity = 3
 
-[ValuesAndExpressions::RequireConstantOnLeftSideOfEquality]
-
 [-Bangs::ProhibitFlagComments]
-[-ErrorHandling::RequireUseOfExceptions]
-[-CodeLayout::ProhibitHashBarewords]
-
-[-ValuesAndExpressions::ProhibitFiletest_f]
 
 [NamingConventions::ProhibitAmbiguousNames]
 forbid = abstract bases close last left no record right second set
