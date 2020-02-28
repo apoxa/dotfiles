@@ -33,6 +33,7 @@ setopt AUTO_RESUME          # Attempt to resume existing job before creating a n
 setopt NOTIFY               # Report status of background jobs immediately.
 setopt CHECK_JOBS           # Report on jobs when shell exit.
 setopt EXTENDED_GLOB        # Use extended globbing syntax.
+setopt AUTO_CD              # Auto changes to a directory without typing cd.
 unsetopt CLOBBER            # Do not overwrite existing files with > and >>. Use >! and >>! to bypass.
 unsetopt BG_NICE            # Don't run all background jobs at a lower priority.
 unsetopt HUP                # Don't kill jobs on shell exit.
@@ -49,8 +50,6 @@ zinit light-mode for \
 zinit wait lucid for \
  atinit"ZINIT[COMPINIT_OPTS]=-C; zpcompinit; zpcdreplay" \
     zdharma/fast-syntax-highlighting \
- atload"!_zsh_autosuggest_start" \
-    zsh-users/zsh-autosuggestions \
  blockf \
     zsh-users/zsh-completions \
     PZT::modules/completion/init.zsh
@@ -65,6 +64,12 @@ zinit wait lucid for \
 # ssh-agent
 zinit wait lucid for \
     bobsoppe/zsh-ssh-agent
+
+# emulate ... = ../..
+zinit wait lucid pick'manydots-magic' \
+ atload'autoload -Uz manydots-magic;manydots-magic' \
+ for \
+     knu/zsh-manydots-magic
 
 # Theme no. 1 - zprompts
 zinit lucid \
