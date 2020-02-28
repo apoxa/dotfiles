@@ -66,9 +66,7 @@ zinit wait lucid for \
     bobsoppe/zsh-ssh-agent
 
 # emulate ... = ../..
-zinit wait lucid pick'manydots-magic' \
- atload'autoload -Uz manydots-magic;manydots-magic' \
- for \
+zinit wait'1' lucid pick'manydots-magic' for \
      knu/zsh-manydots-magic
 
 # Theme no. 1 - zprompts
