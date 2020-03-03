@@ -22,6 +22,8 @@ zmodload zdharma/zplugin &>/dev/null
 
 typeset -g HISTSIZE=290000 SAVEHIST=290000 HISTFILE=~/.zhistory
 
+zstyle ":plugin:zconvey" greeting "none"
+
 #
 # setopts
 #
@@ -59,11 +61,18 @@ zinit wait lucid for \
 zinit wait lucid for \
     OMZ::lib/git.zsh \
  atload"unalias grv g" \
-    OMZ::plugins/git/git.plugin.zsh
+    OMZ::plugins/git/git.plugin.zsh \
+    OMZ::plugins/extract/extract.plugin.zsh
 
 # ssh-agent
 zinit wait lucid for \
     bobsoppe/zsh-ssh-agent
+
+# Zconvey shell integration plugin
+zinit wait lucid for \
+    psprint/zsh-select \
+ sbin"cmds/zc-bg-notify" sbin"cmds/plg-zsh-notify" \
+    zdharma/zconvey
 
 # emulate ... = ../..
 zinit wait'1' lucid pick'manydots-magic' for \
@@ -193,7 +202,8 @@ zinit wait"2" lucid for \
     zdharma/declare-zsh \
     zdharma/zflai \
  atinit"forgit_ignore='fgi'" \
-    wfxr/forgit
+    wfxr/forgit \
+    kutsan/zsh-system-clipboard
 
 # A few wait'3' git extensions
 zinit as"null" wait"3" lucid for \

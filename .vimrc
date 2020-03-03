@@ -225,6 +225,9 @@ let g:ale_perl_perlcritic_showrules = 1
 let g:ale_perl_perl_options = '-c Mwarnings -Ilocal/lib/perl5'
 noremap <F2> <ESC>:ALEFix<C-M>:ALELint<C-M>
 
+" perl
+let perl_sub_signatures = 1
+
 " Ctrl-P
 let g:ctrlp_working_path_mode = 'rw'
 let g:ctrlp_custom_ignore = {
