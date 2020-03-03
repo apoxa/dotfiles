@@ -3,6 +3,8 @@ if [[ ( "$SHLVL" -eq 1 && ! -o LOGIN ) && -s "${ZDOTDIR:-$HOME}/.zprofile" ]]; t
   source "${ZDOTDIR:-$HOME}/.zprofile"
 fi
 
+# Skip the not really helping Ubuntu global compinit
+skip_global_compinit=1
 
 # define a trap to listen for USR1
 # This allows me to reload the base16 theme in all interactive terminals
