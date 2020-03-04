@@ -62,11 +62,9 @@ zinit wait lucid for \
     OMZ::lib/git.zsh \
  atload"unalias grv g" \
     OMZ::plugins/git/git.plugin.zsh \
-    OMZ::plugins/extract/extract.plugin.zsh
-
-# ssh-agent
-zinit wait lucid for \
-    bobsoppe/zsh-ssh-agent
+    OMZ::plugins/extract/extract.plugin.zsh \
+ atinit"zstyle :omz:plugins:ssh-agent lifetime 9h" \
+    OMZ::plugins/ssh-agent/ssh-agent.plugin.zsh \
 
 # Zconvey shell integration plugin
 zinit wait lucid for \
@@ -202,8 +200,7 @@ zinit wait"2" lucid for \
     zdharma/declare-zsh \
     zdharma/zflai \
  atinit"forgit_ignore='fgi'" \
-    wfxr/forgit \
-    kutsan/zsh-system-clipboard
+    wfxr/forgit
 
 # A few wait'3' git extensions
 zinit as"null" wait"3" lucid for \
