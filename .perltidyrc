@@ -1,5 +1,5 @@
 # schalter aus den "best practices"
-
+-enc=utf8
 -l=78   # Max. Zeilenlaenge
 -i=4    # einrueckung um 4 spalten
 -ci=4   # einrueckung bei fortsetzungslinien
