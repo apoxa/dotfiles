@@ -96,5 +96,10 @@ Plug 'ryanoasis/vim-devicons'
 Plug 'mxw/vim-jsx'
 Plug 'leafgarland/typescript-vim'
 Plug 'peitalin/vim-jsx-typescript'
+" Perl6/raku
+Plug 'Raku/vim-raku'
+" terraform
+Plug 'hashivim/vim-terraform'
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
 
 call plug#end()

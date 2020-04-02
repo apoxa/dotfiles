@@ -214,6 +214,7 @@ let g:ale_fixers = {
 \   'sh': ['shfmt'],
 \   'perl': ['perltidy'],
 \   'python': ['reorder-python-imports'],
+\   'terraform': ['terraform'],
 \}
 let g:ale_linters = {
 \   'perl': ['perl','perlcritic'],
