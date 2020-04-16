@@ -36,6 +36,7 @@ setopt NOTIFY               # Report status of background jobs immediately.
 setopt CHECK_JOBS           # Report on jobs when shell exit.
 setopt EXTENDED_GLOB        # Use extended globbing syntax.
 setopt AUTO_CD              # Auto changes to a directory without typing cd.
+setopt DOTGLOB              # Match hidden files
 unsetopt CLOBBER            # Do not overwrite existing files with > and >>. Use >! and >>! to bypass.
 unsetopt BG_NICE            # Don't run all background jobs at a lower priority.
 unsetopt HUP                # Don't kill jobs on shell exit.
@@ -61,10 +62,10 @@ zinit wait lucid for \
 zinit wait lucid for \
     OMZ::lib/git.zsh \
  atload"unalias grv g" \
-    OMZ::plugins/git/git.plugin.zsh \
-    OMZ::plugins/extract/extract.plugin.zsh \
+    OMZP::git/git.plugin.zsh \
+    OMZP::extract/extract.plugin.zsh \
  atinit"zstyle :omz:plugins:ssh-agent lifetime 9h" \
-    OMZ::plugins/ssh-agent/ssh-agent.plugin.zsh \
+    OMZP::ssh-agent/ssh-agent.plugin.zsh \
 
 # Zconvey shell integration plugin
 zinit wait lucid for \
