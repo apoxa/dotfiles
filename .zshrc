@@ -55,7 +55,7 @@ zinit wait lucid for \
     zdharma/fast-syntax-highlighting \
  blockf \
     zsh-users/zsh-completions \
-    PZT::modules/completion/init.zsh
+    PZTM::completion/init.zsh
 
 # lib/git.zsh is loaded mostly to stay in touch with the plugin (for the users)
 # and for the themes 2 & 3 (lambda-mod-zsh-theme & lambda-gitster)
