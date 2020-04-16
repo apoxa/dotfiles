@@ -60,7 +60,7 @@ zinit wait lucid for \
 # lib/git.zsh is loaded mostly to stay in touch with the plugin (for the users)
 # and for the themes 2 & 3 (lambda-mod-zsh-theme & lambda-gitster)
 zinit wait lucid for \
-    OMZ::lib/git.zsh \
+    OMZL::git.zsh \
  atload"unalias grv g" \
     OMZP::git/git.plugin.zsh \
     OMZP::extract/extract.plugin.zsh \
