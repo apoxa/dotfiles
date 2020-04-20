@@ -1,3 +1,21 @@
+# Load The Prompt System And Completion System And Initilize Them.
+autoload -Uz compinit promptinit
+
+# Load And Initialize The Completion System Ignoring Insecure Directories With A
+# Cache Time Of 20 Hours, So It Should Almost Always Regenerate The First Time A
+# Shell Is Opened Each Day.
+# See: https://gist.github.com/ctechols/ca1035271ad134841284
+_comp_files=(${ZDOTDIR:-$HOME}/.zcompdump(Nm-20))
+if (( $#_comp_files )); then
+    compinit -i -C
+else
+    compinit -i
+fi
+unset _comp_files
+
+# Provide A Simple Prompt Till The Theme Loads
+PS1="READY >"
+
 ZINIT_HOME="${ZINIT_HOME:-${ZPLG_HOME:-${ZDOTDIR:-$HOME}/.zinit}}"
 ZINIT_BIN_DIR_NAME="${${ZINIT_BIN_DIR_NAME:-$ZPLG_BIN_DIR_NAME}:-bin}"
 ### Added by Zinit's installer
@@ -12,10 +30,6 @@ source "$ZINIT_HOME/$ZINIT_BIN_DIR_NAME/zinit.zsh"
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 ### End of Zinit installer's chunk
-
-typeset -ga mylogs
-zflai-msg() { mylogs+=( "$1" ); }
-zflai-assert() { mylogs+=( "$4"${${${1:#$2}:+FAIL}:-OK}": $3" ); }
 
 module_path+=( "${HOME}/.zinit/bin/zmodules/Src" )
 zmodload zdharma/zplugin &>/dev/null
@@ -57,7 +71,7 @@ zinit wait lucid for \
 
 # lib/git.zsh is loaded mostly to stay in touch with the plugin (for the users)
 # and for the themes 2 & 3 (lambda-mod-zsh-theme & lambda-gitster)
-zinit wait lucid for \
+zinit wait lucid light-mode for \
     OMZL::git.zsh \
  atload"unalias grv g" \
     OMZP::git/git.plugin.zsh \
@@ -126,7 +140,8 @@ zinit wait"1" lucid for \
  atinit'zstyle ":history-search-multi-word" page-size "10"
         zstyle ":history-search-multi-word" highlight-color "fg=yellow,bold,bg=red"
  ' \
-    zdharma/history-search-multi-word
+    zdharma/history-search-multi-word \
+    mdumitru/fancy-ctrl-z
 
 # Gitignore plugin – commands gii and gi
 zinit wait"2" lucid trigger-load'!gi;!gii' \
@@ -143,9 +158,6 @@ zinit wait"2" lucid trigger-load'!man' \
 zinit wait"2" lucid as"null" from"gh-r" for \
     mv"fd* -> fd" sbin"fd/fd"  @sharkdp/fd \
     sbin junegunn/fzf-bin
-
-# A few wait'3' git extensions
-zflai-msg "[zshrc] Zplugin block took ${(M)$(( SECONDS * 1000 ))#*.?} ms"
 
 # set prompt
 MYPROMPT=1
