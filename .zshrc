@@ -219,7 +219,6 @@ MYPROMPT=4
 if [[ "$OSTYPE" == darwin* ]]; then
     change_color() {
         C=$1; shift
-        $HOME/lbin/ALL/iterm_change_colorpreset.py "${C}"
         eval base16_default-${C:l}
     }
     if (( $+commands[dark-mode] )); then
