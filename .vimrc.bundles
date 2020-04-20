@@ -99,4 +99,6 @@ Plug 'Raku/vim-raku'
 " terraform
 Plug 'hashivim/vim-terraform'
 
+Plug 'stevearc/vim-arduino'
+
 call plug#end()
