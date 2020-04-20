@@ -3,6 +3,9 @@
 import asyncio
 import iterm2
 
+darktheme = 'Solarized Dark'
+lighttheme = 'Solarized Light'
+
 
 async def main(connection):
     async with iterm2.VariableMonitor(connection, iterm2.VariableScopes.APP, "effectiveTheme", None) as mon:
@@ -13,9 +16,9 @@ async def main(connection):
             # Themes have space-delimited attributes, one of which will be light or dark.
             parts = theme.split(" ")
             if "dark" in parts:
-                preset = await iterm2.ColorPreset.async_get(connection, "Dark Background")
+                preset = await iterm2.ColorPreset.async_get(connection, darktheme)
             else:
-                preset = await iterm2.ColorPreset.async_get(connection, "Light Background")
+                preset = await iterm2.ColorPreset.async_get(connection, lighttheme)
 
             # Update the list of all profiles and iterate over them.
             profiles = await iterm2.PartialProfile.async_query(connection)

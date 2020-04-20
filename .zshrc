@@ -142,11 +142,6 @@ zinit wait"2" lucid as"null" for \
  sbin"color.zsh -> color" \
     molovo/color
 
-# base16 colorscheme
-zinit lucid atinit"BASE16_SHELL_HOOKS=$HOME/.config/base16/hooks" for \
-    chriskempson/base16-shell \
-    chrissicool/zsh-256color
-
 # On OSX, you might need to install coreutils from homebrew and use the
 # g-prefix – gsed, gdircolors
 zinit wait"0c" lucid reset \
@@ -156,7 +151,8 @@ zinit wait"0c" lucid reset \
         \${P}dircolors -b LS_COLORS > c.zsh" \
  atpull'%atclone' pick"c.zsh" nocompile'!' \
  atload'zstyle ":completion:*:default" list-colors "${(s.:.)LS_COLORS}";' for \
-    trapd00r/LS_COLORS
+    trapd00r/LS_COLORS \
+    chrissicool/zsh-256color
 
 # fzy
 zinit wait"1" lucid as"program" pick"$ZPFX/bin/fzy*" \
@@ -214,22 +210,6 @@ MYPROMPT=4
 
 # Load perl5 local::lib
 [[ -d ~/perl5/lib/perl5 ]] && eval $(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib)
-
-# Change dark-mode
-if [[ "$OSTYPE" == darwin* ]]; then
-    change_color() {
-        C=$1; shift
-        eval base16_default-${C:l}
-    }
-    if (( $+commands[dark-mode] )); then
-        val=$(dark-mode status)
-        if [[ "${BASE16_THEME}" == *-light && "$val" == "on" ]]; then
-            change_color Dark
-        elif [[ "${BASE16_THEME}" == *-dark && "$val" == "off" ]]; then
-            change_color Light
-        fi
-    fi
-fi
 
 if (( $+commands[ag] )); then
     alias ag='ag --pager less'

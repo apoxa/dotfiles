@@ -129,12 +129,6 @@ set formatoptions=cqrn1
 syntax enable       " This has to come after colorcolumn in order to draw it.
 set t_Co=256        " enable 256 colors
 
-if filereadable(expand("~/.vimrc_background"))
-  let base16colorspace=256
-  source ~/.vimrc_background
-endif
-set t_RB=1
-
 " When completing, fill with the longest common string
 " Auto select the first option
 set completeopt=longest,menuone
