@@ -22,8 +22,6 @@ zmodload zdharma/zplugin &>/dev/null
 
 typeset -g HISTSIZE=290000 SAVEHIST=290000 HISTFILE=~/.zhistory
 
-zstyle ":plugin:zconvey" greeting "none"
-
 #
 # setopts
 #
@@ -67,34 +65,12 @@ zinit wait lucid for \
  atinit"zstyle :omz:plugins:ssh-agent lifetime 9h" \
     OMZP::ssh-agent/ssh-agent.plugin.zsh \
 
-# Zconvey shell integration plugin
-zinit wait lucid for \
-    psprint/zsh-select \
- sbin"cmds/zc-bg-notify" sbin"cmds/plg-zsh-notify" \
-    zdharma/zconvey
-
 # emulate ... = ../..
 zinit wait'1' lucid pick'manydots-magic' for \
      knu/zsh-manydots-magic
 
-# Theme no. 1 - zprompts
-zinit lucid \
- load'![[ $MYPROMPT = 1 ]]' \
- unload'![[ $MYPROMPT != 1 ]]' \
- atload'!promptinit; typeset -g PSSHORT=0; prompt sprint3 yellow red green blue' \
- nocd for \
-    psprint/zprompts
-
-# Theme no. 2 – lambda-mod-zsh-theme
-zinit lucid load'![[ $MYPROMPT = 2 ]]' unload'![[ $MYPROMPT != 2 ]]' nocd for \
-    halfo/lambda-mod-zsh-theme
-
-# Theme no. 3 – lambda-gitster
-zinit lucid load'![[ $MYPROMPT = 3 ]]' unload'![[ $MYPROMPT != 3 ]]' nocd for \
-    ergenekonyigit/lambda-gitster
-
-# Theme no. 4 – geometry
-zinit lucid load'![[ $MYPROMPT = 4 ]]' unload'![[ $MYPROMPT != 4 ]]' \
+# Theme no. 1 – geometry
+zinit lucid load'![[ $MYPROMPT = 1 ]]' unload'![[ $MYPROMPT != 1 ]]' \
  atload'!geometry_hostname() {echo ${SSH_TTY:+"%F{9}%n%f%F{7}@%f%F{3}%m%f "}}
         GEOMETRY_STATUS_COLOR="$(geometry::hostcolor)"
         geometry::prompt' \
@@ -103,13 +79,13 @@ zinit lucid load'![[ $MYPROMPT = 4 ]]' unload'![[ $MYPROMPT != 4 ]]' \
  nocd for \
     geometry-zsh/geometry
 
-# Theme no. 5 – pure
-zinit lucid load'![[ $MYPROMPT = 5 ]]' unload'![[ $MYPROMPT != 5 ]]' \
+# Theme no. 2 – pure
+zinit lucid load'![[ $MYPROMPT = 2 ]]' unload'![[ $MYPROMPT != 2 ]]' \
  pick"/dev/null" multisrc"{async,pure}.zsh" atload'!prompt_pure_precmd' nocd for \
     sindresorhus/pure
 
-# Theme no. 6 - agkozak-zsh-theme
-zinit lucid load'![[ $MYPROMPT = 6 ]]' unload'![[ $MYPROMPT != 6 ]]' \
+# Theme no. 3 - agkozak-zsh-theme
+zinit lucid load'![[ $MYPROMPT = 3 ]]' unload'![[ $MYPROMPT != 3 ]]' \
  atload'!_agkozak_precmd' nocd \
     atinit"AGKOZAK_FORCE_ASYNC_METHOD=subst-async
            AGKOZAK_MULTILINE=0
@@ -119,28 +95,10 @@ zinit lucid load'![[ $MYPROMPT = 6 ]]' unload'![[ $MYPROMPT != 6 ]]' \
  for \
     agkozak/agkozak-zsh-theme
 
-# Theme no. 7 - zinc
-zinit load'![[ $MYPROMPT = 7 ]]' unload'![[ $MYPROMPT != 7 ]]' \
- compile"{zinc_functions/*,segments/*,zinc.zsh}" nocompletions \
- atload'!prompt_zinc_setup; prompt_zinc_precmd' nocd for \
-    robobenklein/zinc
-
-# Theme no. 8 - powerlevel10k
-zinit load'![[ $MYPROMPT = 8 ]]' unload'![[ $MYPROMPT != 8 ]]' \
- atload'!source ~/.p10k.zsh; _p9k_precmd' lucid nocd for \
-    romkatv/powerlevel10k
-
-# Theme no. 9 - git-prompt
-zinit lucid load'![[ $MYPROMPT = 9 ]]' unload'![[ $MYPROMPT != 9 ]]' \
+# Theme no. 4 - git-prompt
+zinit lucid load'![[ $MYPROMPT = 4 ]]' unload'![[ $MYPROMPT != 4 ]]' \
  atload'!_zsh_git_prompt_precmd_hook' nocd for \
     woefe/git-prompt.zsh
-
-# zunit, color
-zinit wait"2" lucid as"null" for \
- sbin atclone"./build.zsh" atpull"%atclone" \
-    molovo/zunit \
- sbin"color.zsh -> color" \
-    molovo/color
 
 # On OSX, you might need to install coreutils from homebrew and use the
 # g-prefix – gsed, gdircolors
@@ -153,12 +111,6 @@ zinit wait"0c" lucid reset \
  atload'zstyle ":completion:*:default" list-colors "${(s.:.)LS_COLORS}";' for \
     trapd00r/LS_COLORS \
     chrissicool/zsh-256color
-
-# fzy
-zinit wait"1" lucid as"program" pick"$ZPFX/bin/fzy*" \
- atclone"cp contrib/fzy-* $ZPFX/bin/" \
- make"!PREFIX=$ZPFX install" for \
-    jhawthorn/fzy
 
 # zsh-autopair
 zinit wait lucid for \
@@ -192,21 +144,11 @@ zinit wait"2" lucid as"null" from"gh-r" for \
     mv"fd* -> fd" sbin"fd/fd"  @sharkdp/fd \
     sbin junegunn/fzf-bin
 
-# A few wait'2' plugins
-zinit wait"2" lucid for \
-    zdharma/declare-zsh \
-    zdharma/zflai \
- atinit"forgit_ignore='fgi'" \
-    wfxr/forgit
-
 # A few wait'3' git extensions
-zinit as"null" wait"3" lucid for \
-    sbin"bin/git-dsf;bin/diff-so-fancy" zdharma/zsh-diff-so-fancy
-
 zflai-msg "[zshrc] Zplugin block took ${(M)$(( SECONDS * 1000 ))#*.?} ms"
 
 # set prompt
-MYPROMPT=4
+MYPROMPT=1
 
 # Load perl5 local::lib
 [[ -d ~/perl5/lib/perl5 ]] && eval $(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib)
