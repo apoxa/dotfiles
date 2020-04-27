@@ -127,7 +127,7 @@ zinit wait"0c" lucid reset \
     chrissicool/zsh-256color
 
 # zsh-autopair
-zinit wait lucid for \
+zinit wait'3' lucid for \
  hlissner/zsh-autopair
 
 # zsh-titles causes dittography in Emacs shell and Vim terminal
