@@ -80,8 +80,8 @@ zinit wait lucid light-mode for \
     OMZP::ssh-agent/ssh-agent.plugin.zsh \
 
 # emulate ... = ../..
-zinit wait'1' lucid pick'manydots-magic' for \
-     knu/zsh-manydots-magic
+zinit as=null autoload=manydots-magic atload=manydots-magic for \
+        knu/zsh-manydots-magic
 
 # Theme no. 1 – geometry
 zinit lucid load'![[ $MYPROMPT = 1 ]]' unload'![[ $MYPROMPT != 1 ]]' \
