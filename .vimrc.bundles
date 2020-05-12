@@ -39,24 +39,21 @@ Plug 'tpope/vim-commentary'
 " UNIX helpers
 Plug 'tpope/vim-eunuch'
 
-" Fancy statusline
-Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
-let g:airline_theme='solarized'
-let g:airline_powerline_fonts=1
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#tab_nr_type = 2
-let g:airline#extensions#tabline#show_tab_nr = 1
-let g:airline#extensions#tabline#fnamemod = ':t'
-let g:airline#extensions#branch#enabled = 1
-function! AirlineInit()
-    let g:airline_section_z = airline#section#create([
-        \ 'windowswap',
-        \ '%3p%% ',
-        \ 'linenr',
-        \ ':%3v '
-        \ ])
-endfunction
-autocmd VimEnter * call AirlineInit()
+Plug 'itchyny/lightline.vim' | Plug 'mengelbrecht/lightline-bufferline'
+set noshowmode
+let g:lightline = {}
+let g:lightline.colorscheme         = 'solarized'
+let g:lightline.active              = { 'left': [ [ 'mode', 'paste' ], [ 'readonly', 'filename', 'modified', 'gitbranch' ] ] }
+let g:lightline.tabline             = { 'left': [ [ 'buffers' ] ], 'right': [ [ 'close' ] ] }
+let g:lightline.component_expand    = { 'buffers': 'lightline#bufferline#buffers' }
+let g:lightline.component_type      = { 'buffers': 'tabsel' }
+let g:lightline.component_function  = { 'gitbranch': 'FugitiveHead' }
+let g:lightline#bufferline#enable_devicons = 1
+let g:lightline#bufferline#unicode_symbols = 1
+set showtabline=2  " Show tabline
+set guioptions-=e  " Don't use GUI tabline
+
+Plug 'edkolev/tmuxline.vim'
 
 " A secure alternative to Vim modelines
 Plug 'ciaranm/securemodelines'
