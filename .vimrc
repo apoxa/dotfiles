@@ -9,9 +9,165 @@ set nocompatible " This must be first, because it changes other options
 "  Plugin                                                               {{{
 " ----------------------------------------------------------------------------
 
-" Installing the Plug plugin manager, and all the plugins are included in this
-" other file.
-source $HOME/.vimrc.bundles
+" Install vim-plug if we don't already have it
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+call plug#begin('~/.vim/plugged')
+Plug 'tpope/vim-git'
+Plug 'pearofducks/ansible-vim'
+Plug 'zigford/vim-powershell'
+Plug 'vim-perl/vim-perl', { 'for': 'perl', 'do': 'make clean carp dancer highlight-all-pragmas moose test-more try-tiny' }
+    let perl_sub_signatures = 1
+Plug 'shmup/vim-sql-syntax'
+
+" Fuzzy file opener
+Plug 'ctrlpvim/ctrlp.vim' | Plug 'sgur/ctrlp-extensions.vim' | Plug 'tacahiroy/ctrlp-funky'
+    let g:ctrlp_working_path_mode = 'rw'
+    let g:ctrlp_custom_ignore = {
+    \ 'dir':  '\v[\/]\.(git|hg|svn|sass-cache|pip_download_cache|wheel_cache)$',
+    \ 'file': '\v\.(png|jpg|jpeg|gif|DS_Store|pyc)$',
+    \ 'link': '',
+    \ }
+    let g:ctrlp_show_hidden = 1
+    let g:ctrlp_clear_cache_on_exit = 0
+    " Wait to update results (This should fix the fact that backspace is so slow)
+    let g:ctrlp_lazy_update = 1
+    " Show as many results as our screen will allow
+    let g:ctrlp_match_window = 'max:1000'
+    " Use The Silver Searcher https://github.com/ggreer/the_silver_searcher
+    if executable('ag')
+        " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+        let g:ctrlp_user_command = 'ag -l --nocolor --hidden -g "" %s'
+        " ag is fast enough that CtrlP doesn't need to cache
+        let g:ctrlp_use_caching = 0
+    else
+        " Fall back to using git ls-files if Ag is not available
+        let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . --cached --exclude-standard --others']
+    endif
+
+" Linter
+Plug 'dense-analysis/ale'
+    let g:ale_fixers = {
+    \   '*': ['remove_trailing_lines', 'trim_whitespace'],
+    \   'sh': ['shfmt'],
+    \   'perl': ['perltidy'],
+    \   'python': ['reorder-python-imports'],
+    \   'terraform': ['terraform'],
+    \}
+    let g:ale_linters = {
+    \   'perl': ['perl','perlcritic'],
+    \}
+    let g:ale_sh_language_server_use_global = 1
+    let g:ale_lint_on_enter = 0
+    let g:ale_lint_on_text_changed = 'normal'
+    let g:ale_perl_perlcritic_showrules = 1
+    let g:ale_perl_perl_options = '-c Mwarnings -Ilocal/lib/perl5'
+    noremap <F2> <ESC>:ALEFix<C-M>:ALELint<C-M>
+
+" Fugitive: A git wrapper so awesome, it should be illegal
+Plug 'tpope/vim-fugitive'
+
+" Change brackets and quotes
+Plug 'tpope/vim-surround'
+" Make vim-surround repeatable with .
+Plug 'tpope/vim-repeat'
+" End certain structures automatically.
+Plug 'tpope/vim-endwise'
+" Make commenting easier
+Plug 'tpope/vim-commentary'
+
+" UNIX helpers
+Plug 'tpope/vim-eunuch'
+
+" Fancy statusline
+Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
+let g:airline_theme='solarized'
+let g:airline_powerline_fonts=1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#tab_nr_type = 2
+let g:airline#extensions#tabline#show_tab_nr = 1
+let g:airline#extensions#tabline#fnamemod = ':t'
+let g:airline#extensions#branch#enabled = 1
+let g:airline#extensions#tmuxline#enabled = 0
+function! AirlineInit()
+    let g:airline_section_z = airline#section#create([
+        \ 'windowswap',
+        \ '%3p%% ',
+        \ 'linenr',
+        \ ':%3v '
+        \ ])
+endfunction
+autocmd VimEnter * call AirlineInit()
+
+Plug 'edkolev/tmuxline.vim'
+
+" A secure alternative to Vim modelines
+Plug 'ciaranm/securemodelines'
+    let secure_modelines_verbose=1
+    let secure_modelines_modelines=5
+    let secure_modelines_leave_modeline=1
+
+" Call perldoc in vim buffer
+Plug 'hotchpotch/perldoc-vim', { 'for': 'perl' }
+
+" Intelligently reopen files at your last edit position
+Plug 'farmergreg/vim-lastplace'
+
+" Enhanced terminal support. Enables pasting etc
+Plug 'wincent/terminus'
+    " Don't change cursor shape
+    let g:TerminusCursorShape = 0
+    " Don't enable mouse
+    let g:TerminusMouse = 0
+
+" Templates for filetypes
+Plug 'aperezdc/vim-template'
+    let g:templates_directory = '~/.vim/templates'
+    let g:email = 'ben@unpatched.de'
+    let g:username = 'Benjamin Stier'
+    let g:templates_no_builtin_templates = 1
+
+" Handle swap files intelligently
+Plug 'gioele/vim-autoswap'
+
+" Colorizer: display color codes as their colors inline
+Plug 'lilydjwg/colorizer'
+
+" sessions
+Plug 'powerman/vim-plugin-autosess'
+    " If you don't want help windows to be restored:
+    set sessionoptions-=help
+    " Don't save hidden and unloaded buffers in sessions.
+    set sessionoptions-=buffers
+
+" vim local lib helper
+Plug 'yuuki/perl-local-lib-path.vim', { 'for': 'perl' }
+
+Plug 'tmhedberg/SimpylFold', { 'for': 'python' }
+Plug 'jmcantrell/vim-virtualenv', { 'for': 'python' }
+
+Plug 'scrooloose/nerdtree' | Plug 'Xuyuanp/nerdtree-git-plugin'
+    nnoremap <Leader>f :NERDTreeToggle<CR>
+    nnoremap <silent> <Leader>v :NERDTreeFind<CR>
+    let NERDTreeQuitOnOpen = 1
+    autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+    let NERDTreeAutoDeleteBuffer = 1
+    let NERDTreeMinimalUI = 1
+Plug 'ryanoasis/vim-devicons'
+
+Plug 'mxw/vim-jsx'
+Plug 'leafgarland/typescript-vim'
+Plug 'peitalin/vim-jsx-typescript'
+" Perl6/raku
+Plug 'Raku/vim-raku'
+" terraform
+Plug 'hashivim/vim-terraform'
+
+call plug#end()
 
 " Load matchit.vim, but only if the user hasn't installed a newer version.
 if !exists('g:loaded_matchit') && findfile('plugin/matchit.vim', &rtp) ==# ''
@@ -80,8 +236,6 @@ set noerrorbells            " Disable all bells
 set t_vb=                   " Disable all bells
 set timeoutlen=500
 set ttimeoutlen=10
-" set cursorline              " Highlight the current line
-" set number                  " Show line numbers
 set nowrap                  " Don't wrap lines
 set linebreak               " Break the line on words
 set textwidth=79            " Break lines at just under 80 characters
@@ -102,15 +256,6 @@ set nojoinspaces
 set splitbelow      " Open new splits below
 set splitright      " Open new vertical splits to the right
 
-" Function to trim trailing white space
-" Make your own mappings
-function! StripTrailingWhitespaces()
-    let l = line(".")
-    let c = col(".")
-    %s/\s\+$//e
-    call cursor(l, c)
-endfunction
-
 " Highlight VCS conflict markers
 match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
 
@@ -127,7 +272,6 @@ set formatoptions=cqrn1
 
 " Colors
 syntax enable       " This has to come after colorcolumn in order to draw it.
-set t_Co=256        " enable 256 colors
 
 " When completing, fill with the longest common string
 " Auto select the first option
@@ -175,153 +319,16 @@ set autoindent              " Put my cursor in the right place when I start a ne
 set smartindent             " Indent according to my editing
 filetype plugin indent on   " Rely on file plugins to handle indenting
 
-" }}}-------------------------------------------------------------------------
-"  Custom commands                                                      {{{
-" ----------------------------------------------------------------------------
-
-" Trim trailing white space
-nmap <silent> <Leader>t :call StripTrailingWhitespaces()<CR>
-
-" Clear search highlights
-nnoremap <leader>n :nohlsearch<cr>
-
-function! RunWith(command)
-    execute "w"
-    execute "!time " . a:command . " " . expand("%")
-endfunction
-
-command! -range=% -nargs=* Tidy <line1>,<line2>!perltidy
-
-function! DoTidy()
-    let l = line(".")
-    let c = col(".")
-    :Tidy
-    call cursor(l,c)
-endfunction
-
-" }}}-------------------------------------------------------------------------
-"   Configure My Plugins                                                  {{{
-" ----------------------------------------------------------------------------
-
-let g:ale_fixers = {
-\   '*': ['remove_trailing_lines', 'trim_whitespace'],
-\   'sh': ['shfmt'],
-\   'perl': ['perltidy'],
-\   'python': ['reorder-python-imports'],
-\   'terraform': ['terraform'],
-\}
-let g:ale_linters = {
-\   'perl': ['perl','perlcritic'],
-\}
-let g:ale_sh_language_server_use_global = 1
-let g:ale_lint_on_enter = 0
-let g:ale_lint_on_text_changed = 'normal'
-let g:ale_perl_perlcritic_showrules = 1
-let g:ale_perl_perl_options = '-c Mwarnings -Ilocal/lib/perl5'
-noremap <F2> <ESC>:ALEFix<C-M>:ALELint<C-M>
-
-" perl
-let perl_sub_signatures = 1
-
-" Ctrl-P
-let g:ctrlp_working_path_mode = 'rw'
-let g:ctrlp_custom_ignore = {
-    \ 'dir':  '\v[\/]\.(git|hg|svn|sass-cache|pip_download_cache|wheel_cache)$',
-    \ 'file': '\v\.(png|jpg|jpeg|gif|DS_Store|pyc)$',
-    \ 'link': '',
-    \ }
-let g:ctrlp_show_hidden = 1
-let g:ctrlp_clear_cache_on_exit = 0
-" Wait to update results (This should fix the fact that backspace is so slow)
-let g:ctrlp_lazy_update = 1
-" Show as many results as our screen will allow
-let g:ctrlp_match_window = 'max:1000'
-
-" Use The Silver Searcher https://github.com/ggreer/the_silver_searcher
-if executable('ag')
-  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-  let g:ctrlp_user_command = 'ag -l --nocolor --hidden -g "" %s'
-
-  " ag is fast enough that CtrlP doesn't need to cache
-  let g:ctrlp_use_caching = 0
-else
-  " Fall back to using git ls-files if Ag is not available
-  let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . --cached --exclude-standard --others']
-endif
-
-" Session
-" If you don't want help windows to be restored:
-set sessionoptions-=help
-" Don't save hidden and unloaded buffers in sessions.
-set sessionoptions-=buffers
-
-" Templates
-let g:templates_directory = '~/.vim/templates'
-let g:email = 'ben@unpatched.de'
-let g:username = 'Benjamin Stier'
-let g:templates_no_builtin_templates = 1
-
-" avoid the possibility of trojaned text files:
-" this needs the securemodeline plugin
-let secure_modelines_verbose=1
-let secure_modelines_modelines=5
-let secure_modelines_leave_modeline=1
-
-" Don't change cursor shape
-let g:TerminusCursorShape = 0
-" Don't enable mouse
-let g:TerminusMouse = 0
-
-" Preview docstring in fold text
-let g:SimpylFold_docstring_preview = 1
-
-" tt2 syntax
-let b:tt2_syn_tags = '<% %>'
-
-nnoremap <Leader>f :NERDTreeToggle<CR>
-nnoremap <silent> <Leader>v :NERDTreeFind<CR>
-let NERDTreeQuitOnOpen = 1
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-let NERDTreeAutoDeleteBuffer = 1
-let NERDTreeMinimalUI = 1
-
-
-" }}}-------------------------------------------------------------------------
-"   Custom filetypes                                                      {{{
-" ----------------------------------------------------------------------------
-
-augroup vimrcEx
-    autocmd!
-
-    autocmd BufRead,BufNewFile *.dsc setlocal textwidth=0
-    autocmd FileType gitcommit setlocal textwidth=72
-    autocmd FileType json,html,powershell setlocal shiftwidth=2 tabstop=2
-    autocmd FileType xml setlocal foldmethod=syntax
-    autocmd BufRead,BufNewFile *.md,*.markdown set filetype=markdown
-    autocmd BufRead,BufNewFile *.git/config,.gitconfig,.gitmodules,gitconfig set ft=gitconfig
-    autocmd BufRead,BufNewFile *.py setlocal foldmethod=indent
-    autocmd BufRead,BufNewFile *.yml setlocal shiftwidth=2
-    autocmd BufRead,BufNewFile *.tt setlocal ft=tt2html
-
-    " Tidy perl files
-    autocmd FileType perl nmap _ :call DoTidy()<CR>
-    autocmd FileType perl vmap _ :Tidy()<CR>
-    autocmd FileType perl PerlLocalLibPath
-
-
-    " Execute files with &
-    autocmd FileType perl vmap & :call RunWith("perl")<CR>
-    autocmd FileType sh,bash,zsh nmap & :call RunWith("sh")<CR>
-    autocmd FileType powershell nmap & :call RunWith("pwsh")<CR>
-    autocmd FileType python nmap & :term python3 %<CR>
-
-    " Open quickfix-windows for fugitive
-    autocmd QuickFixCmdPost *grep* cwindow
-augroup END
 
 " }}}-------------------------------------------------------------------------
 "   Custom mappings                                                       {{{
 " ----------------------------------------------------------------------------
+
+" Trim trailing white space
+nmap <silent> <Leader>t :call myfunctions#StripTrailingWhitespaces()<CR>
+
+" Clear search highlights
+nnoremap <leader>n :nohlsearch<cr>
 
 " Nobody ever uses "Ex" mode, and it's annoying to leave
 noremap Q <nop>
