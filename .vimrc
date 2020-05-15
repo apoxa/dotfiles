@@ -5,6 +5,27 @@
 " Allow vim to break compatibility with vi
 set nocompatible " This must be first, because it changes other options
 
+" Load matchit.vim, but only if the user hasn't installed a newer version.
+if !exists('g:loaded_matchit') && findfile('plugin/matchit.vim', &rtp) ==# ''
+  runtime! macros/matchit.vim
+endif
+
+" }}}-------------------------------------------------------------------------
+"  Base Options                                                         {{{
+" ----------------------------------------------------------------------------
+
+" Set the leader key to , instead of \ because it's easier to reach
+let maplocalleader = ","
+let mapleader  	   = ","
+let g:mapleader    = ","
+
+set nohidden 		" Dont allow buffers to exist in the background
+set ttyfast 		" Indicates a fast terminal connection
+set shortmess+=I 	" No welcome screen
+set shortmess+=A 	" No .swap warning
+set history=1000 	" Remember the last 1000 :ex commands
+set secure 		" disable unsafe commands in local .vimrc files
+
 " }}}-------------------------------------------------------------------------
 "  Plugin                                                               {{{
 " ----------------------------------------------------------------------------
@@ -150,7 +171,7 @@ Plug 'yuuki/perl-local-lib-path.vim', { 'for': 'perl' }
 Plug 'tmhedberg/SimpylFold', { 'for': 'python' }
 Plug 'jmcantrell/vim-virtualenv', { 'for': 'python' }
 
-Plug 'scrooloose/nerdtree' | Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'scrooloose/nerdtree', {'on': ['NERDTreeToggle', 'NERDTreeFind'] }| Plug 'Xuyuanp/nerdtree-git-plugin'
     nnoremap <Leader>f :NERDTreeToggle<CR>
     nnoremap <silent> <Leader>v :NERDTreeFind<CR>
     let NERDTreeQuitOnOpen = 1
@@ -168,27 +189,6 @@ Plug 'Raku/vim-raku'
 Plug 'hashivim/vim-terraform'
 
 call plug#end()
-
-" Load matchit.vim, but only if the user hasn't installed a newer version.
-if !exists('g:loaded_matchit') && findfile('plugin/matchit.vim', &rtp) ==# ''
-  runtime! macros/matchit.vim
-endif
-
-" }}}-------------------------------------------------------------------------
-"  Base Options                                                         {{{
-" ----------------------------------------------------------------------------
-
-" Set the leader key to , instead of \ because it's easier to reach
-let maplocalleader = ","
-let mapleader  	   = ","
-let g:mapleader    = ","
-
-set nohidden 		" Dont allow buffers to exist in the background
-set ttyfast 		" Indicates a fast terminal connection
-set shortmess+=I 	" No welcome screen
-set shortmess+=A 	" No .swap warning
-set history=1000 	" Remember the last 1000 :ex commands
-set secure 		" disable unsafe commands in local .vimrc files
 
 " }}}-------------------------------------------------------------------------
 "  Visuals                                                              {{{
