@@ -159,7 +159,10 @@ Plug 'gioele/vim-autoswap'
 Plug 'lilydjwg/colorizer'
 
 " sessions
-Plug 'powerman/vim-plugin-autosess'
+Plug 'thaerkh/vim-workspace'
+    let g:workspace_session_directory = $HOME . '/.vim/sessions/'
+    let g:workspace_autosave_always = 1
+    let g:workspace_session_disable_on_args = 1
     " If you don't want help windows to be restored:
     set sessionoptions-=help
     " Don't save hidden and unloaded buffers in sessions.
