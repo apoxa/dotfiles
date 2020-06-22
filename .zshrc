@@ -114,7 +114,17 @@ zinit lucid load'![[ $MYPROMPT = 4 ]]' unload'![[ $MYPROMPT != 4 ]]' \
  atload'!_zsh_git_prompt_precmd_hook' nocd for \
     woefe/git-prompt.zsh
 
-zinit wait"0c" pack for ls_colors
+# On OSX, you might need to install coreutils from homebrew and use the
+# g-prefix – gsed, gdircolors
+zinit wait"0c" lucid reset \
+ atclone"local P=${${(M)OSTYPE:#*darwin*}:+g}
+        \${P}sed -i \
+        '/DIR/c\DIR 38;5;63;1' LS_COLORS; \
+        \${P}dircolors -b LS_COLORS > c.zsh" \
+ atpull'%atclone' pick"c.zsh" nocompile'!' \
+ atload'zstyle ":completion:*:default" list-colors "${(s.:.)LS_COLORS}";' for \
+    trapd00r/LS_COLORS \
+    chrissicool/zsh-256color
 
 # zsh-autopair
 zinit wait'3' lucid for \
@@ -146,8 +156,8 @@ zinit wait"2" lucid trigger-load'!man' \
 
 # sharkdp/fd, fzf
 zinit wait"2" lucid as"null" from"gh-r" for \
-    mv"fd* -> fd" sbin"fd/fd"  @sharkdp/fd
-zinit wait"2" pack"binary" for fzf
+    mv"fd* -> fd" sbin"fd/fd"  @sharkdp/fd \
+    sbin junegunn/fzf-bin
 
 # set prompt
 MYPROMPT=1
