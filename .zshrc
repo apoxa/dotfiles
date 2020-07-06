@@ -89,6 +89,7 @@ zinit lucid load'![[ $MYPROMPT = 1 ]]' unload'![[ $MYPROMPT != 1 ]]' \
         geometry::prompt' \
  atinit'GEOMETRY_PROMPT=(geometry_echo geometry_status geometry_hostname geometry_path)
         GEOMETRY_RPROMPT=(geometry_jobs geometry_exec_time geometry_git geometry_echo)' \
+ ver'main' \
  nocd for \
     geometry-zsh/geometry
 
@@ -117,8 +118,6 @@ zinit lucid load'![[ $MYPROMPT = 4 ]]' unload'![[ $MYPROMPT != 4 ]]' \
 # g-prefix – gsed, gdircolors
 zinit wait"0c" lucid reset \
  atclone"local P=${${(M)OSTYPE:#*darwin*}:+g}
-        \${P}sed -i \
-        '/DIR/c\DIR 38;5;63;1' LS_COLORS; \
         \${P}dircolors -b LS_COLORS > c.zsh" \
  atpull'%atclone' pick"c.zsh" nocompile'!' \
  atload'zstyle ":completion:*:default" list-colors "${(s.:.)LS_COLORS}";' for \
