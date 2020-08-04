@@ -155,6 +155,9 @@ Plug 'aperezdc/vim-template'
 " Handle swap files intelligently
 Plug 'gioele/vim-autoswap'
 
+" Use tab for completion needs
+Plug 'ervandew/supertab'
+
 " Colorizer: display color codes as their colors inline
 Plug 'lilydjwg/colorizer'
 
@@ -173,6 +176,7 @@ Plug 'yuuki/perl-local-lib-path.vim', { 'for': 'perl' }
 
 Plug 'tmhedberg/SimpylFold', { 'for': 'python' }
 Plug 'jmcantrell/vim-virtualenv', { 'for': 'python' }
+Plug 'davidhalter/jedi-vim', { 'for': 'python' }
 
 Plug 'scrooloose/nerdtree', {'on': ['NERDTreeToggle', 'NERDTreeFind'] }| Plug 'Xuyuanp/nerdtree-git-plugin'
     nnoremap <Leader>f :NERDTreeToggle<CR>

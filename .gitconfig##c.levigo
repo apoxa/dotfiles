@@ -14,5 +14,3 @@
 	helper = store
 [commit]
 	gpgsign = true
-[gpg]
-	program = /usr/local/bin/gpg
