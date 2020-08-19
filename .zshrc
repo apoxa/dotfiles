@@ -88,7 +88,7 @@ zinit lucid load'![[ $MYPROMPT = 1 ]]' unload'![[ $MYPROMPT != 1 ]]' \
         GEOMETRY_STATUS_COLOR="$(geometry::hostcolor)"
         geometry::prompt' \
  atinit'GEOMETRY_PROMPT=(geometry_echo geometry_status geometry_hostname geometry_path)
-        GEOMETRY_RPROMPT=(geometry_jobs geometry_exec_time geometry_git geometry_echo)' \
+        GEOMETRY_RPROMPT=(geometry_jobs geometry_exec_time geometry_kube geometry_git geometry_echo)' \
  ver'main' \
  nocd for \
     geometry-zsh/geometry
