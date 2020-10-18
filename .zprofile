@@ -47,6 +47,7 @@ path=(
   $HOME/lbin/${_domainname}
   /usr/local/{bin,sbin}
   /usr/local/opt/python/libexec/bin  # brewed python
+  $HOME/Library/Python/3.9/bin/
   $path
 )
 # Remove non-existent paths
