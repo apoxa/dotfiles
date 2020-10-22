@@ -154,8 +154,10 @@ zinit wait"2" lucid trigger-load'!man' \
 
 # sharkdp/fd, fzf
 zinit wait"2" lucid as"null" from"gh-r" for \
-    mv"fd* -> fd" sbin"fd/fd"  @sharkdp/fd \
-    sbin junegunn/fzf-bin
+    mv"fd* -> fd" sbin"fd/fd"  @sharkdp/fd
+
+# fzf
+zinit pack"bgn-binary" for fzf
 
 # set prompt
 MYPROMPT=1
