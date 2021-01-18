@@ -16,17 +16,15 @@ unset _comp_files
 # Provide A Simple Prompt Till The Theme Loads
 PS1="READY >"
 
-ZINIT_HOME="${ZINIT_HOME:-${ZPLG_HOME:-${ZDOTDIR:-$HOME}/.zinit}}"
-ZINIT_BIN_DIR_NAME="${${ZINIT_BIN_DIR_NAME:-$ZPLG_BIN_DIR_NAME}:-bin}"
 ### Added by Zinit's installer
-if [[ ! -f $ZINIT_HOME/$ZINIT_BIN_DIR_NAME/zinit.zsh ]]; then
+if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
     print -P "%F{33}▓▒░ %F{220}Installing DHARMA Initiative Plugin Manager (zdharma/zinit)…%f"
     command mkdir -p $ZINIT_HOME
-    command git clone https://github.com/zdharma/zinit $ZINIT_HOME/$ZINIT_BIN_DIR_NAME && \
+    command git clone https://github.com/zdharma/zinit $HOME/.zinit/bin && \
         print -P "%F{33}▓▒░ %F{34}Installation successful.%f" || \
         print -P "%F{160}▓▒░ The clone has failed.%f"
 fi
-source "$ZINIT_HOME/$ZINIT_BIN_DIR_NAME/zinit.zsh"
+source "$HOME/.zinit/bin/zinit.zsh"
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 ### End of Zinit installer's chunk
