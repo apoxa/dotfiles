@@ -76,7 +76,7 @@ Plug 'dense-analysis/ale'
     \   '*': ['remove_trailing_lines', 'trim_whitespace'],
     \   'sh': ['shfmt'],
     \   'perl': ['perltidy'],
-    \   'python': ['reorder-python-imports'],
+    \   'python': ['reorder-python-imports', 'black'],
     \   'terraform': ['terraform'],
     \}
     let g:ale_linters = {
@@ -177,6 +177,7 @@ Plug 'yuuki/perl-local-lib-path.vim', { 'for': 'perl' }
 Plug 'tmhedberg/SimpylFold', { 'for': 'python' }
 Plug 'jmcantrell/vim-virtualenv', { 'for': 'python' }
 Plug 'davidhalter/jedi-vim', { 'for': 'python' }
+    let g:jedi#usages_command = ""
 
 Plug 'scrooloose/nerdtree', {'on': ['NERDTreeToggle', 'NERDTreeFind'] }| Plug 'Xuyuanp/nerdtree-git-plugin'
     nnoremap <Leader>f :NERDTreeToggle<CR>
