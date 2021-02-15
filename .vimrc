@@ -45,6 +45,12 @@ Plug 'vim-perl/vim-perl', { 'for': 'perl', 'do': 'make clean carp dancer highlig
     let perl_sub_signatures = 1
 Plug 'shmup/vim-sql-syntax'
 
+Plug 'junegunn/vim-easy-align'
+    " Start interactive EasyAlign in visual mode (e.g. vipga)
+    xmap ga <Plug>(EasyAlign)
+    " Start interactive EasyAlign for a motion/text object (e.g. gaip)
+    nmap ga <Plug>(EasyAlign)
+
 " Fuzzy file opener
 Plug 'ctrlpvim/ctrlp.vim' | Plug 'sgur/ctrlp-extensions.vim' | Plug 'tacahiroy/ctrlp-funky'
     let g:ctrlp_working_path_mode = 'rw'
