@@ -202,8 +202,6 @@ Plug 'Raku/vim-raku'
 " terraform
 Plug 'hashivim/vim-terraform'
 
-Plug 'codota/tabnine-vim'
-
 call plug#end()
 
 " }}}-------------------------------------------------------------------------
