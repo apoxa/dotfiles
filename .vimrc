@@ -185,11 +185,14 @@ Plug 'jmcantrell/vim-virtualenv', { 'for': 'python' }
 Plug 'davidhalter/jedi-vim', { 'for': 'python' }
     let g:jedi#usages_command = ""
 
-Plug 'scrooloose/nerdtree', {'on': ['NERDTreeToggle', 'NERDTreeFind'] }| Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'preservim/nerdtree' | Plug 'Xuyuanp/nerdtree-git-plugin'
     nnoremap <Leader>f :NERDTreeToggle<CR>
     nnoremap <silent> <Leader>v :NERDTreeFind<CR>
-    let NERDTreeQuitOnOpen = 1
+    let NERDTreeQuitOnOpen = 0
+    " Exit Vim if NERDTree is the only window left.
     autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+    " Open the existing NERDTree on each new tab.
+    autocmd BufWinEnter * silent NERDTreeMirror
     let NERDTreeAutoDeleteBuffer = 1
     let NERDTreeMinimalUI = 1
 Plug 'ryanoasis/vim-devicons'
