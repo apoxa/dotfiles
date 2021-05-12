@@ -205,6 +205,10 @@ Plug 'Raku/vim-raku'
 " terraform
 Plug 'hashivim/vim-terraform'
 
+
+" markdown preview
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+
 call plug#end()
 
 " }}}-------------------------------------------------------------------------

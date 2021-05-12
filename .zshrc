@@ -217,3 +217,8 @@ fi
 (( $+commands[ip] )) && alias ip='ip -c'
 (( $+commands[hub] )) && eval "$(hub alias -s)"
 (( $+commands[plenv] )) && eval "$(plenv init - zsh)"
+
+if (( $+commands[op] )); then
+    alias op-signin='eval $(op signin my)'
+    alias op-logout='op signout && unset OP_SESSION_my'
+fi
