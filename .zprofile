@@ -42,6 +42,7 @@ local _domainname=${HOST[(ws<.>)2,-1]}
 # Set the list of directories that Zsh searches for programs.
 path=(
   $HOME/.local/bin
+  $HOME/go/bin
   $HOME/lbin/ALL
   $HOME/lbin/${_hostname}
   $HOME/lbin/${_domainname}
