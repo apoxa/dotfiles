@@ -51,4 +51,7 @@
 [github]
     user = apoxa
 
+[init]
+	defaultBranch = main
+
 # vim: ft=gitconfig
