@@ -47,6 +47,7 @@ setopt CHECK_JOBS           # Report on jobs when shell exit.
 setopt EXTENDED_GLOB        # Use extended globbing syntax.
 setopt AUTO_CD              # Auto changes to a directory without typing cd.
 setopt DOTGLOB              # Match hidden files
+setopt HIST_IGNORE_SPACE    # Don't write commands to history if they start with a space
 unsetopt CLOBBER            # Do not overwrite existing files with > and >>. Use >! and >>! to bypass.
 unsetopt BG_NICE            # Don't run all background jobs at a lower priority.
 unsetopt HUP                # Don't kill jobs on shell exit.
