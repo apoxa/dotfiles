@@ -13,25 +13,6 @@ else
 fi
 unset _comp_files
 
-# Provide A Simple Prompt Till The Theme Loads
-PS1="READY >"
-
-### Added by Zinit's installer
-if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
-    print -P "%F{33}▓▒░ %F{220}Installing DHARMA Initiative Plugin Manager (zdharma/zinit)…%f"
-    command mkdir -p $HOME/.zinit/
-    command git clone https://github.com/zdharma/zinit $HOME/.zinit/bin && \
-        print -P "%F{33}▓▒░ %F{34}Installation successful.%f" || \
-        print -P "%F{160}▓▒░ The clone has failed.%f"
-fi
-source "$HOME/.zinit/bin/zinit.zsh"
-autoload -Uz _zinit
-(( ${+_comps} )) && _comps[zinit]=_zinit
-### End of Zinit installer's chunk
-
-module_path+=( "${HOME}/.zinit/bin/zmodules/Src" )
-zmodload zdharma/zplugin &>/dev/null
-
 typeset -g HISTSIZE=290000 SAVEHIST=290000 HISTFILE=~/.zhistory
 
 #
@@ -53,6 +34,27 @@ unsetopt BG_NICE            # Don't run all background jobs at a lower priority.
 unsetopt HUP                # Don't kill jobs on shell exit.
 unsetopt MAIL_WARNING       # Don't print a warning message if a mail file has been accessed.
 unsetopt SHARE_HISTORY
+
+# Provide A Simple Prompt Till The Theme Loads
+PS1="READY >"
+
+# PLUGINS {{{
+
+### Added by Zinit's installer
+if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
+    print -P "%F{33}▓▒░ %F{220}Installing DHARMA Initiative Plugin Manager (zdharma/zinit)…%f"
+    command mkdir -p $HOME/.zinit/
+    command git clone https://github.com/zdharma/zinit $HOME/.zinit/bin && \
+        print -P "%F{33}▓▒░ %F{34}Installation successful.%f" || \
+        print -P "%F{160}▓▒░ The clone has failed.%f"
+fi
+source "$HOME/.zinit/bin/zinit.zsh"
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
+### End of Zinit installer's chunk
+
+module_path+=( "${HOME}/.zinit/bin/zmodules/Src" )
+zmodload zdharma/zplugin &>/dev/null
 
 #
 # annexes
@@ -160,9 +162,10 @@ zinit pack"bgn-binary" for fzf
 # set prompt
 MYPROMPT=1
 
-# Load perl5 local::lib
-[[ -d ~/perl5/lib/perl5 ]] && eval $(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib)
+# }}}
 
+# ALIASES {{{
+# ------------------------------
 if (( $+commands[ag] )); then
     alias ag='ag --pager less'
     export FZF_DEFAULT_COMMAND='ag -l -g ""'
@@ -223,3 +226,4 @@ if (( $+commands[op] )); then
     alias op-signin='eval $(op signin my)'
     alias op-logout='op signout && unset OP_SESSION_my'
 fi
+# }}}
