@@ -59,7 +59,9 @@ module_path+=( "${HOME}/.zinit/bin/zmodules/Src" )
 # annexes
 zinit light-mode for \
     zdharma-continuum/z-a-patch-dl \
-    zdharma-continuum/z-a-bin-gem-node
+    zdharma-continuum/z-a-bin-gem-node \
+    NICHOLAS85/z-a-linkman \
+    NICHOLAS85/z-a-linkbin
 
 # Fast-syntax-highlighting & autosuggestions
 zinit wait lucid for \
@@ -154,9 +156,9 @@ zinit wait"2" lucid trigger-load'!man' \
 
 # sharkdp/fd, fzf
 zinit wait"2" lucid as"null" from"gh-r" for \
-    mv"fd* -> fd" sbin"fd/fd"  @sharkdp/fd
-
-zinit pack"bgn-binary" for fzf
+    mv"fd* -> fd" sbin"fd/fd"  @sharkdp/fd \
+    lbin from'gh-r' dl'https://raw.githubusercontent.com/junegunn/fzf/master/man/man1/fzf.1' lman \
+        junegunn/fzf
 
 # set prompt
 MYPROMPT=1
