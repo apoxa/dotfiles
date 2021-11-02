@@ -113,6 +113,10 @@ zt 0c light-mode for \
         trapd00r/LS_COLORS \
         chrissicool/zsh-256color
 
+zt 0c light-mode binary for \
+    lbin'!' \
+        laggardkernel/git-ignore
+
 ##################
 # Wait'1a' block #
 ##################
@@ -121,12 +125,6 @@ zt 1a light-mode for \
     atinit"zstyle :omz:plugins:ssh-agent lifetime 9h" \
         OMZP::ssh-agent/ssh-agent.plugin.zsh \
         hlissner/zsh-autopair
-
-# Gitignore plugin – commands gii and gi
-zt 1a light-mode for \
-    trigger-load'!gi;!gii' \
-        dl'https://gist.githubusercontent.com/psprint/1f4d0a3cb89d68d3256615f247e2aac9/raw -> templates/Zsh.gitignore' \
-        voronkovich/gitignore.plugin.zsh
 
 # zsh-titles causes dittography in Emacs shell and Vim terminal
 zt 1a light-mode if"(( ! $+EMACS )) && [[ $TERM != 'dumb' ]] && (( ! $+VIM_TERMINAL ))" for \
