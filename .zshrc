@@ -53,36 +53,94 @@ autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 ### End of Zinit installer's chunk
 
-module_path+=( "${HOME}/.zinit/bin/zmodules/Src" )
+# Functions to make configuration less verbose
+# zt() : First argument is a wait time and suffix, ie "0a". Anything that doesn't match will be passed as if it were an ice mod. Default ices depth'3' and lucid
+zt(){ zinit depth'3' lucid ${1/#[0-9][a-c]/wait"${1}"} "${@:2}"; }
 
 #
 # annexes
-zinit light-mode for \
+zt light-mode for \
     zdharma-continuum/z-a-patch-dl \
     zdharma-continuum/z-a-bin-gem-node \
     NICHOLAS85/z-a-linkman \
     NICHOLAS85/z-a-linkbin
 
-# Fast-syntax-highlighting & autosuggestions
-zinit wait lucid for \
- atinit"ZINIT[COMPINIT_OPTS]=-C; zpcompinit; zpcdreplay" \
-    zdharma-continuum/fast-syntax-highlighting \
- blockf \
-    zsh-users/zsh-completions \
-    PZTM::completion/init.zsh
+######################
+# Trigger-load block #
+######################
 
-# lib/git.zsh is loaded mostly to stay in touch with the plugin (for the users)
-# and for the themes 2 & 3 (lambda-mod-zsh-theme & lambda-gitster)
-zinit wait lucid light-mode for \
-    OMZL::git.zsh \
- atload"unalias grv g" \
-    OMZP::git/git.plugin.zsh \
-    OMZP::extract/extract.plugin.zsh \
- atinit"zstyle :omz:plugins:ssh-agent lifetime 9h" \
-    OMZP::ssh-agent/ssh-agent.plugin.zsh \
+zt light-mode for \
+    trigger-load'!x' \
+        OMZP::extract/extract.plugin.zsh \
+    trigger-load'!man' \
+        ael-code/zsh-colored-man-pages
 
-# emulate ... = ../..
-zinit as=null autoload'#manydots-magic' for knu/zsh-manydots-magic
+##################
+# Wait'0a' block #
+##################
+
+zt 0a light-mode for \
+    OMZP::sudo/sudo.plugin.zsh \
+    PZTM::completion/init.zsh \
+    as'completion' atpull'zinit cclear' blockf \
+        zsh-users/zsh-completions
+
+##################
+# Wait'0b' block #
+##################
+
+zt 0b light-mode for \
+    autoload'#manydots-magic' \
+        knu/zsh-manydots-magic \
+    compile'h*' \
+        zdharma-continuum/history-search-multi-word \
+    atinit'zicdreplay' atload'FAST_HIGHLIGHT[chroma-man]=' \
+    atclone'(){local f;cd -q →*;for f (*~*.zwc){zcompile -Uz -- ${f}};}' \
+    compile'.*fast*~*.zwc' nocompletions atpull'%atclone' \
+        zdharma-continuum/fast-syntax-highlighting
+
+##################
+# Wait'0c' block #
+##################
+
+# On OSX, you might need to install coreutils from homebrew and use the
+# g-prefix – gsed, gdircolors
+zt 0c light-mode for \
+    atclone"local P=${${(M)OSTYPE:#*darwin*}:+g}
+        \${P}dircolors -b LS_COLORS > c.zsh" \
+    atpull'%atclone' pick"c.zsh" nocompile'!' \
+    atload'zstyle ":completion:*:default" list-colors "${(s.:.)LS_COLORS}";' \
+        trapd00r/LS_COLORS \
+        chrissicool/zsh-256color
+
+##################
+# Wait'1a' block #
+##################
+#
+zt 1a light-mode for \
+    atinit"zstyle :omz:plugins:ssh-agent lifetime 9h" \
+        OMZP::ssh-agent/ssh-agent.plugin.zsh \
+        hlissner/zsh-autopair
+
+# Gitignore plugin – commands gii and gi
+zt 1a light-mode for \
+    trigger-load'!gi;!gii' \
+        dl'https://gist.githubusercontent.com/psprint/1f4d0a3cb89d68d3256615f247e2aac9/raw -> templates/Zsh.gitignore' \
+        voronkovich/gitignore.plugin.zsh
+
+# zsh-titles causes dittography in Emacs shell and Vim terminal
+zt 1a light-mode if"(( ! $+EMACS )) && [[ $TERM != 'dumb' ]] && (( ! $+VIM_TERMINAL ))" for \
+    jreese/zsh-titles
+
+zt 1a light-mode binary from'gh-r' lman lbin'!' for \
+    @sharkdp/fd
+
+zt 1a light-mode null for \
+    lbin'!' from'gh-r' dl'https://raw.githubusercontent.com/junegunn/fzf/master/man/man1/fzf.1' lman \
+        junegunn/fzf \
+    id-as'Cleanup' nocd atinit'unset -f zt' \
+        zdharma-continuum/null
+
 
 # Theme no. 1 – geometry
 zinit lucid load'![[ $MYPROMPT = 1 ]]' unload'![[ $MYPROMPT != 1 ]]' \
@@ -99,66 +157,6 @@ zinit lucid load'![[ $MYPROMPT = 1 ]]' unload'![[ $MYPROMPT != 1 ]]' \
 zinit lucid load'![[ $MYPROMPT = 2 ]]' unload'![[ $MYPROMPT != 2 ]]' \
  pick"/dev/null" multisrc"{async,pure}.zsh" atload'!prompt_pure_precmd' nocd for \
     sindresorhus/pure
-
-# Theme no. 3 - agkozak-zsh-theme
-zinit lucid load'![[ $MYPROMPT = 3 ]]' unload'![[ $MYPROMPT != 3 ]]' \
- atload'!_agkozak_precmd' nocd \
-    atinit"AGKOZAK_FORCE_ASYNC_METHOD=subst-async
-           AGKOZAK_MULTILINE=0
-           AGKOZAK_CUSTOM_SYMBOLS=( '⇣⇡' '⇣' '⇡' '+' 'x' '!' '>' '?' 'S')
-           AGKOZAK_LEFT_PROMPT_ONLY=1
-           " \
- for \
-    agkozak/agkozak-zsh-theme
-
-# Theme no. 4 - git-prompt
-zinit lucid load'![[ $MYPROMPT = 4 ]]' unload'![[ $MYPROMPT != 4 ]]' \
- atload'!_zsh_git_prompt_precmd_hook' nocd for \
-    woefe/git-prompt.zsh
-
-# On OSX, you might need to install coreutils from homebrew and use the
-# g-prefix – gsed, gdircolors
-zinit wait"0c" lucid reset \
- atclone"local P=${${(M)OSTYPE:#*darwin*}:+g}
-        \${P}dircolors -b LS_COLORS > c.zsh" \
- atpull'%atclone' pick"c.zsh" nocompile'!' \
- atload'zstyle ":completion:*:default" list-colors "${(s.:.)LS_COLORS}";' for \
-    trapd00r/LS_COLORS \
-    chrissicool/zsh-256color
-
-# zsh-autopair
-zinit wait'3' lucid for \
- hlissner/zsh-autopair
-
-# zsh-titles causes dittography in Emacs shell and Vim terminal
-zinit wait lucid if"(( ! $+EMACS )) && [[ $TERM != 'dumb' ]] && (( ! $+VIM_TERMINAL ))" \
- for \
-    jreese/zsh-titles
-
-# A few wait"1 plugins
-zinit wait"1" lucid for \
- atinit'zstyle ":history-search-multi-word" page-size "10"
-        zstyle ":history-search-multi-word" highlight-color "fg=yellow,bold,bg=red"
- ' \
-    zdharma-continuum/history-search-multi-word \
-    mdumitru/fancy-ctrl-z
-
-# Gitignore plugin – commands gii and gi
-zinit wait"2" lucid trigger-load'!gi;!gii' \
- dl'https://gist.githubusercontent.com/psprint/1f4d0a3cb89d68d3256615f247e2aac9/raw -> templates/Zsh.gitignore' \
- for \
-    voronkovich/gitignore.plugin.zsh
-
-# Colored man pages
-zinit wait"2" lucid trigger-load'!man' \
-    for \
-        ael-code/zsh-colored-man-pages
-
-# sharkdp/fd, fzf
-zinit wait"2" lucid as"null" from"gh-r" for \
-    mv"fd* -> fd" sbin"fd/fd"  @sharkdp/fd \
-    lbin from'gh-r' dl'https://raw.githubusercontent.com/junegunn/fzf/master/man/man1/fzf.1' lman \
-        junegunn/fzf
 
 # set prompt
 MYPROMPT=1
