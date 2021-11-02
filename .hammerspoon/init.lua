@@ -26,3 +26,33 @@ hs.hotkey.bind({'ctrl','cmd'},'t', function()
     term=hs.application.find('iTerm2') or hs.application.open('iTerm')
     term:selectMenuItem('New Window')
 end)
+
+-- global config
+config = {
+    networks = {
+        ['wlan@somewhere'] = 'levigo',
+        dwmc3 = 'DWMC3'
+    }
+}
+
+-- requires
+watchables   = require('utils.watchables')
+controlplane = require('utils.controlplane')
+
+
+-- controlplane
+controlplane.enabled = { 'autonl' }
+
+-- start/stop modules
+local modules = { controlplane, watchables }
+
+hs.fnutils.each(modules, function(module)
+    if module then module.start() end
+end)
+
+-- stop modules on shutdown
+hs.shutdownCallback = function()
+    hs.fnutils.each(modules, function(module)
+        if module then module.stop() end
+    end)
+end
