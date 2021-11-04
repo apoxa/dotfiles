@@ -61,7 +61,7 @@ zt(){ zinit depth'3' lucid ${1/#[0-9][a-c]/wait"${1}"} "${@:2}"; }
 # annexes
 zt light-mode for \
     zdharma-continuum/z-a-patch-dl \
-    zdharma-continuum/z-a-bin-gem-node \
+    zdharma-continuum/z-a-meta-plugins \
     NICHOLAS85/z-a-linkman \
     NICHOLAS85/z-a-linkbin
 
@@ -69,9 +69,8 @@ zt light-mode for \
 # Trigger-load block #
 ######################
 
+
 zt light-mode for \
-    trigger-load'!x' \
-        OMZP::extract/extract.plugin.zsh \
     trigger-load'!man' \
         ael-code/zsh-colored-man-pages
 
@@ -82,7 +81,7 @@ zt light-mode for \
 zt 0a light-mode for \
     OMZP::sudo/sudo.plugin.zsh \
     PZTM::completion/init.zsh \
-    as'completion' atpull'zinit cclear' blockf \
+    as'completion' atpull'zinit cclear' pick'/dev/null' blockf \
         zsh-users/zsh-completions
 
 ##################
@@ -124,14 +123,18 @@ zt 0c light-mode binary for \
 zt 1a light-mode for \
     atinit"zstyle :omz:plugins:ssh-agent lifetime 9h" \
         OMZP::ssh-agent/ssh-agent.plugin.zsh \
-        hlissner/zsh-autopair
+        hlissner/zsh-autopair \
+    atload'abbrev-alias -g G="| grep"; abbrev-alias -g L="| less"' \
+        momo-lab/zsh-abbrev-alias
 
 # zsh-titles causes dittography in Emacs shell and Vim terminal
 zt 1a light-mode if"(( ! $+EMACS )) && [[ $TERM != 'dumb' ]] && (( ! $+VIM_TERMINAL ))" for \
     jreese/zsh-titles
 
 zt 1a light-mode binary from'gh-r' lman lbin'!' for \
-    @sharkdp/fd
+    @sharkdp/fd \
+    atload='export BAT_THEME="Solarized (dark)"' \
+        @sharkdp/bat
 
 zt 1a light-mode null for \
     lbin'!' from'gh-r' dl'https://raw.githubusercontent.com/junegunn/fzf/master/man/man1/fzf.1' lman \
