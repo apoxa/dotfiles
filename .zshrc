@@ -123,7 +123,7 @@ zt 0c light-mode for \
         chrissicool/zsh-256color
 
 zt 0c light-mode binary for \
-    lbin'!' \
+    lbin'!' atload'alias gi="git-ignore"' \
         laggardkernel/git-ignore
 
 ##################
