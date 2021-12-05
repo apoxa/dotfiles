@@ -54,4 +54,10 @@
 [init]
 	defaultBranch = main
 
+[commit]
+	gpgsign = true
+
+[user]
+    signingkey = 16169B67A0772778
+
 # vim: ft=gitconfig
