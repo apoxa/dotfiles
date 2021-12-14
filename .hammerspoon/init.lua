@@ -31,7 +31,7 @@ end)
 config = {
     networks = {
         ['wlan@somewhere'] = 'levigo',
-        dwmc3 = 'DWMC3'
+        ['DWMC3'] = 'DWMC3'
     }
 }
 
