@@ -233,7 +233,16 @@ fi
 (( $+commands[plenv] )) && eval "$(plenv init - zsh)"
 
 if (( $+commands[op] )); then
-    alias op-signin='eval $(op signin my)'
-    alias op-logout='op signout && unset OP_SESSION_my'
+    op-signin() {
+        SESSION="OP_SESSION_${1:-my}"
+        if [[ -z ${(P)SESSION} ]]; then
+            eval $(op signin ${accountname})
+        fi
+    }
+    op-signout() {
+        accountname="${1:-my}"
+        op signout --account "${accountname}"
+        unset OP_SESION_${acountname}
+    }
 fi
 # }}}
