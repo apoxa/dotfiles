@@ -242,7 +242,7 @@ if (( $+commands[op] )); then
     op-signout() {
         accountname="${1:-my}"
         op signout --account "${accountname}"
-        unset OP_SESION_${acountname}
+        unset OP_SESSION_${acountname}
     }
 fi
 # }}}
