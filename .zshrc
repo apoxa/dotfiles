@@ -131,7 +131,8 @@ zt 0c light-mode binary for \
 ##################
 #
 zt 1a light-mode for \
-    atinit"zstyle :omz:plugins:ssh-agent lifetime 9h" \
+    atinit"zstyle :omz:plugins:ssh-agent lifetime 9h
+           [[ $(uname -s) == 'Darwin' ]] && zstyle :omz:plugins:ssh-agent ssh-add-args -q --apple-load-keychain" \
         OMZP::ssh-agent/ssh-agent.plugin.zsh \
         hlissner/zsh-autopair \
     atload'abbrev-alias -g G="| grep"; abbrev-alias -g L="| less"' \
