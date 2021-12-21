@@ -235,7 +235,8 @@ fi
 
 if (( $+commands[op] )); then
     op-signin() {
-        SESSION="OP_SESSION_${1:-my}"
+        accountname="${1:-my}"
+        SESSION="OP_SESSION_${accountname}"
         if [[ -z ${(P)SESSION} ]]; then
             eval $(op signin ${accountname})
         fi
