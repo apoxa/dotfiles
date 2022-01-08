@@ -150,6 +150,8 @@ zt 1a light-mode binary from'gh-r' lman lbin'!' for \
 zt 1a light-mode null for \
     lbin'!' from'gh-r' dl'https://raw.githubusercontent.com/junegunn/fzf/master/man/man1/fzf.1' lman \
         junegunn/fzf \
+    as="program" pick="bin/git-dsf" \
+        zdharma-continuum/zsh-diff-so-fancy \
     id-as'Cleanup' nocd atinit'unset -f zt' \
         zdharma-continuum/null
 
