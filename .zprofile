@@ -88,6 +88,10 @@ if (( $#commands[(i)lesspipe(|.sh)] )); then
   export LESSOPEN="| /usr/bin/env $commands[(i)lesspipe(|.sh)] %s 2>&-"
 fi
 
+# Use mitogen as an ansible strategy for better performance
+PY3_PACKAGE_PATH=$(python3 -c 'import sysconfig; print(sysconfig.get_paths()["purelib"])')
+[ -d "${PY3_PACKAGE_PATH}/ansible_mitogen" ] && ANSIBLE_STRATEGY_PLUGINS="${PY3_PACKAGE_PATH}/ansible_mitogen/plugins/strategy"
+
 # use local profile if exists
 test -f $HOME/.zprofile.local && . $HOME/.zprofile.local
 
