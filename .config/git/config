@@ -1,3 +1,7 @@
+[user]
+    name = Benjamin Stier
+[github]
+    user = apoxa
 [alias]
     s = status -sb
     hist = log --graph --pretty=format:'%C(yellow)%h%C(cyan)%d%Creset %s %C(white)- %an, %ar%Creset'
@@ -13,6 +17,11 @@
 [filter "media"]
     clean = git-media-clean %f
     smudge = git-media-smudge %f
+[filter "lfs"]
+    process = git-lfs filter-process
+    required = true
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
 [help]
     autocorrect = 1
 [log]
@@ -48,16 +57,10 @@
     changed = green
     untracked = cyan
 
-[github]
-    user = apoxa
-
 [init]
-	defaultBranch = main
+    defaultBranch = main
 
-[commit]
-	gpgsign = true
-
-[user]
-    signingkey = 16169B67A0772778
+[include]
+    path = config.local
 
 # vim: ft=gitconfig

@@ -1,0 +1,7 @@
+[user]
+	email = ben@unpatched.de
+
+[include]
+    path = config.gpg
+
+# vim: ft=gitconfig
