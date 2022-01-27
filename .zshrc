@@ -237,14 +237,14 @@ fi
 
 if (( $+commands[op] )); then
     op-signin() {
-        accountname="${1:-my}"
+        accountname="${1:${OP_DEFAULT_SESSION:-my}}"
         SESSION="OP_SESSION_${accountname}"
         if [[ -z ${(P)SESSION} ]]; then
             eval $(op signin ${accountname})
         fi
     }
     op-signout() {
-        accountname="${1:-my}"
+        accountname="${1:${OP_DEFAULT_SESSION:-my}}"
         SESSION="OP_SESSION_${accountname}"
         op signout --account "${accountname}"
         unset "${SESSION}"
