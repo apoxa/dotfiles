@@ -27,6 +27,25 @@ hs.hotkey.bind({'ctrl','cmd'},'t', function()
     term:selectMenuItem('New Window')
 end)
 
+function toggleMute()
+  local bbb = hs.application.find("bbb")
+  if not (bbb == nil) then
+      hs.eventtap.keyStroke({"ctrl", "alt"}, "m", 0, bbb)
+  end
+
+  local teams = hs.application.find("com.microsoft.teams")
+  if not (teams == null) then
+    hs.eventtap.keyStroke({"cmd","shift"}, "m", 0, teams)
+  end
+
+  local zoom = hs.application.find("us.zoom.xos")
+  if not (zoom == nil) then
+    hs.eventtap.keyStroke({"cmd","shift"}, "a", 0, zoom)
+  end
+end
+
+hs.hotkey.bind(shift_hyper, "F12", toggleMute)
+
 -- global config
 config = {
     networks = {
