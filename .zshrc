@@ -135,6 +135,7 @@ zt 1a light-mode for \
            [[ $(uname -s) == 'Darwin' ]] && zstyle :omz:plugins:ssh-agent ssh-add-args -q --apple-load-keychain" \
         OMZP::ssh-agent/ssh-agent.plugin.zsh \
         hlissner/zsh-autopair \
+        apoxa/zsh-direnv \
     atload'abbrev-alias -g G="| grep"; abbrev-alias -g L="| less"' \
         momo-lab/zsh-abbrev-alias
 
