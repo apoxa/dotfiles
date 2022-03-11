@@ -89,7 +89,6 @@ zt light-mode for \
 ##################
 
 zt 0a light-mode for \
-    OMZP::sudo/sudo.plugin.zsh \
     PZTM::completion/init.zsh \
     as'completion' atpull'zinit cclear' pick'/dev/null' blockf \
         zsh-users/zsh-completions
