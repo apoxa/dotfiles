@@ -209,6 +209,7 @@ alias _='sudo'
 alias mkdir="${aliases[mkdir]:-mkdir} -p"
 if [[ "$OSTYPE" == darwin* ]]; then
     alias o='open'
+    (( $+commands[weechat] )) && alias weechat="OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES weechat"
 else
     alias o='xdg-open'
     if (( $+commands[xclip] )); then
