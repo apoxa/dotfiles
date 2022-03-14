@@ -4,6 +4,7 @@ Install=spoon.SpoonInstall
 local hyper = {'ctrl', 'alt', 'cmd'}
 local shift_hyper = {'shift', 'ctrl', 'alt', 'cmd'}
 hs.window.animationDuration = 0.1
+hs.application.enableSpotlightForNameSearches(false)
 
 Install:andUse('ReloadConfiguration');
 
@@ -28,23 +29,42 @@ hs.hotkey.bind({'ctrl','cmd'},'t', function()
 end)
 
 function toggleMute()
-  local bbb = hs.application.find("bbb")
+  local bbb = hs.application.get("bbb")
   if not (bbb == nil) then
       hs.eventtap.keyStroke({"ctrl", "alt"}, "m", 0, bbb)
   end
 
-  local teams = hs.application.find("com.microsoft.teams")
+  local teams = hs.application.get("com.microsoft.teams")
   if not (teams == null) then
     hs.eventtap.keyStroke({"cmd","shift"}, "m", 0, teams)
   end
 
-  local zoom = hs.application.find("us.zoom.xos")
+  local zoom = hs.application.get("us.zoom.xos")
   if not (zoom == nil) then
     hs.eventtap.keyStroke({"cmd","shift"}, "a", 0, zoom)
   end
 end
 
-hs.hotkey.bind(shift_hyper, "F12", toggleMute)
+hs.hotkey.bind(hyper, "F12", toggleMute)
+
+function toggleHand()
+  local bbb = hs.application.get("bbb")
+  if not (bbb == nil) then
+      hs.eventtap.keyStroke({"ctrl", "alt"}, "r", 0, bbb)
+  end
+
+  local teams = hs.application.get("com.microsoft.teams")
+  if not (teams == null) then
+    hs.eventtap.keyStroke({"cmd","shift"}, "k", 0, teams)
+  end
+
+  local zoom = hs.application.get("us.zoom.xos")
+  if not (zoom == nil) then
+    hs.eventtap.keyStroke({"alt"}, "y", 0, zoom)
+  end
+end
+
+hs.hotkey.bind(hyper, "F11", toggleHand)
 
 -- global config
 config = {
