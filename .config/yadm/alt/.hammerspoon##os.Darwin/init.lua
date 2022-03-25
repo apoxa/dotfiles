@@ -43,6 +43,11 @@ function toggleMute()
   if not (zoom == nil) then
     hs.eventtap.keyStroke({"cmd","shift"}, "a", 0, zoom)
   end
+
+  local discord = hs.application.get("com.hnc.Discord")
+  if not (discord == nil) then
+    hs.eventtap.keyStroke({"cmd","shift"}, "m", 0, discord)
+  end
 end
 
 hs.hotkey.bind(hyper, "F12", toggleMute)
