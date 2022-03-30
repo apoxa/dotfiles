@@ -45,6 +45,40 @@ Install:andUse('MacroPad',
     }
 )
 
+function appID(app)
+  return hs.application.infoForBundlePath(app)['CFBundleIdentifier']
+end
+
+chromeBrowser = appID('/Applications/Google Chrome.app')
+edgeBrowser = appID('/Applications/Microsoft Edge.app')
+teamsApp = appID('/Applications/Microsoft Teams.app')
+bbbApp = appID(os.getenv('HOME') .. '/Applications/WebCatalog Apps/bbb.app/')
+
+DefaultBrowser = chromeBrowser
+
+Install:andUse("URLDispatcher",
+    {
+        config = {
+            url_patterns = {
+                { "https?://bbb%.levigo%.de", bbbApp },
+                { "https?://meeting%.levigo%.cloud", bbbApp },
+                { "msteams:", teamsApp },
+            },
+            url_redir_decoders = {
+                -- Send MS Teams URLs directly to the app
+                { "MS Teams URLs", "(https://teams.microsoft.com.*)", "msteams:%1", true },
+                -- Preview incorrectly encodes the anchor
+                -- character in URLs as %23, we fix it
+                { "Fix broken Preview anchor URLs", "%%23", "#", false, "Preview" },
+            },
+            default_handler = DefaultBrowser,
+        },
+        start = true,
+        -- Enable debug logging if you get unexpected behavior
+        -- loglevel = 'debug'
+    }
+)
+
 -- global config
 config = {
     networks = {
