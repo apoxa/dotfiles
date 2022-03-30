@@ -28,48 +28,22 @@ hs.hotkey.bind({'ctrl','cmd'},'t', function()
     term:selectMenuItem('New Window')
 end)
 
-function toggleMute()
-  local bbb = hs.application.get("bbb")
-  if not (bbb == nil) then
-      hs.eventtap.keyStroke({"ctrl", "alt"}, "m", 0, bbb)
-  end
+-- Register my custom repository
+Install.repos["apoSpoons"] = {
+  desc   = "apoxa's repository",
+  url    = "https://github.com/apoxa/apoSpoons",
+  branch = 'main'
+}
 
-  local teams = hs.application.get("com.microsoft.teams")
-  if not (teams == null) then
-    hs.eventtap.keyStroke({"cmd","shift"}, "m", 0, teams)
-  end
-
-  local zoom = hs.application.get("us.zoom.xos")
-  if not (zoom == nil) then
-    hs.eventtap.keyStroke({"cmd","shift"}, "a", 0, zoom)
-  end
-
-  local discord = hs.application.get("com.hnc.Discord")
-  if not (discord == nil) then
-    hs.eventtap.keyStroke({"cmd","shift"}, "m", 0, discord)
-  end
-end
-
-hs.hotkey.bind(hyper, "F12", toggleMute)
-
-function toggleHand()
-  local bbb = hs.application.get("bbb")
-  if not (bbb == nil) then
-      hs.eventtap.keyStroke({"ctrl", "alt"}, "r", 0, bbb)
-  end
-
-  local teams = hs.application.get("com.microsoft.teams")
-  if not (teams == null) then
-    hs.eventtap.keyStroke({"cmd","shift"}, "k", 0, teams)
-  end
-
-  local zoom = hs.application.get("us.zoom.xos")
-  if not (zoom == nil) then
-    hs.eventtap.keyStroke({"alt"}, "y", 0, zoom)
-  end
-end
-
-hs.hotkey.bind(hyper, "F11", toggleHand)
+Install:andUse('MacroPad',
+    {
+        repo = "apoSpoons",
+        hotkeys = {
+            raiseHand = {hyper, "F11"},
+            toggleMute = {hyper, "F12"},
+        },
+    }
+)
 
 -- global config
 config = {
