@@ -4,9 +4,6 @@ local log    = hs.logger.new('watchables', 'debug')
 local cache  = { status = status }
 local module = { cache = cache }
 
--- local VPN_CONFIG_KEY  = "State:/Network/Global/Proxies"
--- local NETWORK_SHARING = "com.apple.NetworkSharing"
-
 local updateBattery = function()
   local burnRate = hs.battery.designCapacity() / math.abs(hs.battery.amperage())
 
@@ -28,13 +25,6 @@ local updateScreen = function()
   log.d('updated screens:', hs.inspect(status.connectedScreenIds))
 end
 
--- local updateNetwork = function()
---   status.networkSharing   = cache.configuration:contents(NETWORK_SHARING)[NETWORK_SHARING]
---   status.vpnConfiguration = cache.configuration:contents(VPN_CONFIG_KEY)[VPN_CONFIG_KEY]
-
---   log.d('updated network config')
--- end
-
 local updateWiFi = function()
   status.currentNetwork = hs.wifi.currentNetwork()
 
@@ -47,25 +37,12 @@ local updateSleep = function(event)
   log.d('updated sleep:', status.sleepEvent)
 end
 
-local updateUSB = function()
-  status.isErgodoxAttached = hs.fnutils.find(hs.usb.attachedDevices(), function(device)
-    return device.productName == 'ErgoDox EZ'
-  end) ~= nil
-
-  log.d('updated ergodox:', status.isErgodoxAttached)
-end
-
 module.start = function()
-  -- open network config for vpn watching
-  cache.configuration = hs.network.configuration.open()
-
   -- start watchers
   cache.watchers = {
     battery = hs.battery.watcher.new(updateBattery):start(),
     screen  = hs.screen.watcher.new(updateScreen):start(),
     sleep   = hs.caffeinate.watcher.new(updateSleep):start(),
-    usb     = hs.usb.watcher.new(updateUSB):start(),
-    -- network = cache.configuration:monitorKeys({ VPN_CONFIG_KEY, NETWORK_SHARING }):setCallback(updateNetwork):start(),
     wifi    = hs.wifi.watcher.new(updateWiFi):start(),
   }
 
@@ -73,8 +50,6 @@ module.start = function()
   updateBattery()
   updateScreen()
   updateSleep()
-  updateUSB()
-  -- updateNetwork()
   updateWiFi()
 end
 
