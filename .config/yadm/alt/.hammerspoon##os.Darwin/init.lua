@@ -3,20 +3,28 @@ Install=spoon.SpoonInstall
 
 local hyper = {'ctrl', 'alt', 'cmd'}
 local shift_hyper = {'shift', 'ctrl', 'alt', 'cmd'}
-hs.window.animationDuration = 0.1
+hs.window.animationDuration = 0.0
 hs.application.enableSpotlightForNameSearches(false)
 
 Install:andUse('ReloadConfiguration');
 
+-- Register Miros repository
+Install.repos["miroWindowsManager"] = {
+  desc   = "miroWindowsManager repository",
+  url    = "https://github.com/miromannino/miro-windows-manager",
+}
 Install:andUse('MiroWindowsManager',{
-    {},
+    {
+        repo = "miroWindowsManager",
+    },
     fn = function(m)
         m:bindHotkeys({
         up         = {hyper, 'k'},
         right      = {hyper, 'l'},
         down       = {hyper, 'j'},
         left       = {hyper, 'h'},
-        fullscreen = {hyper, 'f'}
+        fullscreen = {hyper, 'f'},
+        nextscreen = {hyper, 'n'},
         })
     end
 })
