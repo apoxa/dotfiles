@@ -6,7 +6,14 @@ local shift_hyper = {'shift', 'ctrl', 'alt', 'cmd'}
 hs.window.animationDuration = 0.0
 hs.application.enableSpotlightForNameSearches(false)
 
-Install:andUse('ReloadConfiguration');
+Install:andUse('ReloadConfiguration', {
+    {},
+    fn = function(m)
+        m:bindHotkeys({
+            reloadConfiguration = {{'ctrl', 'cmd'}, 'r'}
+        })
+    end
+})
 
 -- Register Miros repository
 Install.repos["miroWindowsManager"] = {
