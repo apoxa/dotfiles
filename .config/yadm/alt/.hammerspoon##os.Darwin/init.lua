@@ -61,7 +61,10 @@ Install:andUse('MacroPad',
 )
 
 function appID(app)
-  return hs.application.infoForBundlePath(app)['CFBundleIdentifier']
+    infoBundle = hs.application.infoForBundlePath(app)
+    if infoBundle ~= nil then
+        return infoBundle['CFBundleIdentifier']
+    end
 end
 
 chromeBrowser = appID('/Applications/Google Chrome.app')
