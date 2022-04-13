@@ -57,6 +57,7 @@ Install:andUse('MacroPad',
             raiseHand = {hyper, "F11"},
             toggleMute = {hyper, "F12"},
         },
+        start = true,
     }
 )
 
@@ -126,3 +127,10 @@ hs.shutdownCallback = function()
         if module then module.stop() end
     end)
 end
+
+-- axbrowse
+-- b = hs.axuielement.systemElementAtPosition(hs.mouse.absolutePosition())
+-- hs.inspect(b:attributeNames())
+-- hs.inspect(b:actionNames())
+-- hs.inspect(b:parameterizedAttributeNames())
+-- b:attributeValue("AXRoleDescription")
