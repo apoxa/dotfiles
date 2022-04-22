@@ -91,7 +91,8 @@ zt light-mode for \
 zt 0a light-mode for \
     PZTM::completion/init.zsh \
     as'completion' atpull'zinit cclear' pick'/dev/null' blockf \
-        zsh-users/zsh-completions
+        zsh-users/zsh-completions \
+        yzdann/kctl
 
 ##################
 # Wait'0b' block #
