@@ -93,7 +93,7 @@ zt 0a light-mode for \
     as'completion' atpull'zinit cclear' pick'/dev/null' blockf \
         zsh-users/zsh-completions \
         yzdann/kctl \
-        apoxa/k8sctl-helpers
+        apoxa/kubernetes-helpers
 
 ##################
 # Wait'0b' block #
