@@ -239,6 +239,7 @@ fi
 (( $+commands[ip] )) && alias ip='ip -c'
 (( $+commands[hub] )) && eval "$(hub alias -s)"
 (( $+commands[plenv] )) && eval "$(plenv init - zsh)"
+(( $+commands[watch] )) && alias watch='watch ' # This allows to watch on aliases
 
 if (( $+commands[op] )); then
     op-signin() {
