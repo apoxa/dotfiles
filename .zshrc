@@ -138,7 +138,9 @@ zt 1a light-mode for \
         hlissner/zsh-autopair \
         ptavares/zsh-direnv \
     atload'abbrev-alias -g G="| grep"; abbrev-alias -g L="| less"' \
-        momo-lab/zsh-abbrev-alias
+        momo-lab/zsh-abbrev-alias \
+    atload'export YSU_MESSAGE_POSITION="after"' \
+        MichaelAquilina/zsh-you-should-use
 
 # zsh-titles causes dittography in Emacs shell and Vim terminal
 zt 1a light-mode if"(( ! $+EMACS )) && [[ $TERM != 'dumb' ]] && (( ! $+VIM_TERMINAL ))" for \
