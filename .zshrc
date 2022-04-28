@@ -132,9 +132,10 @@ zt 1a light-mode for \
         OMZP::ssh-agent/ssh-agent.plugin.zsh \
         hlissner/zsh-autopair \
         ptavares/zsh-direnv \
+    atload'abbrev-alias -g G="| grep"; abbrev-alias -g L="| less"' \
+        momo-lab/zsh-abbrev-alias \
     atload'export YSU_MESSAGE_POSITION="after"' \
         MichaelAquilina/zsh-you-should-use
-
 
 # zsh-titles causes dittography in Emacs shell and Vim terminal
 zt 1a light-mode if"(( ! $+EMACS )) && [[ $TERM != 'dumb' ]] && (( ! $+VIM_TERMINAL ))" for \
@@ -195,8 +196,6 @@ alias la='ll -A'    # Lists human readable sizes, hidden files.
 alias sl='ls'       # Catch typos.
 
 alias grep="${aliases[grep]:-grep} --color=auto"
-alias -g G="| grep"
-alias -g L="| less"
 
 # Disable globbing for some commands
 alias find='noglob find'
