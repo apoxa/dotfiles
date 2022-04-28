@@ -57,10 +57,7 @@ autoload -Uz _zinit
 # Load a few important annexes, without Turbo
 # (this is currently required for annexes)
 zinit light-mode for \
-    zdharma-continuum/zinit-annex-as-monitor \
-    zdharma-continuum/zinit-annex-bin-gem-node \
-    zdharma-continuum/zinit-annex-patch-dl \
-    zdharma-continuum/zinit-annex-rust
+    zdharma-continuum/zinit-annex-{'as-monitor','bin-gem-node','patch-dl','rust','meta-plugins'}
 
 ### End of Zinit's installer chunk
 
@@ -71,9 +68,7 @@ zt(){ zinit depth'3' lucid ${1/#[0-9][a-c]/wait"${1}"} "${@:2}"; }
 #
 # annexes
 zt light-mode for \
-    zdharma-continuum/z-a-meta-plugins \
-    NICHOLAS85/z-a-linkman \
-    NICHOLAS85/z-a-linkbin
+    NICHOLAS85/z-a-{'linkman','linkbin'}
 
 ######################
 # Trigger-load block #
