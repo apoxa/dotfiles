@@ -57,8 +57,6 @@ module.stop = function()
   hs.fnutils.each(cache.watchers, function(watcher)
     watcher:stop()
   end)
-
-  cache.configuration:stop()
 end
 
 return module
