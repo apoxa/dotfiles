@@ -43,6 +43,8 @@ hs.hotkey.bind({'ctrl','cmd'},'t', function()
     term:selectMenuItem('New Window')
 end)
 
+hs.hotkey.bind(shift_hyper, 'n', function() hs.eventtap.keyStroke({}, 71) end)
+
 -- Register my custom repository
 Install.repos["apoSpoons"] = {
   desc   = "apoxa's repository",
