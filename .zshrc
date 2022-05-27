@@ -1,3 +1,10 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # Load The Prompt System And Completion System And Initilize Them.
 autoload -Uz compinit promptinit
 
@@ -168,8 +175,10 @@ zinit lucid load'![[ $MYPROMPT = 2 ]]' unload'![[ $MYPROMPT != 2 ]]' \
  pick"/dev/null" multisrc"{async,pure}.zsh" atload'!prompt_pure_precmd' nocd for \
     sindresorhus/pure
 
+zinit ice depth=1; zinit light romkatv/powerlevel10k
+
 # set prompt
-MYPROMPT=1
+MYPROMPT=3
 
 # }}}
 
@@ -249,3 +258,6 @@ if (( $+commands[op] )); then
     }
 fi
 # }}}
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
