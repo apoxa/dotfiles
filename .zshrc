@@ -140,7 +140,7 @@ zt 1a light-mode for \
         momo-lab/zsh-abbrev-alias \
     atload'export YSU_IGNORED_GLOBAL_ALIASES=("G" "L"); export YSU_MESSAGE_POSITION="after"' \
         MichaelAquilina/zsh-you-should-use \
-    load'![[ $+ITERM_PROFILE ]]' pick'shell_integration/zsh' sbin"utilities/*" \
+    if'[[ -n "$ITERM_PROFILE" ]]' pick'shell_integration/zsh' sbin"utilities/*" \
         gnachman/iTerm2-shell-integration
 
 
