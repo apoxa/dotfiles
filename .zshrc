@@ -237,6 +237,7 @@ fi
 (( $+commands[hub] )) && eval "$(hub alias -s)"
 (( $+commands[plenv] )) && eval "$(plenv init - zsh)"
 (( $+commands[watch] )) && alias watch='watch ' # This allows to watch on aliases
+(( $+commands[stern] )) && alias capilogs='stern -n capi-extension-system,capi-kubeadm-bootstrap-system,capi-kubeadm-control-plane-system,capi-system,capvcd-system . '
 
 if (( $+commands[op] )); then
     op-signin() {
