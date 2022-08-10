@@ -63,4 +63,7 @@
 [include]
     path = config.local
 
+[include]
+    path = config.gpg
+
 # vim: ft=gitconfig

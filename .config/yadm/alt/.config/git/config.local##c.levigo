@@ -4,7 +4,4 @@
 [credential]
 	helper = store
 
-[include]
-    path = config.gpg
-
 # vim: ft=gitconfig
