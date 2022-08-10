@@ -81,8 +81,6 @@ Install:andUse("URLDispatcher",
     {
         config = {
             url_patterns = {
-                { "https?://bbb%.levigo%.de", bbbApp },
-                { "https?://meeting%.levigo%.cloud", bbbApp },
                 { "msteams:", teamsApp },
             },
             url_redir_decoders = {
