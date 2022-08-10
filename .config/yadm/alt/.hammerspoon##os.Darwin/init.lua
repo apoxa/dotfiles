@@ -73,7 +73,6 @@ end
 chromeBrowser = appID('/Applications/Google Chrome.app')
 edgeBrowser = appID('/Applications/Microsoft Edge.app')
 teamsApp = appID('/Applications/Microsoft Teams.app')
-bbbApp = appID(os.getenv('HOME') .. '/Applications/WebCatalog Apps/bbb.app/')
 
 DefaultBrowser = chromeBrowser
 
