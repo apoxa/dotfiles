@@ -72,10 +72,9 @@ end
 
 chromeBrowser = appID('/Applications/Google Chrome.app')
 edgeBrowser = appID('/Applications/Microsoft Edge.app')
-vivaldiBrowser = appID('/Applications/Vivaldi.app')
 teamsApp = appID('/Applications/Microsoft Teams.app')
 
-DefaultBrowser = vivaldiBrowser
+DefaultBrowser = chromeBrowser
 
 Install:andUse("URLDispatcher",
     {
