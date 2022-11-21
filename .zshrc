@@ -88,6 +88,7 @@ zt 0a light-mode for \
     PZTM::completion/init.zsh \
     as'completion' atpull'zinit cclear' pick'/dev/null' blockf \
         zsh-users/zsh-completions \
+        z-shell/zsh-fancy-completions \
         yzdann/kctl \
         apoxa/kubernetes-helpers
 
