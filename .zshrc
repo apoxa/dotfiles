@@ -140,12 +140,14 @@ zt 1a light-mode for \
 
 # zsh-titles causes dittography in Emacs shell and Vim terminal
 zt 1a light-mode if"(( ! $+EMACS )) && [[ $TERM != 'dumb' ]] && (( ! $+VIM_TERMINAL ))" for \
-    jreese/zsh-titles
+    jreese/zsh-titles \
+    fdellwing/zsh-bat
 
 zt 1a light-mode binary from'gh-r' lman lbin'!' for \
     @sharkdp/fd \
     atload='export BAT_THEME="base16-256"; alias cat="bat"' \
         @sharkdp/bat
+
 
 zt 1a light-mode null for \
     lbin'!' from'gh-r' dl'https://raw.githubusercontent.com/junegunn/fzf/master/man/man1/fzf.1' lman \
