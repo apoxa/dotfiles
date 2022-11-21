@@ -87,9 +87,12 @@ zt light-mode for \
 zt 0a light-mode for \
     PZTM::completion/init.zsh \
     as'completion' atpull'zinit cclear' pick'/dev/null' blockf \
-        yzdann/kctl \
         @zsh-users+fast \
-        apoxa/kubernetes-helpers
+        yzdann/kctl \
+        apoxa/kubernetes-helpers \
+    depth'1' atload'ZSH_BASH_COMPLETIONS_FALLBACK_PATH=/usr/local/etc/bash_completion.d/' \
+        3v1n0/zsh-bash-completions-fallback
+
 
 ##################
 # Wait'0b' block #
