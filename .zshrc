@@ -133,6 +133,7 @@ zt 0c light-mode binary for \
 zt 1a light-mode for \
         hlissner/zsh-autopair \
         ptavares/zsh-direnv \
+        TwoPizza9621536/zsh-plenv \
     atload'abbrev-alias -g G="| grep"; abbrev-alias -g L="| less"' \
         momo-lab/zsh-abbrev-alias \
     atload'export YSU_IGNORED_GLOBAL_ALIASES=("G" "L"); export YSU_MESSAGE_POSITION="after"' \
