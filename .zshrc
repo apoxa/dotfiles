@@ -243,7 +243,6 @@ fi
 (( $+commands[ip] )) && alias ip='ip -c'
 (( $+commands[hub] )) && eval "$(hub alias -s)"
 (( $+commands[thefuck] )) && eval "$(thefuck --alias)"
-(( $+commands[plenv] )) && eval "$(plenv init - zsh)"
 (( $+commands[anyenv] )) && eval "$(anyenv init -)"
 (( $+commands[watch] )) && alias watch='watch ' # This allows to watch on aliases
 (( $+commands[stern] )) && alias capilogs='stern -n capi-extension-system,capi-kubeadm-bootstrap-system,capi-kubeadm-control-plane-system,capi-system,capvcd-system . '
