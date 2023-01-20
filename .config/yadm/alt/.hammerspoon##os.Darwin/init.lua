@@ -15,33 +15,7 @@ Install:andUse('ReloadConfiguration', {
     end
 })
 
--- Register Miros repository
-Install.repos["miroWindowsManager"] = {
-  desc   = "miroWindowsManager repository",
-  url    = "https://github.com/miromannino/miro-windows-manager",
-}
-Install:andUse('MiroWindowsManager',{
-    {
-        repo = "miroWindowsManager",
-    },
-    fn = function(m)
-        m:bindHotkeys({
-        up         = {hyper, 'k'},
-        right      = {hyper, 'l'},
-        down       = {hyper, 'j'},
-        left       = {hyper, 'h'},
-        fullscreen = {hyper, 'f'},
-        nextscreen = {hyper, 'n'},
-        })
-    end
-})
-
 hs.hotkey.bind({'ctrl','cmd'}, 'q', function() hs.caffeinate.startScreensaver() end )
-
-hs.hotkey.bind({'ctrl','cmd'},'t', function()
-    term=hs.application.find('iTerm2') or hs.application.open('iTerm')
-    term:selectMenuItem('New Window')
-end)
 
 hs.hotkey.bind(shift_hyper, 'n', function() hs.eventtap.keyStroke({}, 71) end)
 

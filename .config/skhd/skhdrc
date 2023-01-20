@@ -1,0 +1,73 @@
+# Reload yabai (see https://github.com/koekeishiya/yabai/wiki/Tips-and-tricks)
+ctrl + alt + cmd - r : launchctl kickstart -k "gui/${UID}/homebrew.mxcl.yabai"
+
+# float currently focused window
+ctrl + shift - f : yabai -m window --toggle float
+
+# Make window zoom to fullscreen
+shift + lalt - f: yabai -m window --toggle zoom-fullscreen
+
+# Make window zoom to parent node
+lalt - f: yabai -m window --toggle zoom-parent
+
+# focus windows
+ctrl + cmd - h: yabai -m window --focus west || yabai -m display --focus west
+ctrl + cmd - j: yabai -m window --focus south || yabai -m display --focus south
+ctrl + cmd - k: yabai -m window --focus north || yabai -m display --focus north
+ctrl + cmd - l: yabai -m window --focus east || yabai -m display --focus east
+
+# move windows
+ctrl + cmd + shift - h: yabai -m window --warp west || (yabai -m window --display west && yabai -m display --focus west) || yabai -m window --move rel:-10:0
+ctrl + cmd + shift - j: yabai -m window --warp south || (yabai -m window --display south && yabai -m display --focus south) || yabai -m window --move rel:0:10
+ctrl + cmd + shift - k: yabai -m window --warp north || (yabai -m window --display north && yabai -m display --focus north) || yabai -m window --move rel:0:-10
+ctrl + cmd + shift - l: yabai -m window --warp east || (yabai -m window --display east && yabai -m display --focus east) || yabai -m window --move rel:10:0
+
+# toggle split orientation of the selected windows node
+shift + lalt - s: yabai -m window --toggle split
+
+# move focused window to previous workspace
+shift + lalt - p : yabai -m window --space prev
+
+# move focused window to next workspace
+shift + lalt - n : yabai -m window --space next
+
+# moving windows between workspaces
+shift + lalt - 1 : DISPLAY="$(yabai -m query --displays --display | jq '.index')";\
+                  yabai -m window --space $((1+4*($DISPLAY - 1)));\
+                  sketchybar --trigger windows_on_spaces
+
+shift + lalt - 2 : DISPLAY="$(yabai -m query --displays --display | jq '.index')";\
+                  yabai -m window --space $((2+4*($DISPLAY - 1)));\
+                  sketchybar --trigger windows_on_spaces
+
+shift + lalt - 3 : DISPLAY="$(yabai -m query --displays --display | jq '.index')";\
+                  yabai -m window --space $((3+4*($DISPLAY - 1)));\
+                  sketchybar --trigger windows_on_spaces
+
+shift + lalt - 4 : DISPLAY="$(yabai -m query --displays --display | jq '.index')";\
+                  yabai -m window --space $((4+4*($DISPLAY - 1)));\
+                  sketchybar --trigger windows_on_spaces
+
+# switch workspaces
+lalt - 1 : DISPLAY="$(yabai -m query --displays --display | jq '.index')"; yabai -m space --focus $((1+4*($DISPLAY - 1)))
+lalt - 2 : DISPLAY="$(yabai -m query --displays --display | jq '.index')"; yabai -m space --focus $((2+4*($DISPLAY - 1)))
+lalt - 3 : DISPLAY="$(yabai -m query --displays --display | jq '.index')"; yabai -m space --focus $((3+4*($DISPLAY - 1)))
+lalt - 4 : DISPLAY="$(yabai -m query --displays --display | jq '.index')"; yabai -m space --focus $((4+4*($DISPLAY - 1)))
+
+# Mirror Space on X and Y Axis: shift + lalt - {x, y}
+shift + lalt - x : yabai -m space --mirror x-axis
+shift + lalt - y : yabai -m space --mirror y-axis
+
+## Stacks (shift + ctrl - ...)
+# Add the active window to the window or stack to the {direction}: shift + ctrl - {j, k, l, ö}
+shift + ctrl - h : yabai -m window  west --stack $(yabai -m query --windows --window | jq -r '.id')
+shift + ctrl - j : yabai -m window south --stack $(yabai -m query --windows --window | jq -r '.id')
+shift + ctrl - k : yabai -m window north --stack $(yabai -m query --windows --window | jq -r '.id')
+shift + ctrl - l : yabai -m window  east --stack $(yabai -m query --windows --window | jq -r '.id')
+
+# Stack Navigation: shift + ctrl - {n, p}
+shift + ctrl - n : yabai -m window --focus stack.next
+shift + ctrl - p : yabai -m window --focus stack.prev
+
+# Start terminal
+ctrl + cmd - t: bash $HOME/.config/skhd/start_terminal.sh
