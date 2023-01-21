@@ -58,6 +58,13 @@ lalt - 4 : DISPLAY="$(yabai -m query --displays --display | jq '.index')"; yabai
 shift + lalt - x : yabai -m space --mirror x-axis
 shift + lalt - y : yabai -m space --mirror y-axis
 
+## Resize (ctrl + lalt - ...)
+# Resize windows: ctrl + lalt - {j, k, l, ö}
+ctrl + lalt - h : yabai -m window --resize right:-100:0 || yabai -m window --resize left:-100:0
+ctrl + lalt - j : yabai -m window --resize bottom:0:100 || yabai -m window --resize top:0:100
+ctrl + lalt - k : yabai -m window --resize bottom:0:-100 || yabai -m window --resize top:0:-100
+ctrl + lalt - l : yabai -m window --resize right:100:0 || yabai -m window --resize left:100:0
+
 # Balance size of windows ( ctrl = )
 ctrl + shift - 0: yabai -m space --balance
 
