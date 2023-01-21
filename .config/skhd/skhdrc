@@ -58,16 +58,8 @@ lalt - 4 : DISPLAY="$(yabai -m query --displays --display | jq '.index')"; yabai
 shift + lalt - x : yabai -m space --mirror x-axis
 shift + lalt - y : yabai -m space --mirror y-axis
 
-## Stacks (shift + ctrl - ...)
-# Add the active window to the window or stack to the {direction}: shift + ctrl - {j, k, l, ö}
-shift + ctrl - h : yabai -m window  west --stack $(yabai -m query --windows --window | jq -r '.id')
-shift + ctrl - j : yabai -m window south --stack $(yabai -m query --windows --window | jq -r '.id')
-shift + ctrl - k : yabai -m window north --stack $(yabai -m query --windows --window | jq -r '.id')
-shift + ctrl - l : yabai -m window  east --stack $(yabai -m query --windows --window | jq -r '.id')
-
-# Stack Navigation: shift + ctrl - {n, p}
-shift + ctrl - n : yabai -m window --focus stack.next
-shift + ctrl - p : yabai -m window --focus stack.prev
+# Balance size of windows ( ctrl = )
+ctrl + shift - 0: yabai -m space --balance
 
 # Start terminal
 ctrl + cmd - t: bash $HOME/.config/skhd/start_terminal.sh
