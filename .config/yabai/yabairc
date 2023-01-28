@@ -19,7 +19,7 @@ yabai -m signal --add event=window_destroyed action="sketchybar --trigger window
 # bsp or float (default: bsp)
 yabai -m config layout                      bsp             \
                 window_border               on              \
-                focus_follows_mouse         autofocus       \
+                focus_follows_mouse         off             \
                 mouse_follows_focus         on              \
                 window_placement            second_child    \
                 window_topmost              off             \
