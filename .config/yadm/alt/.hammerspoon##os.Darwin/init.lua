@@ -56,11 +56,17 @@ function toast(str, time, params)
     }, time or 0.6)
 end
 
+function reloadYabai()
+    hs.execute('/bin/launchctl kickstart -k "gui/${UID}/homebrew.mxcl.yabai"')
+end
+
 --# Main chooser
 local mainChooser = hs.chooser.new(function(option)
     if option ~= nil then
         if option.action == "reload" then
             hs.reload()
+        elseif option.action == "reload_yabai" then
+            reloadYabai()
         elseif option.action == "toggle_gap" then
             yabai({"-m", "space", "--toggle", "padding"}, function() yabai({"-m", "space", "--toggle", "gap"}) end)
         end
@@ -70,6 +76,11 @@ end):choices({
     text = "Toggle Gap",
     subText = "Toggles padding and gaps around the current space",
     action = "toggle_gap",
+},
+{
+    text = "Reload Yabai",
+    subText = "Reload Yabai daemon",
+    action = "reload_yabai",
 },
 {
     text = "Reload",
