@@ -479,27 +479,6 @@ local shift_hyper = {'shift', 'ctrl', 'alt', 'cmd'}
 hs.window.animationDuration = 0.0
 hs.application.enableSpotlightForNameSearches(false)
 
--- Register Miros repository
-Install.repos["miroWindowsManager"] = {
-  desc   = "miroWindowsManager repository",
-  url    = "https://github.com/miromannino/miro-windows-manager",
-}
-Install:andUse('MiroWindowsManager',{
-    {
-        repo = "miroWindowsManager",
-    },
-    fn = function(m)
-        m:bindHotkeys({
-        up         = {hyper, 'k'},
-        right      = {hyper, 'l'},
-        down       = {hyper, 'j'},
-        left       = {hyper, 'h'},
-        fullscreen = {hyper, 'f'},
-        nextscreen = {hyper, 'n'},
-        })
-    end
-})
-
 hs.hotkey.bind({'ctrl','cmd'}, 'q', function() hs.caffeinate.startScreensaver() end )
 
 hs.hotkey.bind({'ctrl','cmd'},'t', function()
