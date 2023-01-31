@@ -60,6 +60,10 @@ function reloadYabai()
     hs.execute('/bin/launchctl kickstart -k "gui/${UID}/homebrew.mxcl.yabai"')
 end
 
+--# Stackline
+stackline = require "stackline"
+stackline:init()
+
 --# Main chooser
 local mainChooser = hs.chooser.new(function(option)
     if option ~= nil then
