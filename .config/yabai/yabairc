@@ -15,7 +15,7 @@ yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
 yabai -m config layout                      bsp             \
                 window_border               on              \
                 focus_follows_mouse         off             \
-                mouse_follows_focus         on              \
+                mouse_follows_focus         off             \
                 window_placement            second_child    \
                 window_topmost              off             \
                 window_shadow               float           \
