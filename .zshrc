@@ -89,10 +89,7 @@ zt 0a light-mode for \
     as'completion' atpull'zinit cclear' pick'/dev/null' blockf \
         @zsh-users+fast \
         yzdann/kctl \
-        apoxa/kubernetes-helpers \
-    depth'1' atload'ZSH_BASH_COMPLETIONS_FALLBACK_PATH=/usr/local/etc/bash_completion.d/' \
-        3v1n0/zsh-bash-completions-fallback
-
+        apoxa/kubernetes-helpers
 
 ##################
 # Wait'0b' block #
@@ -101,10 +98,7 @@ zt 0a light-mode for \
 zt 0b light-mode for \
     autoload'#manydots-magic' \
         knu/zsh-manydots-magic \
-    compile'h*' \
-        zdharma-continuum/history-search-multi-word \
-    atinit'zicdreplay' atload'FAST_HIGHLIGHT[chroma-man]=' \
-    atclone'(){local f;cd -q →*;for f (*~*.zwc){zcompile -Uz -- ${f}};}' \
+    atinit'zicdreplay' atclone'(){local f;cd -q →*;for f (*~*.zwc){zcompile -Uz -- ${f}};}' \
     compile'.*fast*~*.zwc' nocompletions atpull'%atclone' \
         zdharma-continuum/fast-syntax-highlighting
 
@@ -156,8 +150,6 @@ zt 1a light-mode binary from'gh-r' lman lbin'!' for \
 zt 1a light-mode null for \
     lbin'!' from'gh-r' dl'https://raw.githubusercontent.com/junegunn/fzf/master/man/man1/fzf.1' lman \
         junegunn/fzf \
-    as="program" pick="bin/git-dsf" \
-        zdharma-continuum/zsh-diff-so-fancy \
     id-as'Cleanup' nocd atinit'unset -f zt' \
         zdharma-continuum/null
 
