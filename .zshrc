@@ -105,6 +105,8 @@ zt 0a light-mode for \
 zt 0b light-mode for \
     autoload'#manydots-magic' \
         knu/zsh-manydots-magic \
+    compile'h*' \
+        zdharma-continuum/history-search-multi-word \
     atinit'zicdreplay' atclone'(){local f;cd -q →*;for f (*~*.zwc){zcompile -Uz -- ${f}};}' \
     compile'.*fast*~*.zwc' nocompletions atpull'%atclone' \
         zdharma-continuum/fast-syntax-highlighting
