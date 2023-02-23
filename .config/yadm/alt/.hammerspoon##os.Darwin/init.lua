@@ -116,8 +116,19 @@ hs.hotkey.bind(super, hs.keycodes.map["m"], nil, function() yabai({"-m", "window
 hs.hotkey.bind(super, hs.keycodes.map["f"], nil, function() yabai({"-m", "window", "--toggle", "float"}, function() toast("🎚 ☁️") end) end) --["/"]
 
 --# change window stack focus
-hs.hotkey.bind(shift_super, hs.keycodes.map["t"], function() yabai({"-m", "window", "--focus", "stack.next"}, function() toast("📚↥") end) end)  --["t"]
-hs.hotkey.bind(shift_super, hs.keycodes.map["g"], function() yabai({"-m", "window", "--focus", "stack.prev"}, function() toast("📚↧") end) end)  --["g"]
+local stack_overflow = {
+    next = "first",
+    prev = "last",
+}
+function navigate_stack(direction)
+    yabai({"-m", "window", "--focus", "stack."..direction}, function(out,err)
+        if err ~= nil and err ~= '' then
+            yabai({"-m", "window", "--focus", "stack."..stack_overflow[direction]})
+        end
+    end)
+end
+hs.hotkey.bind(shift_super, hs.keycodes.map["t"], function() navigate_stack("prev") end)  --["t"]
+hs.hotkey.bind(shift_super, hs.keycodes.map["g"], function() navigate_stack("next") end)  --["g"]
 
 --# change spaces
 function gotoSpace(number)
