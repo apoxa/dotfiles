@@ -5,7 +5,7 @@ local module    = { cache = cache }
 
 local wifiWatcher = function(_,_,_,_, currentNetwork)
     if config.networks[currentNetwork] ~= nil then
-        hs.execute('/usr/sbin/networksetup -switchtolocation' .. config.networks[currentNetwork])
+        hs.execute('/usr/sbin/networksetup -switchtolocation ' .. config.networks[currentNetwork])
     else
         hs.execute('/usr/sbin/networksetup -switchtolocation Automatic')
     end
