@@ -22,8 +22,6 @@ Set-PSReadLineOption -Colors @{
     String    = "$esc[38;5;51m"
 }
 
-$(/usr/local/bin/brew shellenv) | Invoke-Expression
-
 # Host Foreground
 $Host.PrivateData.ErrorForegroundColor = 'Red'
 $Host.PrivateData.WarningForegroundColor = 'Yellow'
