@@ -263,6 +263,13 @@ if (( $+commands[op] )); then
         unset "${SESSION}"
     }
 fi
+
+function secpass() {
+    LENGTH=${1-16}
+    COUNT=${2-1}
+    if (( ! $+commands[pwgen] )) || return 1
+    pwgen --capitalize --symbols --numerals --remove-chars="ZzYy\"§%\&/\(\)=?\`´+*#-_\[\]\|\{\}^~<>;@:'" --secure --ambiguous ${LENGTH} ${COUNT}
+}
 # }}}
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
