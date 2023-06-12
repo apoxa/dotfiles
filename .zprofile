@@ -92,6 +92,9 @@ fi
 PY3_PACKAGE_PATH=$(python3 -c 'import sysconfig; print(sysconfig.get_paths()["purelib"])')
 [ -d "${PY3_PACKAGE_PATH}/ansible_mitogen" ] && ANSIBLE_STRATEGY_PLUGINS="${PY3_PACKAGE_PATH}/ansible_mitogen/plugins/strategy"
 
+OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
+
+
 # use local profile if exists
 test -f $HOME/.zprofile.local && . $HOME/.zprofile.local
 
