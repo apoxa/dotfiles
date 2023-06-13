@@ -248,22 +248,6 @@ fi
 (( $+commands[watch] )) && alias watch='watch ' # This allows to watch on aliases
 (( $+commands[stern] )) && alias capilogs='stern -n capi-extension-system,capi-kubeadm-bootstrap-system,capi-kubeadm-control-plane-system,capi-system,capvcd-system . '
 
-if (( $+commands[op] )); then
-    op-signin() {
-        accountname="${1:${OP_DEFAULT_SESSION:-my}}"
-        SESSION="OP_SESSION_${accountname}"
-        if [[ -z ${(P)SESSION} ]]; then
-            eval $(op signin ${accountname})
-        fi
-    }
-    op-signout() {
-        accountname="${1:${OP_DEFAULT_SESSION:-my}}"
-        SESSION="OP_SESSION_${accountname}"
-        op signout --account "${accountname}"
-        unset "${SESSION}"
-    }
-fi
-
 function secpass() {
     LENGTH=${1-16}
     COUNT=${2-1}
