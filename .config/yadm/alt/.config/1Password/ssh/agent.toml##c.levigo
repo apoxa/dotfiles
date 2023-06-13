@@ -1,0 +1,7 @@
+[[ssh-keys]]
+item = "stierbn@levigo-stierbn id_rsa"
+vault = "Private"
+
+[[ssh-keys]]
+item = "stierbn@levigo-stierbn id_ed25519"
+vault = "Private"
