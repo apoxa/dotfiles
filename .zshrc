@@ -247,6 +247,7 @@ fi
 (( $+commands[anyenv] )) && eval "$(anyenv init -)"
 (( $+commands[watch] )) && alias watch='watch ' # This allows to watch on aliases
 (( $+commands[stern] )) && alias capilogs='stern -n capi-extension-system,capi-kubeadm-bootstrap-system,capi-kubeadm-control-plane-system,capi-system,capvcd-system . '
+(( $+commands[op] )) && eval "$(op completion zsh)" && compdef _op op
 
 function secpass() {
     LENGTH=${1-16}
