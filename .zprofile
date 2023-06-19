@@ -26,9 +26,6 @@ fi
 # Paths
 #
 
-# Ensure path arrays do not contain duplicates.
-typeset -gU cdpath fpath mailpath path
-
 # Set the the list of directories that cd searches.
 # cdpath=(
 #   $cdpath
@@ -71,6 +68,7 @@ infopath=(
 )
 infopath=($^infopath(N))
 
+# Ensure path arrays do not contain duplicates.
 typeset -gU cdpath fpath mailpath path infopath manpath
 
 #
