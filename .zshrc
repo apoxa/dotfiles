@@ -142,7 +142,9 @@ zt 1a light-mode for \
     atload'export YSU_IGNORED_GLOBAL_ALIASES=("G" "L"); export YSU_MESSAGE_POSITION="after"' \
         MichaelAquilina/zsh-you-should-use \
     if'[[ -n "$ITERM_PROFILE" ]]' pick'shell_integration/zsh' sbin"utilities/*" \
-        gnachman/iTerm2-shell-integration
+        gnachman/iTerm2-shell-integration \
+    atload'(( $+commands[viddy] )) && export ZSH_WATCH=viddy ZSH_WATCH_FLAGS="-t -d -n1 --pty"' \
+        Thearas/zsh-watch
 
 
 # zsh-titles causes dittography in Emacs shell and Vim terminal
