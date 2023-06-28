@@ -75,10 +75,7 @@ edgeBrowser = appID('/Applications/Microsoft Edge.app')
 firefoxBrowser = appID('/Applications/Firefox.app')
 teamsApp = appID('/Applications/Microsoft Teams.app')
 
-DefaultBrowser = firefoxBrowser
-if ({hs.network.configuration.open():computerName()})[1] == "void" then
-    DefaultBrowser = chromeBrowser
-end
+DefaultBrowser = chromeBrowser
 
 Install:andUse("URLDispatcher",
     {
