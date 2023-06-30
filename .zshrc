@@ -253,7 +253,7 @@ fi
 function secpass() {
     LENGTH=${1-16}
     COUNT=${2-1}
-    if (( ! $+commands[pwgen] )); then return 1; fi
+    (( $+commands[pwgen] )) || return 1
     pwgen --capitalize --symbols --numerals --remove-chars="ZzYy\"§%\&/\(\)=?\`´+*#-_\[\]\|\{\}^~<>;@:'" --secure --ambiguous ${LENGTH} ${COUNT}
 }
 # }}}
