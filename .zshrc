@@ -8,40 +8,6 @@ fi
 # Load The Prompt System And Completion System And Initilize Them.
 autoload -Uz compinit promptinit
 
-#=== HELPER METHODS ===================================
-function error() { print -P "%F{red}[ERROR]%f: %F{yellow}$1%f" && return 1 }
-function info() { print -P "%F{blue}[INFO]%f: %F{cyan}$1%f"; }
-#=== ZINIT ============================================
-typeset -gAH ZINIT;
-ZINIT[HOME_DIR]=$HOME/.local/share/zsh/zinit  ZPFX=$ZINIT[HOME_DIR]/polaris
-ZINIT[BIN_DIR]=$ZINIT[HOME_DIR]/zinit.git ZINIT[OPTIMIZE_OUT_DISK_ACCESSES]=1
-ZINIT[COMPLETIONS_DIR]=$ZINIT[HOME_DIR]/completions ZINIT[SNIPPETS_DIR]=$ZINIT[HOME_DIR]/snippets
-ZINIT[ZCOMPDUMP_PATH]=$ZINIT[HOME_DIR]/zcompdump    ZINIT[PLUGINS_DIR]=$ZINIT[HOME_DIR]/plugins
-ZI_REPO='zdharma-continuum'; GH_RAW_URL='https://raw.githubusercontent.com'
-if [[ ! -e $ZINIT[BIN_DIR] ]]; then
-  info 'downloading zinit' \
-  && command mkdir -pv $ZINIT[HOME_DIR] \
-  && command git clone \
-    https://github.com/$ZI_REPO/zinit.git \
-    $ZINIT[BIN_DIR] \
-  || error 'failed to clone zinit repository' \
-  && info 'setting up zinit' \
-  && command chmod g-rwX $ZINIT[HOME_DIR] \
-  && zcompile $ZINIT[BIN_DIR]/zinit.zsh \
-  && info 'sucessfully installed zinit'
-fi
-if [[ -e $ZINIT[BIN_DIR]/zinit.zsh ]]; then
-  source $ZINIT[BIN_DIR]/zinit.zsh \
-    && autoload -Uz _zinit \
-    && (( ${+_comps} )) \
-    && _comps[zinit]=_zinit
-else error "unable to find 'zinit.zsh'" && return 1
-fi
-#=== STATIC ZSH BINARY =======================================
-zi for atpull"%atclone" depth"1" lucid nocompile nocompletions as"null" \
-    atclone"./install -e no -d ~/.local" atinit"export PATH=$HOME/.local/bin:$PATH" \
-  @romkatv/zsh-bin
-
 # Load And Initialize The Completion System Ignoring Insecure Directories With A
 # Cache Time Of 20 Hours, So It Should Almost Always Regenerate The First Time A
 # Shell Is Opened Each Day.
@@ -54,7 +20,7 @@ else
 fi
 unset _comp_files
 
-typeset -g HISTSIZE=290000 SAVEHIST=290000
+typeset -g HISTSIZE=290000 SAVEHIST=290000 HISTFILE=~/.zhistory
 
 #
 # setopts
@@ -76,71 +42,151 @@ unsetopt HUP                # Don't kill jobs on shell exit.
 unsetopt MAIL_WARNING       # Don't print a warning message if a mail file has been accessed.
 unsetopt SHARE_HISTORY
 
-#=== ANNEXES ==========================================
-zi light-mode for \
-    "${ZI_REPO}"/zinit-annex-{'bin-gem-node','binary-symlink','patch-dl','submods','meta-plugins'}
+# Provide A Simple Prompt Till The Theme Loads
+PS1="READY >"
 
-# #=== OH-MY-ZSH & PREZTO PLUGINS =======================
-zi for is-snippet \
-  OMZL::{'clipboard','compfix','completion','git','grep','key-bindings'}.zsh \
-  PZT::modules/{'history','rsync'}
-zi as'completion' for OMZP::{'golang/_golang','pip/_pip','terraform/_terraform'}
 
-#=== COMPLETIONS ======================================
-local GH_RAW_URL='https://raw.githubusercontent.com'
-install_completion(){ zinit for as'completion' nocompile id-as"$1" is-snippet "$GH_RAW_URL/$2"; }
-install_completion 'fd-completion/_fd'         'sharkdp/fd/master/contrib/completion/_fd'
+# PLUGINS {{{
 
-#=== PROMPT ===========================================
-zi ice depth=1; zinit light romkatv/powerlevel10k
+### Added by Zinit's installer
+export ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+if [[ ! -f "${ZINIT_HOME}/zinit.zsh" ]]; then
+    print -P "%F{33} %F{220}Installing %F{33}ZDHARMA-CONTINUUM%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
+    command mkdir -p "$(dirname ${ZINIT_HOME})" && command chmod g-rwX "$(dirname ${ZINIT_HOME})"
+    command git clone https://github.com/zdharma-continuum/zinit "${ZINIT_HOME}" && \
+        print -P "%F{33} %F{34}Installation successful.%f%b" || \
+        print -P "%F{160} The clone has failed.%f%b"
+fi
 
-#=== GITHUB BINARIES ==================================
-zi from'gh-r' lbin'!' nocompile for \
-    @sharkdp/fd \
-    atload='export BAT_THEME="base16-256"; alias cat="bat"' @sharkdp/bat \
-    @junegunn/fzf
+source "${ZINIT_HOME}/zinit.zsh"
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
 
-#=== TRIGGERED ============================================
-zi light-mode for \
-    trigger-load'!man' ael-code/zsh-colored-man-pages
+# Load a few important annexes, without Turbo
+# (this is currently required for annexes)
+zinit light-mode for \
+    zdharma-continuum/zinit-annex-{'as-monitor','bin-gem-node','patch-dl','rust','meta-plugins'}
 
-#=== MISC. ============================================
-zi light-mode for \
-    apoxa/kubernetes-helpers \
-    zsh-users+fast \
-        autoload'#manydots-magic' \
-    knu/zsh-manydots-magic \
-        compile'h*' \
-    "${ZI_REPO}"/history-search-multi-word \
-        atclone"local P=${${(M)OSTYPE:#*darwin*}:+g}
+### End of Zinit's installer chunk
+
+# Functions to make configuration less verbose
+# zt() : First argument is a wait time and suffix, ie "0a". Anything that doesn't match will be passed as if it were an ice mod. Default ices depth'3' and lucid
+zt(){ zinit depth'3' lucid ${1/#[0-9][a-c]/wait"${1}"} "${@:2}"; }
+
+#
+# annexes
+zt light-mode for \
+    NICHOLAS85/z-a-{'linkman','linkbin'}
+
+######################
+# Trigger-load block #
+######################
+
+
+zt light-mode for \
+    trigger-load'!man' \
+        ael-code/zsh-colored-man-pages
+
+##################
+# Wait'0a' block #
+##################
+
+zt 0a light-mode for \
+    PZTM::completion/init.zsh \
+    as'completion' atpull'zinit cclear' pick'/dev/null' blockf \
+        @zsh-users+fast \
+        yzdann/kctl \
+        apoxa/kubernetes-helpers
+
+##################
+# Wait'0b' block #
+##################
+
+zt 0b light-mode for \
+    autoload'#manydots-magic' \
+        knu/zsh-manydots-magic \
+    compile'h*' \
+        zdharma-continuum/history-search-multi-word \
+    atinit'zicdreplay' atclone'(){local f;cd -q →*;for f (*~*.zwc){zcompile -Uz -- ${f}};}' \
+    compile'.*fast*~*.zwc' nocompletions atpull'%atclone' \
+        zdharma-continuum/fast-syntax-highlighting
+
+##################
+# Wait'0c' block #
+##################
+
+# On OSX, you might need to install coreutils from homebrew and use the
+# g-prefix – gsed, gdircolors
+zt 0c light-mode for \
+    atclone"local P=${${(M)OSTYPE:#*darwin*}:+g}
         \${P}dircolors -b LS_COLORS > c.zsh" \
-        atpull'%atclone' pick"c.zsh" nocompile'!' \
-        atload'zstyle ":completion:*:default" list-colors "${(s.:.)LS_COLORS}";' \
-    trapd00r/LS_COLORS \
-    chrissicool/zsh-256color \
-        atload'alias gi="git-ignore"' \
-    laggardkernel/git-ignore \
-    hlissner/zsh-autopair \
-    ptavares/zsh-direnv \
-    TwoPizza9621536/zsh-plenv \
-        atload'abbrev-alias -g G="| grep"; abbrev-alias -g L="| less"' \
-    momo-lab/zsh-abbrev-alias \
-        atload'export YSU_IGNORED_GLOBAL_ALIASES=("G" "L"); export YSU_MESSAGE_POSITION="after"' \
-    MichaelAquilina/zsh-you-should-use \
-        if'[[ -n "$ITERM_PROFILE" ]]' pick'shell_integration/zsh' sbin"utilities/*" \
-    gnachman/iTerm2-shell-integration \
-        atload'(( $+commands[viddy] )) && export ZSH_WATCH=viddy ZSH_WATCH_FLAGS="-t -d -n1 --pty"' \
-    Thearas/zsh-watch \
-        if"(( ! $+EMACS )) && [[ $TERM != 'dumb' ]] && (( ! $+VIM_TERMINAL ))" \
+    atpull'%atclone' pick"c.zsh" nocompile'!' \
+    atload'zstyle ":completion:*:default" list-colors "${(s.:.)LS_COLORS}";' \
+        trapd00r/LS_COLORS \
+        chrissicool/zsh-256color
+
+zt 0c light-mode binary for \
+    lbin'!' atload'alias gi="git-ignore"' \
+        laggardkernel/git-ignore
+
+##################
+# Wait'1a' block #
+##################
+#
+zt 1a light-mode for \
+        hlissner/zsh-autopair \
+        ptavares/zsh-direnv \
+        TwoPizza9621536/zsh-plenv \
+    atload'abbrev-alias -g G="| grep"; abbrev-alias -g L="| less"' \
+        momo-lab/zsh-abbrev-alias \
+    atload'export YSU_IGNORED_GLOBAL_ALIASES=("G" "L"); export YSU_MESSAGE_POSITION="after"' \
+        MichaelAquilina/zsh-you-should-use \
+    if'[[ -n "$ITERM_PROFILE" ]]' pick'shell_integration/zsh' sbin"utilities/*" \
+        gnachman/iTerm2-shell-integration \
+    atload'(( $+commands[viddy] )) && export ZSH_WATCH=viddy ZSH_WATCH_FLAGS="-t -d -n1 --pty"' \
+        Thearas/zsh-watch
+
+
+# zsh-titles causes dittography in Emacs shell and Vim terminal
+zt 1a light-mode if"(( ! $+EMACS )) && [[ $TERM != 'dumb' ]] && (( ! $+VIM_TERMINAL ))" for \
     jreese/zsh-titles \
     fdellwing/zsh-bat
 
-zi for atload'
-      zicompinit; zicdreplay
-      _zsh_highlight_bind_widgets
-      _zsh_autosuggest_bind_widgets' \
-    as'null' id-as'zinit/cleanup' lucid nocd wait \
-  $ZI_REPO/null
+zt 1a light-mode binary from'gh-r' lman lbin'!' for \
+    @sharkdp/fd \
+    atload='export BAT_THEME="base16-256"; alias cat="bat"' \
+        @sharkdp/bat
+
+
+zt 1a light-mode null for \
+    lbin'!' from'gh-r' dl'https://raw.githubusercontent.com/junegunn/fzf/master/man/man1/fzf.1' lman \
+        junegunn/fzf \
+    id-as'Cleanup' nocd atinit'unset -f zt' \
+        zdharma-continuum/null
+
+
+# Theme no. 1 – geometry
+zinit lucid load'![[ $MYPROMPT = 1 ]]' unload'![[ $MYPROMPT != 1 ]]' \
+ atload'!geometry_hostname() {echo ${SSH_TTY:+"%F{9}%n%f%F{7}@%f%F{3}%m%f "}}
+        GEOMETRY_STATUS_COLOR="$(geometry::hostcolor)"
+        geometry::prompt' \
+ atinit'GEOMETRY_PROMPT=(geometry_echo geometry_status geometry_hostname geometry_path)
+        GEOMETRY_RPROMPT=(geometry_jobs geometry_exec_time geometry_kube geometry_git geometry_echo)' \
+ ver'main' \
+ nocd for \
+    geometry-zsh/geometry
+
+# Theme no. 2 – pure
+zinit lucid load'![[ $MYPROMPT = 2 ]]' unload'![[ $MYPROMPT != 2 ]]' \
+ pick"/dev/null" multisrc"{async,pure}.zsh" atload'!prompt_pure_precmd' nocd for \
+    sindresorhus/pure
+
+zinit ice depth=1; zinit light romkatv/powerlevel10k
+
+# set prompt
+MYPROMPT=3
+
+# }}}
 
 # ALIASES {{{
 # ------------------------------
@@ -175,7 +221,19 @@ alias mkdir="${aliases[mkdir]:-mkdir} -p"
 if [[ "$OSTYPE" == darwin* ]]; then
     alias o='open'
     (( $+commands[weechat] )) && alias weechat="OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES weechat"
+else
+    alias o='xdg-open'
+    if (( $+commands[xclip] )); then
+        alias pbcopy='xclip -selection clipboard -in'
+        alias pbpaste='xclip -selection clipboard -out'
+    elif (( $+commands[xsel] )); then
+        alias pbcopy='xsel --clipboard --input'
+        alias pbpaste='xsel --clipboard --output'
+    fi
 fi
+
+alias pbc='pbcopy'
+alias pbp='pbpaste'
 
 if [[ "$OSTYPE" == (darwin*|*bsd*) ]]; then
   alias topc='top -o cpu'
