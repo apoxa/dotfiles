@@ -164,7 +164,6 @@ zt 1a light-mode null for \
     id-as'Cleanup' nocd atinit'unset -f zt' \
         zdharma-continuum/null
 
-
 # Theme no. 1 – geometry
 zinit lucid load'![[ $MYPROMPT = 1 ]]' unload'![[ $MYPROMPT != 1 ]]' \
  atload'!geometry_hostname() {echo ${SSH_TTY:+"%F{9}%n%f%F{7}@%f%F{3}%m%f "}}
