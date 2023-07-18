@@ -36,6 +36,11 @@ setopt EXTENDED_GLOB        # Use extended globbing syntax.
 setopt AUTO_CD              # Auto changes to a directory without typing cd.
 setopt DOTGLOB              # Match hidden files
 setopt HIST_IGNORE_SPACE    # Don't write commands to history if they start with a space
+setopt HIST_EXPIRE_DUPS_FIRST    # First delete dups in the history if it needs to be trimmed.
+setopt HIST_IGNORE_DUPS     # Do not enter command lines into the history list if they are duplicates of the previous event
+setopt HIST_IGNORE_ALL_DUPS # Remove older dups if a new command line is added.
+setopt HIST_FIND_NO_DUPS    # Don't display dups when searching in history.
+setopt HIST_SAVE_NO_DUPS    # When writing history, older commands which are dups are omitted.
 unsetopt CLOBBER            # Do not overwrite existing files with > and >>. Use >! and >>! to bypass.
 unsetopt BG_NICE            # Don't run all background jobs at a lower priority.
 unsetopt HUP                # Don't kill jobs on shell exit.
