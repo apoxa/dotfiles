@@ -19,15 +19,8 @@
 # export MM_URL=your-mattermost-url.com
 . ~/.mm_access_token
 
-
 : ${MM_URL:=your-mattermost-url.com}
 END_DATE=${1:-0}
-
-# Quick connection test
-if ! curl --silent --output /dev/null --head --connect-timeout 1 "${MM_URL}"; then
-    printf "Error connecting to Mattermost"
-    exit 3
-fi
 
 # Manipulate path. I know this is bad, but ¯\_(ツ)_/¯
 for EXTRAPATH in /usr/local/bin; do
