@@ -255,8 +255,8 @@ fi
 (( $+commands[op] )) && eval "$(op completion zsh)" && compdef _op op
 
 function secpass() {
-    LENGTH=${1-16}
-    COUNT=${2-1}
+    local LENGTH=${1-16}
+    local COUNT=${2-1}
     (( $+commands[pwgen] )) || return 1
     pwgen --capitalize --symbols --numerals --remove-chars="ZzYy\"§%\&/\(\)=?\`´+*#-_\[\]\|\{\}^~<>;@:'" --secure --ambiguous ${LENGTH} ${COUNT}
 }
