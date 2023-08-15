@@ -95,12 +95,13 @@ zt light-mode for \
 ##################
 # Wait'0a' block #
 ##################
-
 zt 0a light-mode for \
     PZTM::completion/init.zsh \
     as'completion' atpull'zinit cclear' pick'/dev/null' blockf \
         @zsh-users+fast \
         yzdann/kctl \
+    atinit'ZSH_BASH_COMPLETIONS_FALLBACK_PATH=/usr/local/share/bash-completion; ZSH_BASH_COMPLETIONS_FALLBACK_REPLACE_LIST=(wg-quick)'  \
+        3v1n0/zsh-bash-completions-fallback \
         apoxa/kubernetes-helpers
 
 ##################
@@ -161,7 +162,6 @@ zt 1a light-mode binary from'gh-r' lman lbin'!' for \
     @sharkdp/fd \
     atload='export BAT_THEME="base16-256"; alias cat="bat"' \
         @sharkdp/bat
-
 
 zt 1a light-mode null for \
     lbin'!' from'gh-r' dl'https://raw.githubusercontent.com/junegunn/fzf/master/man/man1/fzf.1' lman \
