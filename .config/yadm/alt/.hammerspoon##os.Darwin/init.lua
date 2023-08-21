@@ -192,9 +192,9 @@ hs.hotkey.bind(super, hs.keycodes.map["0"], function() yabai({"-m", "space", "--
 
 
 --# modals
-local focus_display_mod = hs.hotkey.modal.new(super, hs.keycodes.map["f"])  --["v"]
+local focus_display_mod = hs.hotkey.modal.new(super, hs.keycodes.map["v"])  --["v"]
 local insert_window_modal = hs.hotkey.modal.new(super, hs.keycodes.map["tab"])
-local move_display_modal = hs.hotkey.modal.new(super, hs.keycodes.map["v"])  --["b"]
+local move_display_modal = hs.hotkey.modal.new(super, hs.keycodes.map["b"])  --["b"]
 local resize_window_modal = hs.hotkey.modal.new()
 
 --# focus display
