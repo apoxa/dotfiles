@@ -141,7 +141,7 @@ zt 0c light-mode binary for \
 #
 zt 1a light-mode for \
         hlissner/zsh-autopair \
-        ptavares/zsh-direnv \
+        redxtech/zsh-asdf-direnv \
         TwoPizza9621536/zsh-plenv \
     atload'abbrev-alias -g G="| grep"; abbrev-alias -g L="| less"' \
         momo-lab/zsh-abbrev-alias \
