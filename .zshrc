@@ -260,6 +260,11 @@ function secpass() {
     (( $+commands[pwgen] )) || return 1
     pwgen --capitalize --symbols --numerals --remove-chars="ZzYy\"§%\&/\(\)=?\`´+*#-_\[\]\|\{\}^~<>;@:'" --secure --ambiguous ${LENGTH} ${COUNT}
 }
+function email() {
+    local globalsalt="$(op --account my item get "mailbox.org" --format json | jq -r '.fields[] | select(.label=="blame") | .value')"
+    local domain='mail.unpatched.de'
+    echo ${1%%.*}-$(echo -n ${1}+${globalsalt} | md5sum | cut -c1-8)@${domain}
+}
 # }}}
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
