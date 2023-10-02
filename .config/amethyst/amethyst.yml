@@ -1,7 +1,6 @@
 ---
 
 layouts:
-  - bsp
   - tall
   - fullscreen
   - wide
