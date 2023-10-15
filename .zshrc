@@ -191,6 +191,11 @@ zinit ice depth=1; zinit light romkatv/powerlevel10k
 MYPROMPT=3
 
 # }}}
+#
+function () {
+    local OP_SSH_SOCK="${HOME}/.1password/agent.sock"
+    [[ -n $OP_SSH_SOCK(#qN@^-@) ]] && export SSH_AUTH_SOCK="${OP_SSH_SOCK}"
+}
 
 # ALIASES {{{
 # ------------------------------
