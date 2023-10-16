@@ -1,0 +1,27 @@
+zmodule archive
+zmodule asdf
+# Use bash completions as fallback if no zsh completion is found
+zmodule 3v1n0/zsh-bash-completions-fallback --cmd 'ZSH_BASH_COMPLETIONS_FALLBACK_PATH=/usr/local/share/bash-completion; ZSH_BASH_COMPLETIONS_FALLBACK_REPLACE_LIST=(wg-quick)'
+# Collection of zsh completions
+zmodule zsh-users/zsh-completions
+zmodule sorin-ionescu/prezto --root modules/completion
+zmodule ohmyzsh/ohmyzsh --root plugins/kubectl
+zmodule apoxa/kubernetes-helpers
+zmodule ael-code/zsh-colored-man-pages
+zmodule knu/zsh-manydots-magic
+zmodule romkatv/powerlevel10k --use degit
+zmodule zsh-users/zsh-autosuggestions
+zmodule zdharma-continuum/fast-syntax-highlighting
+zmodule zdharma-continuum/history-search-multi-word
+zmodule trapd00r/LS_COLORS
+zmodule chrissicool/zsh-256color
+zmodule laggardkernel/git-ignore --cmd 'alias gi="git-ignore"'
+zmodule hlissner/zsh-autopair
+zmodule TwoPizza9621536/zsh-plenv
+zmodule MichaelAquilina/zsh-you-should-use --cmd 'export YSU_IGNORED_GLOBAL_ALIASES=("G" "L"); export YSU_MESSAGE_POSITION="after"'
+zmodule gnachman/iTerm2-shell-integration --source shell_integration/zsh --if '[[ -n "$ITERM_PROFILE" ]]'
+zmodule Thearas/zsh-watch --cmd '(( $+commands[viddy] )) && export ZSH_WATCH=viddy ZSH_WATCH_FLAGS="-t -d -n1 --pty"'
+zmodule jreese/zsh-titles --if "(( ! $+EMACS )) && [[ $TERM != 'dumb' ]] && (( ! $+VIM_TERMINAL ))"
+zmodule fdellwing/zsh-bat --cmd 'export BAT_THEME="base16-256"'
+# now, configure and run compinit to initialize completions
+zmodule belak/zsh-utils --root completion

@@ -5,20 +5,19 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# Load The Prompt System And Completion System And Initilize Them.
-autoload -Uz compinit promptinit
-
-# Load And Initialize The Completion System Ignoring Insecure Directories With A
-# Cache Time Of 20 Hours, So It Should Almost Always Regenerate The First Time A
-# Shell Is Opened Each Day.
-# See: https://gist.github.com/ctechols/ca1035271ad134841284
-_comp_files=(${ZDOTDIR:-$HOME}/.zcompdump(Nm-20))
-if (( $#_comp_files )); then
-    compinit -i -C
-else
-    compinit -i
+zstyle ':zim:zmodule' use 'degit'
+ZIM_HOME=~/.zim
+# Download zimfw plugin manager if missing.
+if [[ ! -e ${ZIM_HOME}/zimfw.zsh ]]; then
+  curl -fsSL --create-dirs -o ${ZIM_HOME}/zimfw.zsh \
+      https://github.com/zimfw/zimfw/releases/latest/download/zimfw.zsh
 fi
-unset _comp_files
+# Install missing modules, and update ${ZIM_HOME}/init.zsh if missing or outdated.
+if [[ ! ${ZIM_HOME}/init.zsh -nt ${ZDOTDIR:-${HOME}}/.zimrc ]]; then
+  source ${ZIM_HOME}/zimfw.zsh init -q
+fi
+# Initialize modules.
+source ${ZIM_HOME}/init.zsh
 
 typeset -g HISTSIZE=290000 SAVEHIST=290000 HISTFILE=~/.zhistory
 
@@ -46,149 +45,6 @@ unsetopt BG_NICE            # Don't run all background jobs at a lower priority.
 unsetopt HUP                # Don't kill jobs on shell exit.
 unsetopt MAIL_WARNING       # Don't print a warning message if a mail file has been accessed.
 unsetopt SHARE_HISTORY
-
-# Provide A Simple Prompt Till The Theme Loads
-PS1="READY >"
-
-
-# PLUGINS {{{
-
-### Added by Zinit's installer
-export ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
-if [[ ! -f "${ZINIT_HOME}/zinit.zsh" ]]; then
-    print -P "%F{33} %F{220}Installing %F{33}ZDHARMA-CONTINUUM%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
-    command mkdir -p "$(dirname ${ZINIT_HOME})" && command chmod g-rwX "$(dirname ${ZINIT_HOME})"
-    command git clone https://github.com/zdharma-continuum/zinit "${ZINIT_HOME}" && \
-        print -P "%F{33} %F{34}Installation successful.%f%b" || \
-        print -P "%F{160} The clone has failed.%f%b"
-fi
-
-source "${ZINIT_HOME}/zinit.zsh"
-autoload -Uz _zinit
-(( ${+_comps} )) && _comps[zinit]=_zinit
-
-# Load a few important annexes, without Turbo
-# (this is currently required for annexes)
-zinit light-mode for \
-    zdharma-continuum/zinit-annex-{'as-monitor','bin-gem-node','patch-dl','rust','meta-plugins'}
-
-### End of Zinit's installer chunk
-
-# Functions to make configuration less verbose
-# zt() : First argument is a wait time and suffix, ie "0a". Anything that doesn't match will be passed as if it were an ice mod. Default ices depth'3' and lucid
-zt(){ zinit depth'3' lucid ${1/#[0-9][a-c]/wait"${1}"} "${@:2}"; }
-
-#
-# annexes
-zt light-mode for \
-    NICHOLAS85/z-a-{'linkman','linkbin'}
-
-######################
-# Trigger-load block #
-######################
-
-
-zt light-mode for \
-    trigger-load'!man' \
-        ael-code/zsh-colored-man-pages
-
-##################
-# Wait'0a' block #
-##################
-zt 0a light-mode for \
-    PZTM::completion/init.zsh \
-    as'completion' atpull'zinit cclear' pick'/dev/null' blockf \
-        @zsh-users+fast \
-        yzdann/kctl \
-    atinit'ZSH_BASH_COMPLETIONS_FALLBACK_PATH=/usr/local/share/bash-completion; ZSH_BASH_COMPLETIONS_FALLBACK_REPLACE_LIST=(wg-quick)'  \
-        3v1n0/zsh-bash-completions-fallback \
-        apoxa/kubernetes-helpers
-
-##################
-# Wait'0b' block #
-##################
-
-zt 0b light-mode for \
-    autoload'#manydots-magic' \
-        knu/zsh-manydots-magic \
-    compile'h*' \
-        zdharma-continuum/history-search-multi-word \
-    atinit'zicdreplay' atclone'(){local f;cd -q →*;for f (*~*.zwc){zcompile -Uz -- ${f}};}' \
-    compile'.*fast*~*.zwc' nocompletions atpull'%atclone' \
-        zdharma-continuum/fast-syntax-highlighting
-
-##################
-# Wait'0c' block #
-##################
-
-# On OSX, you might need to install coreutils from homebrew and use the
-# g-prefix – gsed, gdircolors
-zt 0c light-mode for \
-    atclone"local P=${${(M)OSTYPE:#*darwin*}:+g}
-        \${P}dircolors -b LS_COLORS > c.zsh" \
-    atpull'%atclone' pick"c.zsh" nocompile'!' \
-    atload'zstyle ":completion:*:default" list-colors "${(s.:.)LS_COLORS}";' \
-        trapd00r/LS_COLORS \
-        chrissicool/zsh-256color
-
-zt 0c light-mode binary for \
-    lbin'!' atload'alias gi="git-ignore"' \
-        laggardkernel/git-ignore
-
-##################
-# Wait'1a' block #
-##################
-#
-zt 1a light-mode for \
-        hlissner/zsh-autopair \
-        redxtech/zsh-asdf-direnv \
-        TwoPizza9621536/zsh-plenv \
-    atload'abbrev-alias -g G="| grep"; abbrev-alias -g L="| less"' \
-        momo-lab/zsh-abbrev-alias \
-    atload'export YSU_IGNORED_GLOBAL_ALIASES=("G" "L"); export YSU_MESSAGE_POSITION="after"' \
-        MichaelAquilina/zsh-you-should-use \
-    if'[[ -n "$ITERM_PROFILE" ]]' pick'shell_integration/zsh' sbin"utilities/*" \
-        gnachman/iTerm2-shell-integration \
-    atload'(( $+commands[viddy] )) && export ZSH_WATCH=viddy ZSH_WATCH_FLAGS="-t -d -n1 --pty"' \
-        Thearas/zsh-watch
-
-
-# zsh-titles causes dittography in Emacs shell and Vim terminal
-zt 1a light-mode if"(( ! $+EMACS )) && [[ $TERM != 'dumb' ]] && (( ! $+VIM_TERMINAL ))" for \
-    jreese/zsh-titles \
-    fdellwing/zsh-bat
-
-zt 1a light-mode binary from'gh-r' lman lbin'!' for \
-    @sharkdp/fd \
-    atload='export BAT_THEME="base16-256"; alias cat="bat"' \
-        @sharkdp/bat
-
-zt 1a light-mode null for \
-    lbin'!' from'gh-r' dl'https://raw.githubusercontent.com/junegunn/fzf/master/man/man1/fzf.1' lman \
-        junegunn/fzf \
-    id-as'Cleanup' nocd atinit'unset -f zt' \
-        zdharma-continuum/null
-
-# Theme no. 1 – geometry
-zinit lucid load'![[ $MYPROMPT = 1 ]]' unload'![[ $MYPROMPT != 1 ]]' \
- atload'!geometry_hostname() {echo ${SSH_TTY:+"%F{9}%n%f%F{7}@%f%F{3}%m%f "}}
-        GEOMETRY_STATUS_COLOR="$(geometry::hostcolor)"
-        geometry::prompt' \
- atinit'GEOMETRY_PROMPT=(geometry_echo geometry_status geometry_hostname geometry_path)
-        GEOMETRY_RPROMPT=(geometry_jobs geometry_exec_time geometry_kube geometry_git geometry_echo)' \
- ver'main' \
- nocd for \
-    geometry-zsh/geometry
-
-# Theme no. 2 – pure
-zinit lucid load'![[ $MYPROMPT = 2 ]]' unload'![[ $MYPROMPT != 2 ]]' \
- pick"/dev/null" multisrc"{async,pure}.zsh" atload'!prompt_pure_precmd' nocd for \
-    sindresorhus/pure
-
-zinit ice depth=1; zinit light romkatv/powerlevel10k
-
-# set prompt
-MYPROMPT=3
 
 # }}}
 #
