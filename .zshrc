@@ -263,7 +263,7 @@ function secpass() {
     local LENGTH=${1-16}
     local COUNT=${2-1}
     (( $+commands[pwgen] )) || return 1
-    pwgen --capitalize --symbols --numerals --remove-chars="ZzYy\"§%\&/\(\)=?\`´+*#-_\[\]\|\{\}^~<>;@:'" --secure --ambiguous ${LENGTH} ${COUNT}
+    pwgen --capitalize --symbols --numerals --remove-chars="ZzYy\"§/\(\)=?\`´+*#-_\[\]\|\{\}^~<>;@:'" --secure --ambiguous ${LENGTH} ${COUNT}
 }
 function email() {
     local globalsalt="$(op --account my item get "mailbox.org" --format json | jq -r '.fields[] | select(.label=="blame") | .value')"
