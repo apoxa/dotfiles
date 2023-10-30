@@ -57,7 +57,7 @@ end
 chromeBrowser = appID('/Applications/Google Chrome.app')
 edgeBrowser = appID('/Applications/Microsoft Edge.app')
 firefoxBrowser = appID('/Applications/Firefox.app')
-teamsApp = appID('/Applications/Microsoft Teams.app')
+teamsApp = appID('/Applications/Microsoft Teams classic.app')
 
 DefaultBrowser = chromeBrowser
 
