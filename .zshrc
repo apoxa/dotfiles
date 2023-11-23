@@ -270,6 +270,12 @@ function email() {
     local domain='mail.unpatched.de'
     echo ${1%%.*}-$(echo -n ${1}+${globalsalt} | md5sum | cut -c1-8)@${domain}
 }
+function fastrm() {
+    (( $+commands[rsync] )) || { echo "rsync is not installed, exiting..."; return 1 }
+    local emptydir="$(mktemp -d)"
+    rsync -a --delete "${emptydir}/" "${1}/"
+
+}
 # }}}
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
