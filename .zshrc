@@ -101,8 +101,7 @@ zt 0a light-mode for \
         @zsh-users+fast \
         yzdann/kctl \
     atinit'ZSH_BASH_COMPLETIONS_FALLBACK_PATH=/usr/local/share/bash-completion; ZSH_BASH_COMPLETIONS_FALLBACK_REPLACE_LIST=(wg-quick)'  \
-        3v1n0/zsh-bash-completions-fallback \
-        apoxa/kubernetes-helpers
+        3v1n0/zsh-bash-completions-fallback
 
 ##################
 # Wait'0b' block #
