@@ -140,10 +140,7 @@ zt 0c light-mode binary for \
 #
 zt 1a light-mode for \
         hlissner/zsh-autopair \
-    atload'export ZSH_ASDF_DIRENV_LIBONLY=true' \
-        redxtech/zsh-asdf-direnv \
-        TwoPizza9621536/zsh-plenv \
-    wintermi/zsh-mise \
+        wintermi/zsh-mise \
     atload'abbrev-alias -g G="| grep"; abbrev-alias -g L="| less"' \
         momo-lab/zsh-abbrev-alias \
     atload'export YSU_IGNORED_GLOBAL_ALIASES=("G" "L"); export YSU_MESSAGE_POSITION="after"' \
@@ -259,6 +256,7 @@ fi
 (( $+commands[anyenv] )) && eval "$(anyenv init -)"
 (( $+commands[stern] )) && alias capilogs='stern -n capi-extension-system,capi-kubeadm-bootstrap-system,capi-kubeadm-control-plane-system,capi-system,capvcd-system . '
 (( $+commands[op] )) && eval "$(op completion zsh)" && compdef _op op
+(( $+commands[mise] )) && eval "$(mise activate zsh)"
 
 function secpass() {
     local LENGTH=${1-16}
