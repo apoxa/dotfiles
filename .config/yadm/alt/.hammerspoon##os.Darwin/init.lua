@@ -59,7 +59,7 @@ edgeBrowser = appID('/Applications/Microsoft Edge.app')
 firefoxBrowser = appID('/Applications/Firefox.app')
 teamsApp = appID('/Applications/Microsoft Teams classic.app')
 
-DefaultBrowser = chromeBrowser
+DefaultBrowser = firefoxBrowser
 
 Install:andUse("URLDispatcher",
     {
