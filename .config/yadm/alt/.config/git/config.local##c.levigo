@@ -1,7 +1,0 @@
-[user]
-	email = b.stier@levigo.de
-
-[credential]
-	helper = store
-
-# vim: ft=gitconfig
