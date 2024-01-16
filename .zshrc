@@ -143,6 +143,7 @@ zt 1a light-mode for \
     atload'export ZSH_ASDF_DIRENV_LIBONLY=true' \
         redxtech/zsh-asdf-direnv \
         TwoPizza9621536/zsh-plenv \
+    wintermi/zsh-mise \
     atload'abbrev-alias -g G="| grep"; abbrev-alias -g L="| less"' \
         momo-lab/zsh-abbrev-alias \
     atload'export YSU_IGNORED_GLOBAL_ALIASES=("G" "L"); export YSU_MESSAGE_POSITION="after"' \
