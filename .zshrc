@@ -253,10 +253,10 @@ fi
 (( $+commands[ip] )) && alias ip='ip -c'
 (( $+commands[hub] )) && eval "$(hub alias -s)"
 (( $+commands[thefuck] )) && eval "$(thefuck --alias)"
-(( $+commands[anyenv] )) && eval "$(anyenv init -)"
 (( $+commands[stern] )) && alias capilogs='stern -n capi-extension-system,capi-kubeadm-bootstrap-system,capi-kubeadm-control-plane-system,capi-system,capvcd-system . '
 (( $+commands[op] )) && eval "$(op completion zsh)" && compdef _op op
 (( $+commands[mise] )) && eval "$(mise activate zsh)"
+(( $+commands[ngrok] )) && eval "$(ngrok completion)"
 
 function secpass() {
     local LENGTH=${1-16}
