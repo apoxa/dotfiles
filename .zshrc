@@ -272,8 +272,8 @@ function email() {
 function fastrm() {
     (( $+commands[rsync] )) || { echo "rsync is not installed, exiting..."; return 1 }
     local emptydir="$(mktemp -d)"
-    rsync -a --delete "${emptydir}/" "${1}/"
-
+    rsync -va --delete "${emptydir}/" "${1}/"
+    rmdir "${1}"
 }
 # }}}
 
