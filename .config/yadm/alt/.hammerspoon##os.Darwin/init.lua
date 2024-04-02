@@ -36,16 +36,10 @@ Install.repos["apoSpoons"] = {
   branch = 'main'
 }
 
-Install:andUse('MacroPad',
-    {
-        repo = "apoSpoons",
-        hotkeys = {
-            raiseHand = {hyper, "F11"},
-            toggleMute = {hyper, "F12"},
-        },
-        start = true,
-    }
-)
+hs.loadSpoon("GlobalMute")
+spoon.GlobalMute:bindHotkeys({
+    toggle = {hyper, "F12"}
+})
 
 function appID(app)
     infoBundle = hs.application.infoForBundlePath(app)
