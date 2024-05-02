@@ -99,6 +99,7 @@ zt 0a light-mode for \
     PZTM::completion/init.zsh \
     as'completion' atinit='export ZSH_AUTOSUGGEST_MANUAL_REBIND=1 ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20' atpull'zinit cclear' pick'/dev/null' blockf \
         @zsh-users+fast \
+    atinit='if (( $+commands[kubecolor] )); then alias kubectl="kubecolor"; fi' \
         yzdann/kctl \
     atinit'ZSH_BASH_COMPLETIONS_FALLBACK_PATH=/usr/local/share/bash-completion; ZSH_BASH_COMPLETIONS_FALLBACK_REPLACE_LIST=(wg-quick)'  \
         3v1n0/zsh-bash-completions-fallback
