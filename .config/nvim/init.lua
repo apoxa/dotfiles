@@ -566,12 +566,19 @@ require('lazy').setup({
       end,
       formatters_by_ft = {
         lua = { 'stylua' },
+        terraform = { { 'tofu_fmt', 'terraform_fmt' } },
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
         --
         -- You can use a sub-list to tell conform to run *until* a formatter
         -- is found.
         -- javascript = { { "prettierd", "prettier" } },
+      },
+      formatters = {
+        tofu_fmt = {
+          command = 'tofu fmt',
+          args = { 'fmt', '-no-color', '-' },
+        },
       },
     },
   },
