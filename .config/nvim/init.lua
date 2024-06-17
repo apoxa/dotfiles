@@ -583,6 +583,7 @@ require('lazy').setup({
       formatters_by_ft = {
         lua = { 'stylua' },
         terraform = { { 'tofu_fmt', 'terraform_fmt' } },
+        markdown = { 'prettier', 'cbfmt' },
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
         --
@@ -776,11 +777,11 @@ require('lazy').setup({
       vim.g.barbar_auto_setup = false
     end,
     opts = {
-      -- lazy.nvim will automatically call setup for you. put your options here, anything missing will use the default:
-      -- animation = true,
-      -- insert_at_start = true,
-      -- …etc.
+      animation = false,
       auto_hide = true,
+    },
+    keys = {
+      { '<C-p>', '<Cmd>BufferPick<CR>', mode = '' },
     },
     version = '^1.0.0', -- optional: only update when a new 1.x version is released
   },
@@ -822,6 +823,24 @@ require('lazy').setup({
     ft = { 'markdown' },
     build = function()
       vim.fn['mkdp#util#install']()
+    end,
+  },
+
+  { -- Remember position in files
+    'vladdoster/remember.nvim',
+    config = function(_, _)
+      require 'remember'
+    end,
+  },
+
+  {
+    'rmagatti/auto-session',
+    config = function()
+      require('auto-session').setup {
+        log_level = 'error',
+        auto_session_suppress_dirs = { '~/', '~/Projects', '~/Downloads', '/' },
+      }
+      vim.o.sessionoptions = 'blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions'
     end,
   },
 
