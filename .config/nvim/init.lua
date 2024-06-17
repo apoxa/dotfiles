@@ -768,22 +768,14 @@ require('lazy').setup({
     end,
   },
   {
-    'romgrk/barbar.nvim',
-    dependencies = {
-      'lewis6991/gitsigns.nvim', -- OPTIONAL: for git status
-      'nvim-tree/nvim-web-devicons', -- OPTIONAL: for file icons
-    },
-    init = function()
-      vim.g.barbar_auto_setup = false
+    'crispgm/nvim-tabline',
+    dependencies = { 'nvim-tree/nvim-web-devicons' }, -- optional
+    config = function()
+      require('tabline').setup {
+        show_icon = true,
+      }
+      vim.opt.showtabline = 2 -- Always show tabline
     end,
-    opts = {
-      animation = false,
-      auto_hide = true,
-    },
-    keys = {
-      { '<C-p>', '<Cmd>BufferPick<CR>', mode = '' },
-    },
-    version = '^1.0.0', -- optional: only update when a new 1.x version is released
   },
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
