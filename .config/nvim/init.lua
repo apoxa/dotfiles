@@ -584,6 +584,7 @@ require('lazy').setup({
         lua = { 'stylua' },
         terraform = { { 'tofu_fmt', 'terraform_fmt' } },
         markdown = { 'prettier', 'cbfmt' },
+        sh = { 'shellcheck', 'shellharden', 'shfmt' },
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
         --
@@ -747,6 +748,7 @@ require('lazy').setup({
       -- - sd'   - [S]urround [D]elete [']quotes
       -- - sr)'  - [S]urround [R]eplace [)] [']
       require('mini.surround').setup()
+      require('mini.tabline').setup()
 
       -- Simple and easy statusline.
       --  You could remove this setup call if you don't like it,
@@ -765,16 +767,6 @@ require('lazy').setup({
 
       -- ... and there is more!
       --  Check out: https://github.com/echasnovski/mini.nvim
-    end,
-  },
-  {
-    'crispgm/nvim-tabline',
-    dependencies = { 'nvim-tree/nvim-web-devicons' }, -- optional
-    config = function()
-      require('tabline').setup {
-        show_icon = true,
-      }
-      vim.opt.showtabline = 2 -- Always show tabline
     end,
   },
   { -- Highlight, edit, and navigate code
@@ -835,7 +827,6 @@ require('lazy').setup({
       vim.o.sessionoptions = 'blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions'
     end,
   },
-
   -- The following two comments only work if you have downloaded the kickstart repo, not just copy pasted the
   -- init.lua. If you want these files, they are in the repository, so you can just download them and
   -- place them in the correct locations.
