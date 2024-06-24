@@ -259,6 +259,7 @@ fi
 (( $+commands[mise] )) && eval "$(mise activate zsh)"
 (( $+commands[ngrok] )) && eval "$(ngrok completion)"
 (( $+commands[nvim] )) && alias vi='nvim' && alias vim='nvim'
+(( $+commands[openstack] )) && alias os='openstack'
 
 function secpass() {
     local LENGTH=${1-16}
