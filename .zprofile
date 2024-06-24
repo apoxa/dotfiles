@@ -40,6 +40,7 @@ local _domainname=${HOST[(ws<.>)2,-1]}
 path=(
   $HOME/.local/share/mise/shims
   $HOME/.local/bin
+  $HOME/.cargo/bin
   $HOME/go/bin
   $HOME/lbin/ALL
   $HOME/lbin/${_hostname}
