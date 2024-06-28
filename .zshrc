@@ -47,10 +47,6 @@ unsetopt HUP                # Don't kill jobs on shell exit.
 unsetopt MAIL_WARNING       # Don't print a warning message if a mail file has been accessed.
 unsetopt SHARE_HISTORY
 
-# Provide A Simple Prompt Till The Theme Loads
-PS1="READY >"
-
-
 # PLUGINS {{{
 
 ### Added by Zinit's installer
@@ -83,15 +79,6 @@ zt(){ zinit depth'3' lucid ${1/#[0-9][a-c]/wait"${1}"} "${@:2}"; }
 zt light-mode for \
     NICHOLAS85/z-a-{'linkman','linkbin'}
 
-######################
-# Trigger-load block #
-######################
-
-
-zt light-mode for \
-    trigger-load'!man' \
-        ael-code/zsh-colored-man-pages
-
 ##################
 # Wait'0a' block #
 ##################
@@ -109,8 +96,6 @@ zt 0a light-mode for \
 zt 0b light-mode for \
     atload'(( $+commands[kubecolor] )) && alias kubectl="kubecolor" && compdef kubecolor=kubectl' \
         yzdann/kctl \
-    autoload'#manydots-magic' \
-        knu/zsh-manydots-magic \
     compile'h*' \
         zdharma-continuum/history-search-multi-word \
     atinit'zicdreplay' atclone'(){local f;cd -q →*;for f (*~*.zwc){zcompile -Uz -- ${f}};}' \
@@ -142,15 +127,10 @@ zt 0c light-mode binary for \
 zt 1a light-mode for \
         hlissner/zsh-autopair \
         wintermi/zsh-mise \
-    atload'abbrev-alias -g G="| grep"; abbrev-alias -g L="| less"' \
-        momo-lab/zsh-abbrev-alias \
     atload'export YSU_IGNORED_GLOBAL_ALIASES=("G" "L"); export YSU_MESSAGE_POSITION="after"' \
         MichaelAquilina/zsh-you-should-use \
-    if'[[ -n "$ITERM_PROFILE" ]]' pick'shell_integration/zsh' sbin"utilities/*" \
-        gnachman/iTerm2-shell-integration \
     atload'(( $+commands[viddy] )) && export ZSH_WATCH=viddy ZSH_WATCH_FLAGS="-t -d -n1 --pty"' \
         Thearas/zsh-watch
-
 
 # zsh-titles causes dittography in Emacs shell and Vim terminal
 zt 1a light-mode if"(( ! $+EMACS )) && [[ $TERM != 'dumb' ]] && (( ! $+VIM_TERMINAL ))" for \
@@ -168,29 +148,11 @@ zt 1a light-mode null for \
     id-as'Cleanup' nocd atinit'unset -f zt' \
         zdharma-continuum/null
 
-# Theme no. 1 – geometry
-zinit lucid load'![[ $MYPROMPT = 1 ]]' unload'![[ $MYPROMPT != 1 ]]' \
- atload'!geometry_hostname() {echo ${SSH_TTY:+"%F{9}%n%f%F{7}@%f%F{3}%m%f "}}
-        GEOMETRY_STATUS_COLOR="$(geometry::hostcolor)"
-        geometry::prompt' \
- atinit'GEOMETRY_PROMPT=(geometry_echo geometry_status geometry_hostname geometry_path)
-        GEOMETRY_RPROMPT=(geometry_jobs geometry_exec_time geometry_kube geometry_git geometry_echo)' \
- ver'main' \
- nocd for \
-    geometry-zsh/geometry
-
-# Theme no. 2 – pure
-zinit lucid load'![[ $MYPROMPT = 2 ]]' unload'![[ $MYPROMPT != 2 ]]' \
- pick"/dev/null" multisrc"{async,pure}.zsh" atload'!prompt_pure_precmd' nocd for \
-    sindresorhus/pure
-
-zinit ice depth=1; zinit light romkatv/powerlevel10k
-
-# set prompt
-MYPROMPT=3
+zinit ice depth'1'; zinit light romkatv/powerlevel10k
 
 # }}}
 #
+# Set SSH_AUTH_SOCK to 1password agent, if it exists (may be a symlink)
 function () {
     local OP_SSH_SOCK="${HOME}/.1password/agent.sock"
     [[ -n $OP_SSH_SOCK(#qN@^-@) ]] && export SSH_AUTH_SOCK="${OP_SSH_SOCK}"
@@ -210,7 +172,6 @@ else
     alias ls="${aliases[ls]:-ls} -G"
 fi
 
-alias l='ls -1A'    # Lists in one column, hidden files
 alias ll='ls -lh'   # Lists human readable sizes
 alias la='ll -A'    # Lists human readable sizes, hidden files.
 alias sl='ls'       # Catch typos.
@@ -228,7 +189,6 @@ alias _='sudo'
 alias mkdir="${aliases[mkdir]:-mkdir} -p"
 if [[ "$OSTYPE" == darwin* ]]; then
     alias o='open'
-    (( $+commands[weechat] )) && alias weechat="OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES weechat"
 else
     alias o='xdg-open'
     if (( $+commands[xclip] )); then
@@ -253,7 +213,6 @@ fi
 
 (( $+commands[ip] )) && alias ip='ip -c'
 (( $+commands[hub] )) && eval "$(hub alias -s)"
-(( $+commands[thefuck] )) && eval "$(thefuck --alias)"
 (( $+commands[stern] )) && alias capilogs='stern -n capi-extension-system,capi-kubeadm-bootstrap-system,capi-kubeadm-control-plane-system,capi-system,capvcd-system . '
 (( $+commands[op] )) && eval "$(op completion zsh)" && compdef _op op
 (( $+commands[mise] )) && eval "$(mise activate zsh)"
@@ -267,11 +226,7 @@ function secpass() {
     (( $+commands[pwgen] )) || return 1
     pwgen --capitalize --symbols --numerals --remove-chars="ZzYy\"§/\(\)=?\`´+*#-_\[\]\|\{\}^~<>;@:'" --secure --ambiguous ${LENGTH} ${COUNT}
 }
-function email() {
-    local globalsalt="$(op --account my item get "mailbox.org" --format json | jq -r '.fields[] | select(.label=="blame") | .value')"
-    local domain='mail.unpatched.de'
-    echo ${1%%.*}-$(echo -n ${1}+${globalsalt} | md5sum | cut -c1-8)@${domain}
-}
+
 function fastrm() {
     (( $+commands[rsync] )) || { echo "rsync is not installed, exiting..."; return 1 }
     local emptydir="$(mktemp -d)"
