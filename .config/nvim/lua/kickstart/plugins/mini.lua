@@ -17,6 +17,15 @@ return {
       -- - sr)'  - [S]urround [R]eplace [)] [']
       require('mini.surround').setup()
 
+      -- Work with trailing whitespace
+      require('mini.trailspace').setup()
+
+      -- Comment lines with 'gc', 'gcc' and in visual mode
+      require('mini.comment').setup()
+
+      -- Minimal and fast autopairs
+      require('mini.pairs').setup()
+
       -- Simple and easy statusline.
       --  You could remove this setup call if you don't like it,
       --  and try some other statusline plugin
