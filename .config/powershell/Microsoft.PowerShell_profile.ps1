@@ -1,13 +1,6 @@
 Set-PSReadlineOption -EditMode vi
 Set-PSReadLineKeyHandler -Chord ctrl+w -Function BackwardDeleteWord
 
-# fzf
-Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+t' -PSReadlineChordReverseHistory 'Ctrl+r'
-Set-PSReadLineKeyHandler -Key Tab -ScriptBlock { Invoke-FzfTabCompletion }
-Set-PsFzfOption -TabExpansion
-#Update-PSReadline.ps1
-# https://en.wikipedia.org/wiki/ANSI_escape_code
-
 if ($IsCoreCLR) {
     $esc = "`e"
 }
