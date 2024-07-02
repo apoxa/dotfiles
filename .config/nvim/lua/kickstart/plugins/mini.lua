@@ -26,6 +26,9 @@ return {
       -- Minimal and fast autopairs
       require('mini.pairs').setup()
 
+      -- Split and join arguments
+      require('mini.splitjoin').setup()
+
       -- Simple and easy statusline.
       --  You could remove this setup call if you don't like it,
       --  and try some other statusline plugin
