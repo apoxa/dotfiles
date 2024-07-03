@@ -126,6 +126,7 @@ zt 0c light-mode binary for \
 #
 zt 1a light-mode for \
         hlissner/zsh-autopair \
+    if"(( $+commands[mise] ))" \
         wintermi/zsh-mise \
     atload'export YSU_IGNORED_GLOBAL_ALIASES=("G" "L"); export YSU_MESSAGE_POSITION="after"' \
         MichaelAquilina/zsh-you-should-use \
