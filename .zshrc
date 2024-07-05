@@ -87,7 +87,8 @@ zt 0a light-mode for \
     as'completion' atinit='export ZSH_AUTOSUGGEST_MANUAL_REBIND=1 ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20' atpull'zinit cclear' pick'/dev/null' blockf \
         @zsh-users+fast \
     atinit'ZSH_BASH_COMPLETIONS_FALLBACK_PATH=/usr/local/share/bash-completion; ZSH_BASH_COMPLETIONS_FALLBACK_REPLACE_LIST=(wg-quick)'  \
-        3v1n0/zsh-bash-completions-fallback
+        3v1n0/zsh-bash-completions-fallback \
+    as'completion' is-snippet https://github.com/go-task/task/blob/main/completion/zsh/_task
 
 ##################
 # Wait'0b' block #
