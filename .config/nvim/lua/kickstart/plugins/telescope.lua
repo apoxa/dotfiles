@@ -60,6 +60,7 @@ return {
           file_ignore_patterns = {
             '.(git|hg|svn)/',
             '.(sass-cache|pip_download_cache|wheel_cache)/',
+            '.venv/',
           },
         },
         pickers = {

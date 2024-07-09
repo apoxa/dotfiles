@@ -49,6 +49,6 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 })
 
 vim.keymap.set('n', '<leader>n', '<cmd>set nu!<CR>', { desc = 'toggle line number' })
-vim.keymap.set('n', '<leader>rn', '<cmd>set rnu!<CR>', { desc = 'toggle relative number' })
+vim.keymap.set('n', '<leader>nr', '<cmd>set rnu!<CR>', { desc = 'toggle relative number' })
 
 -- vim: ts=2 sts=2 sw=2 et
