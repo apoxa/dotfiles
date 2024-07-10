@@ -84,8 +84,11 @@ zt light-mode for \
 ##################
 zt 0a light-mode for \
     PZTM::completion/init.zsh \
-    as'completion' atinit='export ZSH_AUTOSUGGEST_MANUAL_REBIND=1 ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20' atpull'zinit cclear' pick'/dev/null' blockf \
-        @zsh-users+fast \
+    atload'_zsh_autosuggest_start;' zsh-users/zsh-autosuggestions \
+    atinit'ZINIT[COMPINIT_OPTS]=-C; zpcompinit; zpcdreplay;' atload'export ZSH_AUTOSUGGEST_MANUAL_REBIND=1; export ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20; export ZSH_AUTOSUGGEST_HISTORY_IGNORE="cd *"; bindkey "^y" autosuggest-accept' \
+        zsh-users/zsh-autosuggestions \
+    atinit'ZINIT[COMPINIT_OPTS]=-C; zpcompinit; zpcdreplay;' \
+        zdharma-continuum/fast-syntax-highlighting \
     atinit'ZSH_BASH_COMPLETIONS_FALLBACK_PATH=/usr/local/share/bash-completion; ZSH_BASH_COMPLETIONS_FALLBACK_REPLACE_LIST=(wg-quick)'  \
         3v1n0/zsh-bash-completions-fallback \
     as'completion' is-snippet https://github.com/go-task/task/blob/main/completion/zsh/_task
@@ -129,7 +132,7 @@ zt 1a light-mode for \
         hlissner/zsh-autopair \
     if"(( $+commands[mise] ))" \
         wintermi/zsh-mise \
-    atload'export YSU_IGNORED_GLOBAL_ALIASES=("G" "L"); export YSU_MESSAGE_POSITION="after"' \
+    atload'export YSU_MESSAGE_POSITION="after"' \
         MichaelAquilina/zsh-you-should-use \
     atload'(( $+commands[viddy] )) && export ZSH_WATCH=viddy ZSH_WATCH_FLAGS="-t -d -n1 --pty"' \
         Thearas/zsh-watch
