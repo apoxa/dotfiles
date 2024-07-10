@@ -23,9 +23,6 @@ return {
       -- Comment lines with 'gc', 'gcc' and in visual mode
       require('mini.comment').setup()
 
-      -- Minimal and fast autopairs
-      require('mini.pairs').setup()
-
       -- Split and join arguments
       require('mini.splitjoin').setup()
 
