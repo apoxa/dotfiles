@@ -208,6 +208,9 @@ fi
 alias pbc='pbcopy'
 alias pbp='pbpaste'
 
+# Make aliases work in xargs
+alias xargs='xargs '
+
 if [[ "$OSTYPE" == (darwin*|*bsd*) ]]; then
   alias topc='top -o cpu'
   alias topm='top -o vsize'
