@@ -226,7 +226,7 @@ fi
 (( $+commands[op] )) && eval "$(op completion zsh)" && compdef _op op
 (( $+commands[mise] )) && eval "$(mise activate zsh)"
 (( $+commands[ngrok] )) && eval "$(ngrok completion)"
-(( $+commands[nvim] )) && alias vi='nvim' && alias vim='nvim'
+(( $+commands[nvim] )) && alias vi='nvim' && alias vim='nvim' && alias vimdiff='nvim -d'
 (( $+commands[openstack] )) && alias os='openstack'
 
 function secpass() {
