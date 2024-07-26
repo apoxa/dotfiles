@@ -2,31 +2,29 @@ require("hs.ipc")
 
 --# constants
 -- ⌘ ⌃ ⌥ ⇧
-super = "⌃⌘"
-shift_super = "⇧⌃⌘"
-empty_table = {}
-windowCornerRadius = 10
+local super = "⌃⌘"
+local shift_super = "⇧⌃⌘"
+local hyper = "⌃⌥⌘"
+local shift_hyper = "⇧⌃⌥⌘"
 --# bindings
-
---# reload config
-hs.hotkey.bind(super, hs.keycodes.map["return"], nil, function()
-	hs.reload()
-end)
 
 hs.loadSpoon("SpoonInstall")
 Install = spoon.SpoonInstall
 
-local hyper = { "ctrl", "alt", "cmd" }
-local shift_hyper = { "shift", "ctrl", "alt", "cmd" }
 hs.window.animationDuration = 0.0
 hs.application.enableSpotlightForNameSearches(false)
 
-hs.hotkey.bind({ "ctrl", "cmd" }, "q", function()
+hs.hotkey.bind(super, "q", function()
 	hs.caffeinate.startScreensaver()
 end)
 
-hs.hotkey.bind({ "ctrl", "cmd" }, "t", function()
+hs.hotkey.bind(super, "t", function()
 	term = hs.application.find("iTerm2") or hs.application.open("iTerm")
+	term:selectMenuItem("New Window")
+end)
+
+hs.hotkey.bind(super, "return", function()
+	term = hs.application.find(DefaultBrowser) or hs.application.open(DefaultBrowser)
 	term:selectMenuItem("New Window")
 end)
 
