@@ -1,5 +1,6 @@
 Set-PSReadlineOption -EditMode vi
 Set-PSReadLineKeyHandler -Chord ctrl+w -Function BackwardDeleteWord
+Set-PSReadLineKeyHandler -Chord ctrl+y -Function AcceptSuggestion
 
 if ($IsCoreCLR) {
     $esc = "`e"
