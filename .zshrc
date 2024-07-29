@@ -139,7 +139,8 @@ zt 1a light-mode for \
 
 # zsh-titles causes dittography in Emacs shell and Vim terminal
 zt 1a light-mode if"(( ! $+EMACS )) && [[ $TERM != 'dumb' ]] && (( ! $+VIM_TERMINAL ))" for \
-    jreese/zsh-titles \
+    atload'export ZSH_TAB_TITLE_ENABLE_FULL_COMMAND=true ZSH_TAB_TITLE_CONCAT_FOLDER_PROCESS=true ZSH_TAB_TITLE_DEFAULT_DISABLE_PREFIX=true' \
+        trystan2k/zsh-tab-title \
     fdellwing/zsh-bat
 
 zt 1a light-mode binary from'gh-r' lman lbin'!' for \
