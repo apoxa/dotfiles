@@ -26,7 +26,7 @@ return {
       end,
       formatters_by_ft = {
         lua = { 'stylua' },
-        terraform = { { 'tofu_fmt', 'terraform_fmt' } },
+        terraform = { 'tofu_fmt', 'terraform_fmt', stop_after_first = true },
         markdown = { 'prettier', 'cbfmt' },
         sh = { 'shellcheck', 'shellharden', 'shfmt' },
       },
