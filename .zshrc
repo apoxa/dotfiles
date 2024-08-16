@@ -130,8 +130,6 @@ zt 0c light-mode binary for \
 #
 zt 1a light-mode for \
         hlissner/zsh-autopair \
-    if"(( $+commands[mise] ))" \
-        wintermi/zsh-mise \
     atload'export YSU_MESSAGE_POSITION="after"' \
         MichaelAquilina/zsh-you-should-use \
     atload'(( $+commands[viddy] )) && export ZSH_WATCH=viddy ZSH_WATCH_FLAGS="-t -d -n1 --pty"' \
@@ -224,7 +222,6 @@ fi
 (( $+commands[hub] )) && eval "$(hub alias -s)"
 (( $+commands[stern] )) && alias capilogs='stern -n capi-extension-system,capi-kubeadm-bootstrap-system,capi-kubeadm-control-plane-system,capi-system,capvcd-system . '
 (( $+commands[op] )) && eval "$(op completion zsh)" && compdef _op op
-(( $+commands[mise] )) && eval "$(mise activate zsh)"
 (( $+commands[ngrok] )) && eval "$(ngrok completion)"
 (( $+commands[nvim] )) && alias vi='nvim' && alias vim='nvim' && alias vimdiff='nvim -d'
 (( $+commands[openstack] )) && alias os='openstack'
