@@ -200,6 +200,7 @@ return {
         'lua-language-server',
         'stylua', -- Used to format Lua code
         'prettier',
+        'ruff',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
