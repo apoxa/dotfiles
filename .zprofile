@@ -38,6 +38,7 @@ local _domainname=${HOST[(ws<.>)2,-1]}
 
 # Set the list of directories that Zsh searches for programs.
 path=(
+  $HOME/.local/share/mise/shims
   $HOME/.local/bin
   $HOME/.cargo/bin
   $HOME/go/bin
