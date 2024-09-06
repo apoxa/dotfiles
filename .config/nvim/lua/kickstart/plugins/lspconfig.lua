@@ -199,8 +199,9 @@ return {
       vim.list_extend(ensure_installed, {
         'lua-language-server',
         'stylua', -- Used to format Lua code
-        'prettier',
         'ruff',
+        'ansible-language-server',
+        'bash-language-server',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 

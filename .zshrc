@@ -47,6 +47,9 @@ unsetopt HUP                # Don't kill jobs on shell exit.
 unsetopt MAIL_WARNING       # Don't print a warning message if a mail file has been accessed.
 unsetopt SHARE_HISTORY
 
+# disable the r builtin command. It's the same as `fc -e -` and conflicts with the R interpreter
+disable r
+
 # PLUGINS {{{
 
 ### Added by Zinit's installer
