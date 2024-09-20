@@ -111,8 +111,9 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-eunuch'
 
 " Fancy statusline
-Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
-let g:airline_theme='base16_solarized'
+Plug 'vim-airline/vim-airline' | Plug 'catppuccin/vim', { 'as': 'catppuccin' }
+set termguicolors
+let g:airline_theme='catppuccin_mocha'
 let g:airline_powerline_fonts=1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#tab_nr_type = 2
@@ -129,8 +130,6 @@ function! AirlineInit()
         \ ])
 endfunction
 autocmd VimEnter * call AirlineInit()
-
-Plug 'edkolev/tmuxline.vim'
 
 " A secure alternative to Vim modelines
 Plug 'ciaranm/securemodelines'
