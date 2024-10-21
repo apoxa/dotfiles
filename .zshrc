@@ -101,7 +101,7 @@ zt 0a light-mode for \
 ##################
 
 zt 0b light-mode for \
-    atload'(( $+commands[kubecolor] )) && alias kubectl="kubecolor" && compdef kubecolor=kubectl' \
+    atload'(( $+commands[kubectl] && $+commands[kubecolor] )) && alias kubectl="kubecolor" && compdef kubecolor=kubectl' \
         yzdann/kctl \
     compile'h*' \
         zdharma-continuum/history-search-multi-word \
