@@ -28,22 +28,6 @@ hs.hotkey.bind(super, "return", function()
 	term:selectMenuItem("New Window")
 end)
 
-hs.hotkey.bind(shift_hyper, "n", function()
-	hs.eventtap.keyStroke({}, 71)
-end)
-
--- Register my custom repository
-Install.repos["apoSpoons"] = {
-	desc = "apoxa's repository",
-	url = "https://github.com/apoxa/apoSpoons",
-	branch = "main",
-}
-
-hs.loadSpoon("GlobalMute")
-spoon.GlobalMute:bindHotkeys({
-	toggle = { hyper, "F12" },
-})
-
 function appID(app)
 	infoBundle = hs.application.infoForBundlePath(app)
 	if infoBundle ~= nil then
@@ -76,43 +60,3 @@ Install:andUse("URLDispatcher", {
 	-- Enable debug logging if you get unexpected behavior
 	-- loglevel = 'debug'
 })
-
--- global config
-config = {
-	networks = {
-		["wlan@somewhere"] = "levigo",
-		["DWMC3"] = "DWMC3",
-	},
-}
-
--- requires
-watchables = require("utils.watchables")
-controlplane = require("utils.controlplane")
-
--- controlplane
-controlplane.enabled = { "autonl" }
-
--- start/stop modules
-local modules = { controlplane, watchables }
-
-hs.fnutils.each(modules, function(module)
-	if module then
-		module.start()
-	end
-end)
-
--- stop modules on shutdown
-hs.shutdownCallback = function()
-	hs.fnutils.each(modules, function(module)
-		if module then
-			module.stop()
-		end
-	end)
-end
-
--- axbrowse
--- b = hs.axuielement.systemElementAtPosition(hs.mouse.absolutePosition())
--- hs.inspect(b:attributeNames())
--- hs.inspect(b:actionNames())
--- hs.inspect(b:parameterizedAttributeNames())
--- b:attributeValue("AXRoleDescription")
