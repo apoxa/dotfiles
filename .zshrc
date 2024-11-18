@@ -191,7 +191,6 @@ alias grep="${aliases[grep]:-grep} --color=auto"
 alias find='noglob find'
 alias history='noglob history'
 (( $+commands[rsync] )) && alias rsync='noglob rsync'
-alias scp='noglob scp'
 
 # General aliases
 alias _='sudo'
