@@ -101,6 +101,8 @@ zt 0a light-mode for \
 ##################
 
 zt 0b light-mode for \
+    atload'ZVM_INSERT_MODE_CURSOR=$ZVM_CURSOR_BLOCK' \
+        jeffreytse/zsh-vi-mode \
     atload'(( $+commands[kubectl] && $+commands[kubecolor] )) && alias kubectl="kubecolor" && compdef kubecolor=kubectl' \
         yzdann/kctl \
     compile'h*' \
