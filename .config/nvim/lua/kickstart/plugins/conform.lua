@@ -32,7 +32,7 @@ return {
       },
       formatters = {
         tofu_fmt = {
-          command = 'tofu fmt',
+          command = 'tofu',
           args = { 'fmt', '-no-color', '-' },
         },
       },
