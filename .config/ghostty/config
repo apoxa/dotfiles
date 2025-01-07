@@ -8,5 +8,6 @@ cursor-style = block
 cursor-style-blink = false
 confirm-close-surface = false
 clipboard-paste-protection = false
-macos-titlebar-style = tabs
 macos-titlebar-proxy-icon = hidden
+background-opacity = 0.8
+background-blur-radius = 20
