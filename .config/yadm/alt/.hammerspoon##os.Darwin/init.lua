@@ -28,6 +28,13 @@ hs.hotkey.bind(super, "return", function()
 	term:selectMenuItem("New Window")
 end)
 
+hs.hotkey.bind(super, "o", function()
+	local officeApps = { "Mattermost", "Element", "Microsoft Teams", "Microsoft Outlook" }
+	for _, name in ipairs(officeApps) do
+		_ = hs.application.find(name) or hs.application.open(name)
+	end
+end)
+
 function appID(app)
 	infoBundle = hs.application.infoForBundlePath(app)
 	if infoBundle ~= nil then
