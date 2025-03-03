@@ -29,7 +29,7 @@ hs.hotkey.bind(super, "return", function()
 end)
 
 hs.hotkey.bind(super, "o", function()
-	local officeApps = { "Mattermost", "Element", "Microsoft Teams", "Microsoft Outlook" }
+	local officeApps = { "Mattermost", "Element", "Microsoft Teams", "Microsoft Outlook", "Rocket.Chat" }
 	for _, name in ipairs(officeApps) do
 		_ = hs.application.find(name) or hs.application.open(name)
 	end
