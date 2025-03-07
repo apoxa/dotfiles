@@ -19,7 +19,7 @@ hs.hotkey.bind(super, "q", function()
 end)
 
 hs.hotkey.bind(super, "t", function()
-	term = hs.application.find("Ghostty") or hs.application.open("Ghostty")
+	term = hs.application.find("iTerm2") or hs.application.open("iTerm")
 	term:selectMenuItem("New Window")
 end)
 
