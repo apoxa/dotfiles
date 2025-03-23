@@ -2,25 +2,25 @@
 
 # Because Git submodule commands cannot operate without a work tree, they must
 # be run from within $HOME (assuming this is the root of your dotfiles)
-cd "$HOME"
+cd "$HOME" || exit
 
 # Guess path to yadm
-for P in yadm $HOME/.local/bin/yadm; do
-    if command -v $P >/dev/null 2>&1; then
+for P in yadm "$HOME"/.local/bin/yadm; do
+    if command -v "$P" >/dev/null 2>&1; then
         YADM="$P"
         break
     fi
 done
 
-if test -n "${YADM}"; then
+if test "$YADM" != ""; then
     echo "Init submodules"
-    $YADM submodule update --recursive --init
+    "$YADM" submodule update --recursive --init
 fi
 
 # Bootstrap vim with plugins
 if command -v vim >/dev/null 2>&1; then
-  echo "Bootstraping Vim"
-  vim '+PlugUpdate' '+PlugClean!' '+qall'
+    echo "Bootstraping Vim"
+    vim '+PlugUpdate' '+PlugClean!' '+qall'
 fi
 
 # Bootstrap zsh plugins
