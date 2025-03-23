@@ -1,0 +1,32 @@
+auto-reload yes
+reload-time 120
+reload-threads 4
+
+scrolloff 5
+
+show-read-feeds no
+show-read-articles no
+confirm-mark-feed-read no
+goto-next-feed no
+
+article-sort-order date-desc
+
+bind-key j down feedlist
+bind-key k up feedlist
+bind-key j next articlelist
+bind-key k prev articlelist
+bind-key J next-feed articlelist
+bind-key K prev-feed articlelist
+bind-key j down article
+bind-key k up article
+bind-key O mark-all-above-as-read
+unbind-key o
+bind-key o open-in-browser-and-mark-read
+
+urls-source "miniflux"
+miniflux-url "https://rss.unpatched.de"
+miniflux-login "apoca"
+miniflux-passwordeval "OP_ACCOUNT=my op item get miniflux --fields password --reveal"
+miniflux-min-items 0
+
+include light
