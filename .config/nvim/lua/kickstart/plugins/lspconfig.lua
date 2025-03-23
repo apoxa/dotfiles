@@ -202,6 +202,16 @@ return {
         'ruff',
         'ansible-language-server',
         'bash-language-server',
+        'gopls',
+        'golines',
+        'marksman',
+        'powershell-editor-services',
+        'terraform-ls',
+        'texlab',
+        'latexindent',
+        'prettier',
+        'vale',
+        'cbfmt', -- format codeblocks in markdown
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
