@@ -42,9 +42,6 @@ path=(
   $HOME/.local/bin
   $HOME/.cargo/bin
   $HOME/go/bin
-  $HOME/lbin/ALL
-  $HOME/lbin/${_hostname}
-  $HOME/lbin/${_domainname}
   /usr/local/{bin,sbin}
   /usr/local/opt/python/libexec/bin  # brewed python
   $path
