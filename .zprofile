@@ -43,6 +43,7 @@ path=(
   $HOME/.cargo/bin
   $HOME/go/bin
   /usr/local/{bin,sbin}
+  /opt/homebrew/{bin,sbin}
   /usr/local/opt/python/libexec/bin  # brewed python
   $path
 )
