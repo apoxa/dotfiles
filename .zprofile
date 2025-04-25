@@ -67,6 +67,14 @@ infopath=(
 )
 infopath=($^infopath(N))
 
+
+#
+# Homebrew
+#
+if (( $+commands[brew] )); then
+  eval "$(brew shellenv)"
+fi
+
 # Ensure path arrays do not contain duplicates.
 typeset -gU cdpath fpath mailpath path infopath manpath
 
