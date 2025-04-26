@@ -105,8 +105,10 @@ zt 0b light-mode for \
         jeffreytse/zsh-vi-mode \
     atload'(( $+commands[kubectl] && $+commands[kubecolor] )) && alias kubectl="kubecolor" && compdef kubecolor=kubectl' \
         yzdann/kctl \
-    compile'h*' \
+    if"(( ! $+commands[atuin] ))" compile'h*' \
         zdharma-continuum/history-search-multi-word \
+    has"atuin" \
+        atuinsh/atuin \
     atinit'zicdreplay' atclone'(){local f;cd -q →*;for f (*~*.zwc){zcompile -Uz -- ${f}};}' \
     compile'.*fast*~*.zwc' nocompletions atpull'%atclone' \
         zdharma-continuum/fast-syntax-highlighting
