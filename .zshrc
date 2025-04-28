@@ -107,8 +107,6 @@ zt 0b light-mode for \
         yzdann/kctl \
     if"(( ! $+commands[atuin] ))" compile'h*' \
         zdharma-continuum/history-search-multi-word \
-    has"atuin" \
-        atuinsh/atuin \
     atinit'zicdreplay' atclone'(){local f;cd -q →*;for f (*~*.zwc){zcompile -Uz -- ${f}};}' \
     compile'.*fast*~*.zwc' nocompletions atpull'%atclone' \
         zdharma-continuum/fast-syntax-highlighting
@@ -158,6 +156,9 @@ zt 1a light-mode binary from'gh-r' lman lbin'!' for \
 zt 1a light-mode null for \
     lbin'!' from'gh-r' dl'https://raw.githubusercontent.com/junegunn/fzf/master/man/man1/fzf.1' lman \
         junegunn/fzf \
+    id-as'atuin' has"atuin" \
+        atload'source <(atuin init zsh --disable-up-arrow)' \
+        zdharma-continuum/null \
     id-as'Cleanup' nocd atinit'unset -f zt' \
         zdharma-continuum/null
 
