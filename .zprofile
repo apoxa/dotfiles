@@ -95,6 +95,11 @@ fi
 
 OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 
+# Golang environment variables
+export GOROOT=$(brew --prefix go)/libexec
+export GOPATH=$HOME/go
+export PATH=$GOPATH/bin:$GOROOT/bin:$HOME/.local/bin:$PATH
+
 # use local profile if exists
 test -f $HOME/.zprofile.local && . $HOME/.zprofile.local
 
