@@ -42,6 +42,7 @@ path=(
   $HOME/.local/bin
   $HOME/.cargo/bin
   $HOME/go/bin
+  /opt/homebrew/opt/net-snmp/{bin,sbin}
   /usr/local/{bin,sbin}
   /opt/homebrew/{bin,sbin}
   /usr/local/opt/python/libexec/bin  # brewed python
