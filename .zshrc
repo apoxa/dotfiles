@@ -92,7 +92,7 @@ zt 0a light-mode for \
         zsh-users/zsh-autosuggestions \
     atinit'ZINIT[COMPINIT_OPTS]=-C; zpcompinit; zpcdreplay;' \
         zdharma-continuum/fast-syntax-highlighting \
-    atinit'ZSH_BASH_COMPLETIONS_FALLBACK_PATH=/usr/local/share/bash-completion; ZSH_BASH_COMPLETIONS_FALLBACK_REPLACE_LIST=(wg-quick)'  \
+    atinit'ZSH_BASH_COMPLETIONS_FALLBACK_PATH=/opt/homebrew/etc/bash_completion.d; ZSH_BASH_COMPLETIONS_FALLBACK_REPLACE_LIST=(wg-quick)'  \
         3v1n0/zsh-bash-completions-fallback \
     as'completion' is-snippet https://github.com/go-task/task/blob/main/completion/zsh/_task
 
