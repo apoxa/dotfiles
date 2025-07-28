@@ -13,10 +13,19 @@
     fixup = "!git log -n 50 --pretty=format:'%h %s' --no-merges | fzf | cut -c -7 | xargs -o git commit --fixup"
 [branch]
     autosetuprebase = always
+    sort = -committerdate
+[color]
+    ui = auto
+    interactive = auto
+[column]
+    ui = auto
 [core]
     whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
+    pager = diff-so-fancy | less --tabs=4 -RF
+    compression = 9
 [diff]
     submodule = log
+    algorithm = histogram
 [filter "media"]
     clean = git-media-clean %f
     smudge = git-media-smudge %f
@@ -26,44 +35,31 @@
     clean = git-lfs clean -- %f
     smudge = git-lfs smudge -- %f
 [help]
-    autocorrect = 1
+    autocorrect = prompt
+[init]
+    defaultBranch = main
+[interactive]
+    diffFilter = diff-so-fancy --patch
 [log]
     decorate = short
-[merge]
-    tool = fugitive
-[mergetool]
-    prompt = false
-[mergetool "fugitive"]
-    cmd = vim -f -c \"set dip=vertical\" -c \"Gdiff\" \"$MERGED\"
-    trustExitCode = false
+[maintenance]
+    auto = true
+    strategy = incremental
 [pull]
     rebase = true
 [push]
     default = simple
+    autoSetupRemote = true
 [rebase]
     autosquash = true
+[rerere]
+    enabled = true
+    autoUpdate = true
 [status]
+    branch = true
     submoduleSummary = true
-[color]
-    ui = auto
-    interactive = auto
-[color "branch"]
-    current = yellow reverse
-    local = yellow
-    remote = green
-[color "diff"]
-    meta = blue bold
-    frag = magenta bold
-    old = red
-    new = green
-    whitespace = red reverse
-[color "status"]
-    added = yellow
-    changed = green
-    untracked = cyan
-
-[init]
-    defaultBranch = main
+[tag]
+    sort = -version:refname
 
 [include]
     path = config.local
