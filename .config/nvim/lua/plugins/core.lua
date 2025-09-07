@@ -6,6 +6,27 @@ return {
     },
   },
 
+  -- Use tofu for terraform files
+  {
+    "stevearc/conform.nvim",
+    opts = {
+      formatters_by_ft = {
+        hcl = { "tfmt" },
+        tf = { "tfmt" },
+        terraform = { "tfmt" },
+        ["terraform-vars"] = { "tfmt" },
+      },
+      formatters = {
+        tfmt = {
+          -- Specify the command and its arguments for formatting
+          command = "tofu",
+          args = { "fmt", "-" },
+          stdin = true,
+        },
+      },
+    },
+  },
+
   -- add any tools you want to have installed below
   {
     "williamboman/mason.nvim",
@@ -28,9 +49,15 @@ return {
   },
   {
     "catppuccin/nvim",
-    opts = {
-      transparent_background = true,
-    },
+    opts = function(_, opts)
+      opts.transparent_background = true
+      -- needed until https://github.com/LazyVim/LazyVim/pull/6354 gets merged
+      local module = require("catppuccin.groups.integrations.bufferline")
+      if module then
+        module.get = module.get_theme
+      end
+      return opts
+    end,
   },
   -- set dark mode from system
   -- https://github.com/f-person/auto-dark-mode.nvim
@@ -41,5 +68,13 @@ return {
       update_interval = 5000,
       fallback = "light",
     },
+  },
+
+  -- break bad habits, master vim motions
+  {
+    "m4xshen/hardtime.nvim",
+    lazy = false,
+    dependencies = { "MunifTanjim/nui.nvim" },
+    opts = {},
   },
 }

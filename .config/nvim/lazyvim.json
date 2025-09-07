@@ -1,8 +1,10 @@
 {
   "extras": [
+    "lazyvim.plugins.extras.formatting.prettier",
     "lazyvim.plugins.extras.lang.ansible",
-    "lazyvim.plugins.extras.lang.terraform",
-    "lazyvim.plugins.extras.lang.toml"
+    "lazyvim.plugins.extras.lang.markdown",
+    "lazyvim.plugins.extras.lang.toml",
+    "lazyvim.plugins.extras.util.mini-hipatterns"
   ],
   "install_version": 8,
   "news": {
