@@ -47,18 +47,6 @@ return {
       },
     },
   },
-  {
-    "catppuccin/nvim",
-    opts = function(_, opts)
-      opts.transparent_background = true
-      -- needed until https://github.com/LazyVim/LazyVim/pull/6354 gets merged
-      local module = require("catppuccin.groups.integrations.bufferline")
-      if module then
-        module.get = module.get_theme
-      end
-      return opts
-    end,
-  },
   -- set dark mode from system
   -- https://github.com/f-person/auto-dark-mode.nvim
 
