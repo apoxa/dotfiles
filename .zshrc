@@ -90,11 +90,11 @@ zt 0a light-mode for \
     atload'_zsh_autosuggest_start;' zsh-users/zsh-autosuggestions \
     atinit'ZINIT[COMPINIT_OPTS]=-C; zpcompinit; zpcdreplay;' atload'export ZSH_AUTOSUGGEST_MANUAL_REBIND=1; export ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20; export ZSH_AUTOSUGGEST_HISTORY_IGNORE="cd *"; bindkey "^y" autosuggest-accept' \
         zsh-users/zsh-autosuggestions \
-    atinit'ZINIT[COMPINIT_OPTS]=-C; zpcompinit; zpcdreplay;' \
-        zdharma-continuum/fast-syntax-highlighting \
     atinit'ZSH_BASH_COMPLETIONS_FALLBACK_PATH=/opt/homebrew/etc/bash_completion.d; ZSH_BASH_COMPLETIONS_FALLBACK_REPLACE_LIST=(wg-quick)'  \
         3v1n0/zsh-bash-completions-fallback \
-    as'completion' is-snippet https://github.com/go-task/task/blob/main/completion/zsh/_task
+    as'completion' is-snippet https://github.com/go-task/task/blob/main/completion/zsh/_task \
+    as"program" from"gh-r" pick"zsh-patina-*/zsh-patina" atload'eval "$(zsh-patina activate)"' \
+      michel-kraemer/zsh-patina
 
 ##################
 # Wait'0b' block #
@@ -106,10 +106,7 @@ zt 0b light-mode for \
     atload'(( $+commands[kubectl] && $+commands[kubecolor] )) && alias kubectl="kubecolor" && compdef kubecolor=kubectl' \
         yzdann/kctl \
     if"(( ! $+commands[atuin] ))" compile'h*' \
-        zdharma-continuum/history-search-multi-word \
-    atinit'zicdreplay' atclone'(){local f;cd -q →*;for f (*~*.zwc){zcompile -Uz -- ${f}};}' \
-    compile'.*fast*~*.zwc' nocompletions atpull'%atclone' \
-        zdharma-continuum/fast-syntax-highlighting
+        zdharma-continuum/history-search-multi-word
 
 ##################
 # Wait'0c' block #
