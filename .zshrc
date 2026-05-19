@@ -87,8 +87,7 @@ zt light-mode for \
 ##################
 zt 0a light-mode for \
     PZTM::completion/init.zsh \
-    atload'_zsh_autosuggest_start;' zsh-users/zsh-autosuggestions \
-    atinit'ZINIT[COMPINIT_OPTS]=-C; zpcompinit; zpcdreplay;' atload'export ZSH_AUTOSUGGEST_MANUAL_REBIND=1; export ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20; export ZSH_AUTOSUGGEST_HISTORY_IGNORE="cd *"; bindkey "^y" autosuggest-accept' \
+    atinit'ZINIT[COMPINIT_OPTS]=-C; zpcompinit; zpcdreplay;' atload'_zsh_autosuggest_start; export ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20; export ZSH_AUTOSUGGEST_HISTORY_IGNORE="cd *"; bindkey "^y" autosuggest-accept' \
         zsh-users/zsh-autosuggestions \
     atinit'ZSH_BASH_COMPLETIONS_FALLBACK_PATH=/opt/homebrew/etc/bash_completion.d; ZSH_BASH_COMPLETIONS_FALLBACK_REPLACE_LIST=(wg-quick)'  \
         3v1n0/zsh-bash-completions-fallback \
