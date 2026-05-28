@@ -26,7 +26,7 @@ bind-key o open-in-browser-and-mark-read
 urls-source "miniflux"
 miniflux-url "https://rss.unpatched.de"
 miniflux-login "apoca"
-miniflux-passwordeval "OP_ACCOUNT=my op item get miniflux --fields password --reveal"
+miniflux-passwordeval "OP_ACCOUNT=my op read 'op://Private/miniflux/password'"
 miniflux-min-items 0
 
 include light
