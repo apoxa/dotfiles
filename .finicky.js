@@ -8,8 +8,22 @@
  * @type {FinickyConfig}
  */
 
+const browsers = {
+  firefox: "org.mozilla.firefox", // or Firefox
+  firefox_work:
+    "/Users/stierbn/Library/Application Support/Firefox/Profiles/sd8mkzkp.default-release-1701947069561",
+  firefox_personal:
+    "/Users/stierbn/Library/Application Support/Firefox/Profiles/wr7kuZwn.Profile 1",
+};
+
+const apps = {
+  spotify: "com.spotify.client",
+  teams: "com.microsoft.teams2",
+  zoom: "us.zoom.xos",
+};
+
 export default {
-  defaultBrowser: "org.mozilla.firefox",
+  defaultBrowser: browsers.firefox,
   options: {
     logRequests: false,
   },
@@ -122,13 +136,13 @@ export default {
     {
       // Teams links open in Teams
       match: finicky.matchHostnames(["teams.microsoft.com"]),
-      browser: "com.microsoft.teams2",
+      browser: apps.teams,
       url: ({ url }) => ({ ...url, protocol: "msteams" }),
     },
     {
       // Zoom links open in Zoom app
       match: /zoom\.us\/join/,
-      browser: "us.zoom.xos",
+      browser: apps.zoom,
     },
     {
       // Links FROM Outlook always open in work browser
@@ -138,18 +152,12 @@ export default {
         // Firefox needs a workaround for profile loading because it's not included in Finicky
         name: "/Applications/Firefox.app",
         appType: "path",
-        args: [
-          "-n",
-          "--args",
-          "--profile",
-          "/Users/stierbn/Library/Application Support/Firefox/Profiles/sd8mkzkp.default-release-1701947069561",
-          url.href,
-        ],
+        args: ["-n", "--args", "--profile", browsers.firefox_work, url.href],
       }),
     },
     {
       match: finicky.matchHostnames("open.spotify.com"),
-      browser: "Spotify",
+      browser: apps.spotify,
     },
   ],
 };
