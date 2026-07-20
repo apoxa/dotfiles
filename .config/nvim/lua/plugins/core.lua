@@ -66,4 +66,13 @@ return {
     dependencies = { "MunifTanjim/nui.nvim" },
     opts = {},
   },
+
+  -- quarkdown integration
+  {
+    "donny-son/quarkdown.nvim",
+    ft = "quarkdown",
+    config = function()
+      require("quarkdown").setup({})
+    end,
+  },
 }
