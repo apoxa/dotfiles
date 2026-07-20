@@ -50,115 +50,53 @@ unsetopt SHARE_HISTORY
 # disable the r builtin command. It's the same as `fc -e -` and conflicts with the R interpreter
 disable r
 
-# PLUGINS {{{
+# PLUGINS via Sheldon {{{
 
-### Added by Zinit's installer
-export ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
-if [[ ! -f "${ZINIT_HOME}/zinit.zsh" ]]; then
-    print -P "%F{33} %F{220}Installing %F{33}ZDHARMA-CONTINUUM%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
-    command mkdir -p "$(dirname ${ZINIT_HOME})" && command chmod g-rwX "$(dirname ${ZINIT_HOME})"
-    command git clone https://github.com/zdharma-continuum/zinit "${ZINIT_HOME}" && \
-        print -P "%F{33} %F{34}Installation successful.%f%b" || \
-        print -P "%F{160} The clone has failed.%f%b"
+# Sheldon manages the zsh plugins (deferred via zsh-defer). Binaries such as fd,
+# bat, fzf, atuin and the powerlevel10k theme are installed separately and only
+# initialized below when present.
+if (( $+commands[sheldon] )); then
+    eval "$(sheldon source)"
+else
+    print -P "%F{160}sheldon missing%f — run 'brew install sheldon' and 'sheldon lock'"
 fi
 
-source "${ZINIT_HOME}/zinit.zsh"
-autoload -Uz _zinit
-(( ${+_comps} )) && _comps[zinit]=_zinit
+# Plugin configuration (formerly zinit atinit/atload) — as plain exports/guards.
+export ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
+export ZSH_AUTOSUGGEST_HISTORY_IGNORE="cd *"
+ZSH_BASH_COMPLETIONS_FALLBACK_PATH=/opt/homebrew/etc/bash_completion.d
+ZSH_BASH_COMPLETIONS_FALLBACK_REPLACE_LIST=(wg-quick)
+ZVM_INIT_MODE=sourcing
+export YSU_MESSAGE_POSITION="after"
+(( $+commands[viddy] )) && export ZSH_WATCH=viddy ZSH_WATCH_FLAGS="-t -d -n1 --pty"
 
-# Load a few important annexes, without Turbo
-# (this is currently required for annexes)
-zinit light-mode for \
-    zdharma-continuum/zinit-annex-{'as-monitor','bin-gem-node','patch-dl','rust','meta-plugins'}
+# tab-title causes dittography in Emacs shell and Vim terminal; skip it there.
+if (( ! $+EMACS )) && [[ $TERM != 'dumb' ]] && (( ! $+VIM_TERMINAL )); then
+    export ZSH_TAB_TITLE_ENABLE_FULL_COMMAND=true \
+           ZSH_TAB_TITLE_CONCAT_FOLDER_PROCESS=true \
+           ZSH_TAB_TITLE_DEFAULT_DISABLE_PREFIX=true
+fi
 
-### End of Zinit's installer chunk
+# Bind ^y to autosuggest-accept once the deferred plugin has loaded.
+(( $+functions[zsh-defer] )) && zsh-defer bindkey "^y" autosuggest-accept
 
-# Functions to make configuration less verbose
-# zt() : First argument is a wait time and suffix, ie "0a". Anything that doesn't match will be passed as if it were an ice mod. Default ices depth'3' and lucid
-zt(){ zinit depth'3' lucid ${1/#[0-9][a-c]/wait"${1}"} "${@:2}"; }
+# Binaries (managed outside this repo) — only initialize when present.
+if (( $+commands[bat] )); then export BAT_THEME="base16-256"; alias cat="bat"; fi
+(( $+commands[fzf] )) && source <(fzf --zsh)                 # requires fzf >= 0.48
+(( $+commands[atuin] )) && source <(atuin init zsh --disable-up-arrow)
+(( $+commands[kubectl] )) && (( $+commands[kubecolor] )) && \
+    alias kubectl="kubecolor" && compdef kubecolor=kubectl
+(( $+commands[zsh-patina] )) && eval "$(zsh-patina activate)"
+alias gi="git-ignore"
 
-#
-# annexes
-zt light-mode for \
-    NICHOLAS85/z-a-{'linkman','linkbin'}
+# Feed $LS_COLORS (exported by the LS_COLORS plugin above) into completion colors.
+[[ -n $LS_COLORS ]] && zstyle ':completion:*:default' list-colors "${(s.:.)LS_COLORS}"
 
-##################
-# Wait'0a' block #
-##################
-zt 0a light-mode for \
-    PZTM::completion/init.zsh \
-    atinit'ZINIT[COMPINIT_OPTS]=-C; zpcompinit; zpcdreplay;' atload'_zsh_autosuggest_start; export ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20; export ZSH_AUTOSUGGEST_HISTORY_IGNORE="cd *"; bindkey "^y" autosuggest-accept' \
-        zsh-users/zsh-autosuggestions \
-    atinit'ZSH_BASH_COMPLETIONS_FALLBACK_PATH=/opt/homebrew/etc/bash_completion.d; ZSH_BASH_COMPLETIONS_FALLBACK_REPLACE_LIST=(wg-quick)'  \
-        3v1n0/zsh-bash-completions-fallback \
-    as'completion' is-snippet https://github.com/go-task/task/blob/main/completion/zsh/_task \
-    as"program" from"gh-r" pick"zsh-patina-*/zsh-patina" atload'eval "$(zsh-patina activate)"' \
-      michel-kraemer/zsh-patina
-
-##################
-# Wait'0b' block #
-##################
-
-zt 0b light-mode for \
-    atinit'ZVM_INIT_MODE=sourcing' atload'ZVM_INSERT_MODE_CURSOR=$ZVM_CURSOR_BLOCK' \
-        jeffreytse/zsh-vi-mode \
-    atload'(( $+commands[kubectl] && $+commands[kubecolor] )) && alias kubectl="kubecolor" && compdef kubecolor=kubectl' \
-        yzdann/kctl \
-    if"(( ! $+commands[atuin] ))" compile'h*' \
-        zdharma-continuum/history-search-multi-word
-
-##################
-# Wait'0c' block #
-##################
-
-# On OSX, you might need to install coreutils from homebrew and use the
-# g-prefix – gsed, gdircolors
-zt 0c light-mode for \
-    atclone"local P=${${(M)OSTYPE:#*darwin*}:+g}
-        \${P}dircolors -b LS_COLORS > c.zsh" \
-    atpull'%atclone' pick"c.zsh" nocompile'!' \
-    atload'zstyle ":completion:*:default" list-colors "${(s.:.)LS_COLORS}";' \
-        trapd00r/LS_COLORS \
-        chrissicool/zsh-256color
-
-zt 0c light-mode binary for \
-    lbin'!' atload'alias gi="git-ignore"' \
-        laggardkernel/git-ignore
-
-##################
-# Wait'1a' block #
-##################
-#
-zt 1a light-mode for \
-        hlissner/zsh-autopair \
-    if"(( $+commands[mise] ))" \
-        wintermi/zsh-mise \
-    atload'export YSU_MESSAGE_POSITION="after"' \
-        MichaelAquilina/zsh-you-should-use \
-    atload'(( $+commands[viddy] )) && export ZSH_WATCH=viddy ZSH_WATCH_FLAGS="-t -d -n1 --pty"' \
-        Thearas/zsh-watch
-
-# zsh-titles causes dittography in Emacs shell and Vim terminal
-zt 1a light-mode if"(( ! $+EMACS )) && [[ $TERM != 'dumb' ]] && (( ! $+VIM_TERMINAL ))" for \
-    atload'export ZSH_TAB_TITLE_ENABLE_FULL_COMMAND=true ZSH_TAB_TITLE_CONCAT_FOLDER_PROCESS=true ZSH_TAB_TITLE_DEFAULT_DISABLE_PREFIX=true' \
-        trystan2k/zsh-tab-title \
-    fdellwing/zsh-bat
-
-zt 1a light-mode binary from'gh-r' lman lbin'!' for \
-    @sharkdp/fd \
-    atload='export BAT_THEME="base16-256"; alias cat="bat"' \
-        @sharkdp/bat
-
-zt 1a light-mode null for \
-    lbin'!' from'gh-r' dl'https://raw.githubusercontent.com/junegunn/fzf/master/man/man1/fzf.1' lman \
-        junegunn/fzf \
-    id-as'atuin' has"atuin" \
-        atload'source <(atuin init zsh --disable-up-arrow)' \
-        zdharma-continuum/null \
-    id-as'Cleanup' nocd atinit'unset -f zt' \
-        zdharma-continuum/null
-
-zinit ice depth'1'; zinit light romkatv/powerlevel10k
+# powerlevel10k theme (loaded immediately — NOT deferred, prompt needs it).
+() {
+  local p10k="$(brew --prefix 2>/dev/null)/share/powerlevel10k/powerlevel10k.zsh-theme"
+  [[ -r $p10k ]] && source "$p10k"
+}
 
 # }}}
 #

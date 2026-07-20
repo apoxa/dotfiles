@@ -24,4 +24,7 @@ if command -v vim >/dev/null 2>&1; then
 fi
 
 # Bootstrap zsh plugins
-zsh -i -c -- '@zinit-scheduler burst || true'
+if command -v sheldon >/dev/null 2>&1; then
+    echo "Locking sheldon plugins"
+    sheldon lock
+fi

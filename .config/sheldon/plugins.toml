@@ -1,0 +1,66 @@
+# Sheldon plugin manifest — https://sheldon.cli.rs
+#
+# Only pure-zsh plugins live here. Binaries (fd, bat, fzf, atuin, powerlevel10k)
+# are managed by Homebrew (see ~/Brewfile) and initialized in .zshrc.
+#
+# Deferred loading is provided by zsh-defer via the "defer" template below.
+# Regenerate the lockfile after edits:  sheldon lock
+
+shell = "zsh"
+
+[templates]
+# Source each matched file through zsh-defer so it loads after the first prompt.
+defer = "{{ hooks?.pre | nl }}{% for file in files %}zsh-defer source \"{{ file }}\"\n{% endfor %}{{ hooks?.post | nl }}"
+
+# zsh-defer itself must be sourced immediately (NOT deferred).
+[plugins.zsh-defer]
+github = "romkatv/zsh-defer"
+
+[plugins.zsh-autosuggestions]
+github = "zsh-users/zsh-autosuggestions"
+apply = ["defer"]
+
+[plugins.zsh-bash-completions-fallback]
+github = "3v1n0/zsh-bash-completions-fallback"
+apply = ["defer"]
+
+[plugins.zsh-vi-mode]
+github = "jeffreytse/zsh-vi-mode"
+apply = ["defer"]
+
+[plugins.kctl]
+github = "yzdann/kctl"
+apply = ["defer"]
+
+[plugins.zsh-autopair]
+github = "hlissner/zsh-autopair"
+apply = ["defer"]
+
+[plugins.zsh-you-should-use]
+github = "MichaelAquilina/zsh-you-should-use"
+apply = ["defer"]
+
+[plugins.zsh-watch]
+github = "Thearas/zsh-watch"
+apply = ["defer"]
+
+[plugins.zsh-tab-title]
+github = "trystan2k/zsh-tab-title"
+apply = ["defer"]
+
+[plugins.zsh-bat]
+github = "fdellwing/zsh-bat"
+apply = ["defer"]
+
+[plugins.zsh-256color]
+github = "chrissicool/zsh-256color"
+apply = ["defer"]
+
+[plugins.git-ignore]
+github = "laggardkernel/git-ignore"
+apply = ["defer"]
+
+# Sourced immediately (not deferred): lscolors.sh just sets and exports $LS_COLORS.
+# .zshrc then feeds it into the completion list-colors zstyle.
+[plugins.LS_COLORS]
+github = "trapd00r/LS_COLORS"
