@@ -1,6 +1,6 @@
 # Sheldon plugin manifest — https://sheldon.cli.rs
 #
-# Only pure-zsh plugins live here. Binaries (fd, bat, fzf, atuin, powerlevel10k)
+# Only pure-zsh plugins live here. Binaries (fd, bat, fzf, atuin, starship)
 # are managed by Homebrew (see ~/Brewfile) and initialized in .zshrc.
 #
 # Deferred loading is provided by zsh-defer via the "defer" template below.

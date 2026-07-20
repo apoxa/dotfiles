@@ -1,10 +1,3 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
 # Load The Prompt System And Completion System And Initilize Them.
 autoload -Uz compinit promptinit
 
@@ -53,7 +46,7 @@ disable r
 # PLUGINS via Sheldon {{{
 
 # Sheldon manages the zsh plugins (deferred via zsh-defer). Binaries such as fd,
-# bat, fzf, atuin and the powerlevel10k theme are installed separately and only
+# bat, fzf, atuin and starship are installed separately and only
 # initialized below when present.
 if (( $+commands[sheldon] )); then
     eval "$(sheldon source)"
@@ -92,11 +85,10 @@ alias gi="git-ignore"
 # Feed $LS_COLORS (exported by the LS_COLORS plugin above) into completion colors.
 [[ -n $LS_COLORS ]] && zstyle ':completion:*:default' list-colors "${(s.:.)LS_COLORS}"
 
-# powerlevel10k theme (loaded immediately — NOT deferred, prompt needs it).
-() {
-  local p10k="$(brew --prefix 2>/dev/null)/share/powerlevel10k/powerlevel10k.zsh-theme"
-  [[ -r $p10k ]] && source "$p10k"
-}
+# starship prompt (loaded immediately — NOT deferred, prompt needs it).
+if (( $+commands[starship] )); then
+    eval "$(starship init zsh)"
+fi
 
 # }}}
 #
@@ -185,8 +177,6 @@ function fastrm() {
 }
 # }}}
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 [[ ! -f ~/.config/op/plugins.sh ]] || source ~/.config/op/plugins.sh
 
 # Loop through all files in the ~/.config/fabric/patterns directory
