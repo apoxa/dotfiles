@@ -45,45 +45,26 @@ disable r
 
 # PLUGINS via Sheldon {{{
 
-# Sheldon manages the zsh plugins (deferred via zsh-defer). Binaries such as fd,
-# bat, fzf, atuin and starship are installed separately and only
-# initialized below when present.
+# Sheldon manages the zsh plugins (deferred via zsh-defer). Per-plugin config
+# (env vars, keybindings) lives next to each plugin as hooks in
+# ~/.config/sheldon/plugins.toml. Binaries (fd, bat, fzf, atuin, starship) are
+# installed separately and only initialized below when present.
 if (( $+commands[sheldon] )); then
     eval "$(sheldon source)"
 else
     print -P "%F{160}sheldon missing%f — run 'brew install sheldon' and 'sheldon lock'"
 fi
 
-# Plugin configuration (formerly zinit atinit/atload) — as plain exports/guards.
-export ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
-export ZSH_AUTOSUGGEST_HISTORY_IGNORE="cd *"
-ZSH_BASH_COMPLETIONS_FALLBACK_PATH=/opt/homebrew/etc/bash_completion.d
-ZSH_BASH_COMPLETIONS_FALLBACK_REPLACE_LIST=(wg-quick)
-ZVM_INIT_MODE=sourcing
-export YSU_MESSAGE_POSITION="after"
-(( $+commands[viddy] )) && export ZSH_WATCH=viddy ZSH_WATCH_FLAGS="-t -d -n1 --pty"
-
-# tab-title causes dittography in Emacs shell and Vim terminal; skip it there.
-if (( ! $+EMACS )) && [[ $TERM != 'dumb' ]] && (( ! $+VIM_TERMINAL )); then
-    export ZSH_TAB_TITLE_ENABLE_FULL_COMMAND=true \
-           ZSH_TAB_TITLE_CONCAT_FOLDER_PROCESS=true \
-           ZSH_TAB_TITLE_DEFAULT_DISABLE_PREFIX=true
-fi
-
-# Bind ^y to autosuggest-accept once the deferred plugin has loaded.
-(( $+functions[zsh-defer] )) && zsh-defer bindkey "^y" autosuggest-accept
-
 # Binaries (managed outside this repo) — only initialize when present.
+# NOTE: atuin (^R) and fzf are initialized in zsh-vi-mode's zvm_after_init hook
+# (see ~/.config/sheldon/plugins.toml) so their keybindings survive vi-mode init.
+(( $+commands[fzf] )) && eval "$(fzf --zsh)"
+(( $+commands[atuin] )) && eval "$(atuin init zsh --disable-up-arrow)"
+bindkey "^y" autosuggest-accept
 if (( $+commands[bat] )); then export BAT_THEME="base16-256"; alias cat="bat"; fi
-(( $+commands[fzf] )) && source <(fzf --zsh)                 # requires fzf >= 0.48
-(( $+commands[atuin] )) && source <(atuin init zsh --disable-up-arrow)
 (( $+commands[kubectl] )) && (( $+commands[kubecolor] )) && \
     alias kubectl="kubecolor" && compdef kubecolor=kubectl
 (( $+commands[zsh-patina] )) && eval "$(zsh-patina activate)"
-alias gi="git-ignore"
-
-# Feed $LS_COLORS (exported by the LS_COLORS plugin above) into completion colors.
-[[ -n $LS_COLORS ]] && zstyle ':completion:*:default' list-colors "${(s.:.)LS_COLORS}"
 
 # starship prompt (loaded immediately — NOT deferred, prompt needs it).
 if (( $+commands[starship] )); then
@@ -177,36 +158,4 @@ function fastrm() {
 }
 # }}}
 
-[[ ! -f ~/.config/op/plugins.sh ]] || source ~/.config/op/plugins.sh
-
-# Loop through all files in the ~/.config/fabric/patterns directory
-if [[ -d $HOME/.config/fabric/patterns ]]; then
-  FABRIC_ALIAS_PREFIX=f_
-  for pattern_file in $HOME/.config/fabric/patterns/*; do
-      # Get the base name of the file (i.e., remove the directory path)
-      pattern_name="${pattern_file##*/}"
-      alias_name="${FABRIC_ALIAS_PREFIX:-}${pattern_name}"
-
-      # Create an alias in the form: alias pattern_name="fabric --pattern pattern_name"
-      alias_command="alias $alias_name='fabric-ai --pattern $pattern_name'"
-
-      # Evaluate the alias command to add it to the current shell
-      eval "$alias_command"
-  done
-
-  yt() {
-      if [ "$#" -eq 0 ] || [ "$#" -gt 2 ]; then
-          echo "Usage: yt [-t | --timestamps] youtube-link"
-          echo "Use the '-t' flag to get the transcript with timestamps."
-          return 1
-      fi
-
-      transcript_flag="--transcript"
-      if [ "$1" = "-t" ] || [ "$1" = "--timestamps" ]; then
-          transcript_flag="--transcript-with-timestamps"
-          shift
-      fi
-      local video_link="$1"
-      fabric -y "$video_link" $transcript_flag
-  }
-fi
+[[ -f ~/.config/op/plugins.sh ]] && source ~/.config/op/plugins.sh

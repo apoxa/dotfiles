@@ -1,32 +1,52 @@
 # Sheldon plugin manifest — https://sheldon.cli.rs
 #
-# Only pure-zsh plugins live here. Binaries (fd, bat, fzf, atuin, starship)
-# are managed by Homebrew (see ~/Brewfile) and initialized in .zshrc.
-#
-# Deferred loading is provided by zsh-defer via the "defer" template below.
+# Per-plugin configuration lives next to the plugin via hooks:
+#   hooks.pre  -> emitted immediately, BEFORE the (deferred) source runs.
+#   hooks.post -> wrapped in `zsh-defer eval '...'`, runs AFTER the plugin loads
+#                 (single quotes keep $vars unexpanded until then).
 # Regenerate the lockfile after edits:  sheldon lock
 
 shell = "zsh"
 
 [templates]
-# Source each matched file through zsh-defer so it loads after the first prompt.
-defer = "{{ hooks?.pre | nl }}{% for file in files %}zsh-defer source \"{{ file }}\"\n{% endfor %}{{ hooks?.post | nl }}"
+defer = "{{ hooks?.pre | nl }}{% for file in files %}zsh-defer source \"{{ file }}\"\n{% endfor %}{% if hooks?.post %}zsh-defer eval '{{ hooks?.post }}'\n{% endif %}"
+# Source immediately, then run hooks.post inline (for plugins that must not defer).
+source_post = "{% for file in files %}source \"{{ file }}\"\n{% endfor %}{{ hooks?.post | nl }}"
 
 # zsh-defer itself must be sourced immediately (NOT deferred).
 [plugins.zsh-defer]
 github = "romkatv/zsh-defer"
 
+# NOTE: the ^y (autosuggest-accept) binding is set in .zshrc's zvm_after_init,
+# because zsh-vi-mode resets keybindings on init and would clobber it here.
 [plugins.zsh-autosuggestions]
 github = "zsh-users/zsh-autosuggestions"
 apply = ["defer"]
+hooks.pre = 'export ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20; export ZSH_AUTOSUGGEST_HISTORY_IGNORE="cd *"'
 
 [plugins.zsh-bash-completions-fallback]
 github = "3v1n0/zsh-bash-completions-fallback"
 apply = ["defer"]
+hooks.pre = 'ZSH_BASH_COMPLETIONS_FALLBACK_PATH=/opt/homebrew/etc/bash_completion.d; ZSH_BASH_COMPLETIONS_FALLBACK_REPLACE_LIST=(wg-quick)'
 
+# zsh-vi-mode resets all keybindings on init, so anything that binds keys must run
+# in its zvm_after_init hook (populated before the deferred init via hooks.pre),
+# otherwise atuin (^R), fzf and autosuggest-accept (^y) get clobbered.
+# NOTE: guard with `command -v` (fresh PATH lookup), NOT `(( $+commands[x] ))` — the
+# commands hash is not yet populated in zvm's after_init context and returns 0 there.
+# NOTE: use `eval "$(...)"`, NOT `source <(...)`: process substitution fails there too.
 [plugins.zsh-vi-mode]
 github = "jeffreytse/zsh-vi-mode"
 apply = ["defer"]
+hooks.pre = """
+ZVM_INIT_MODE=sourcing
+zvm_after_init_commands+=(
+  'command -v fzf >/dev/null 2>&1 && eval "$(fzf --zsh)"'
+  'command -v atuin >/dev/null 2>&1 && eval "$(atuin init zsh --disable-up-arrow)"'
+  'bindkey "^y" autosuggest-accept'
+)
+"""
+hooks.post = 'ZVM_INSERT_MODE_CURSOR=$ZVM_CURSOR_BLOCK'
 
 [plugins.kctl]
 github = "yzdann/kctl"
@@ -39,14 +59,19 @@ apply = ["defer"]
 [plugins.zsh-you-should-use]
 github = "MichaelAquilina/zsh-you-should-use"
 apply = ["defer"]
+hooks.pre = 'export YSU_MESSAGE_POSITION="after"'
 
 [plugins.zsh-watch]
 github = "Thearas/zsh-watch"
 apply = ["defer"]
+hooks.pre = '(( $+commands[viddy] )) && export ZSH_WATCH=viddy ZSH_WATCH_FLAGS="-t -d -n1 --pty"'
 
+# NOTE: sheldon cannot skip a plugin conditionally, so tab-title always loads; 
+# the env is only gated to non-Emacs/dumb/Vim terminals.
 [plugins.zsh-tab-title]
 github = "trystan2k/zsh-tab-title"
 apply = ["defer"]
+hooks.pre = '(( ! $+EMACS )) && [[ $TERM != "dumb" ]] && (( ! $+VIM_TERMINAL )) && export ZSH_TAB_TITLE_ENABLE_FULL_COMMAND=true ZSH_TAB_TITLE_CONCAT_FOLDER_PROCESS=true ZSH_TAB_TITLE_DEFAULT_DISABLE_PREFIX=true'
 
 [plugins.zsh-bat]
 github = "fdellwing/zsh-bat"
@@ -59,8 +84,11 @@ apply = ["defer"]
 [plugins.git-ignore]
 github = "laggardkernel/git-ignore"
 apply = ["defer"]
+hooks.post = 'alias gi="git-ignore"'
 
-# Sourced immediately (not deferred): lscolors.sh just sets and exports $LS_COLORS.
-# .zshrc then feeds it into the completion list-colors zstyle.
+# Sourced immediately (lscolors.sh sets/exports $LS_COLORS), then feed it into the
+# completion list-colors zstyle right away via the inline post hook.
 [plugins.LS_COLORS]
 github = "trapd00r/LS_COLORS"
+apply = ["source_post"]
+hooks.post = '[[ -n $LS_COLORS ]] && zstyle ":completion:*:default" list-colors "${(s.:.)LS_COLORS}"'
