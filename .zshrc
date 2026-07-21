@@ -55,6 +55,9 @@ else
     print -P "%F{160}sheldon missing%f — run 'brew install sheldon' and 'sheldon lock'"
 fi
 
+(( $+commands[vivid] )) && export LS_COLORS="$(vivid generate catppuccin-latte)"
+[[ -n $LS_COLORS ]] && zstyle ":completion:*:default" list-colors "${(s.:.)LS_COLORS}"
+
 # Binaries (managed outside this repo) — only initialize when present.
 # NOTE: atuin (^R) and fzf are initialized in zsh-vi-mode's zvm_after_init hook
 # (see ~/.config/sheldon/plugins.toml) so their keybindings survive vi-mode init.
@@ -117,6 +120,7 @@ if (( $+commands[dircolors] )); then
 else
     alias ls="${aliases[ls]:-ls} -G"
 fi
+(( $+commands[gls] )) && alias ls='gls --color'
 
 alias ll='ls -lh'   # Lists human readable sizes
 alias la='ll -A'    # Lists human readable sizes, hidden files.

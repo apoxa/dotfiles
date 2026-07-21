@@ -85,10 +85,3 @@ apply = ["defer"]
 github = "laggardkernel/git-ignore"
 apply = ["defer"]
 hooks.post = 'alias gi="git-ignore"'
-
-# Sourced immediately (lscolors.sh sets/exports $LS_COLORS), then feed it into the
-# completion list-colors zstyle right away via the inline post hook.
-[plugins.LS_COLORS]
-github = "trapd00r/LS_COLORS"
-apply = ["source_post"]
-hooks.post = '[[ -n $LS_COLORS ]] && zstyle ":completion:*:default" list-colors "${(s.:.)LS_COLORS}"'
