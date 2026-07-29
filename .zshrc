@@ -61,9 +61,6 @@ fi
 # Binaries (managed outside this repo) — only initialize when present.
 # NOTE: atuin (^R) and fzf are initialized in zsh-vi-mode's zvm_after_init hook
 # (see ~/.config/sheldon/plugins.toml) so their keybindings survive vi-mode init.
-(( $+commands[fzf] )) && eval "$(fzf --zsh)"
-(( $+commands[atuin] )) && eval "$(atuin init zsh --disable-up-arrow)"
-bindkey "^y" autosuggest-accept
 if (( $+commands[bat] )); then export BAT_THEME="base16-256"; alias cat="bat"; fi
 (( $+commands[kubectl] )) && (( $+commands[kubecolor] )) && \
     alias kubectl="kubecolor" && compdef kubecolor=kubectl
@@ -94,6 +91,9 @@ if (( $+commands[starship] )); then
 
     function transient-prompt() {
         # Use saved transient prompt
+        # TRAPINT fires on Ctrl+C during a running command ZLE is not active, so
+        # bail out to avoid "widgets can only be called when ZLE is active".
+        zle || return
         PROMPT="$SAVED_PROMPT" RPROMPT="$SAVED_RPROMPT" zle .reset-prompt
     }
 

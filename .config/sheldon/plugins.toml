@@ -24,11 +24,6 @@ github = "zsh-users/zsh-autosuggestions"
 apply = ["defer"]
 hooks.pre = 'export ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20; export ZSH_AUTOSUGGEST_HISTORY_IGNORE="cd *"'
 
-[plugins.zsh-bash-completions-fallback]
-github = "3v1n0/zsh-bash-completions-fallback"
-apply = ["defer"]
-hooks.pre = 'ZSH_BASH_COMPLETIONS_FALLBACK_PATH=/opt/homebrew/etc/bash_completion.d; ZSH_BASH_COMPLETIONS_FALLBACK_REPLACE_LIST=(wg-quick)'
-
 # zsh-vi-mode resets all keybindings on init, so anything that binds keys must run
 # in its zvm_after_init hook (populated before the deferred init via hooks.pre),
 # otherwise atuin (^R), fzf and autosuggest-accept (^y) get clobbered.
@@ -85,3 +80,13 @@ apply = ["defer"]
 github = "laggardkernel/git-ignore"
 apply = ["defer"]
 hooks.post = 'alias gi="git-ignore"'
+
+[plugins.oh-my-zsh]
+github = "ohmyzsh/ohmyzsh"
+use = ["lib/completion.zsh"]
+
+# Load bash completions last, so it doesn't overwrite other completions
+[plugins.zsh-bash-completions-fallback]
+github = "3v1n0/zsh-bash-completions-fallback"
+apply = ["defer"]
+hooks.pre = 'ZSH_BASH_COMPLETIONS_FALLBACK_PATH=/opt/homebrew/etc/bash_completion.d; ZSH_BASH_COMPLETIONS_FALLBACK_REPLACE_LIST=(wg-quick)'
