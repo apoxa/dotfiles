@@ -40,6 +40,10 @@ local _domainname=${HOST[(ws<.>)2,-1]}
 path=(
   $HOME/.local/bin
   $HOME/.cargo/bin
+  # The following lines were added by Docker Desktop to add commands to your PATH.
+  $HOME/.docker/bin
+  # End of Docker Desktop section.
+
   $HOME/go/bin
   /opt/homebrew/opt/net-snmp/{bin,sbin}
   /usr/local/{bin,sbin}
