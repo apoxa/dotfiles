@@ -59,14 +59,6 @@ return {
     },
   },
 
-  -- break bad habits, master vim motions
-  {
-    "m4xshen/hardtime.nvim",
-    lazy = false,
-    dependencies = { "MunifTanjim/nui.nvim" },
-    opts = {},
-  },
-
   -- quarkdown integration
   {
     "donny-son/quarkdown.nvim",
