@@ -47,6 +47,13 @@ hooks.post = 'ZVM_INSERT_MODE_CURSOR=$ZVM_CURSOR_BLOCK'
 github = "yzdann/kctl"
 apply = ["defer"]
 
+[plugins.kubernetes-helpers]
+local = "~/scratch/kubernetes-helpers"
+apply = ["fpath", "defer"]
+# compinit runs before sheldon in .zshrc, so it never sees this plugin's _* files;
+# register them manually.
+hooks.post = 'autoload -Uz _fremctl_download _fremctl_switch; compdef _fremctl_download fremctl_download; compdef _fremctl_switch fremctl_switch'
+
 [plugins.zsh-autopair]
 github = "hlissner/zsh-autopair"
 apply = ["defer"]
@@ -58,8 +65,11 @@ hooks.pre = 'export YSU_MESSAGE_POSITION="after"'
 
 [plugins.zsh-watch]
 github = "Thearas/zsh-watch"
-apply = ["defer"]
+apply = ["fpath", "defer"]
 hooks.pre = '(( $+commands[viddy] )) && export ZSH_WATCH=viddy ZSH_WATCH_FLAGS="-t -d -n1 --pty"'
+# see kubernetes-helpers above: compinit runs before sheldon, so _watch is never
+# auto-discovered; register it manually.
+hooks.post = 'autoload -Uz _watch; compdef _watch watch'
 
 # NOTE: sheldon cannot skip a plugin conditionally, so tab-title always loads; 
 # the env is only gated to non-Emacs/dumb/Vim terminals.
@@ -79,7 +89,12 @@ apply = ["defer"]
 [plugins.git-ignore]
 github = "laggardkernel/git-ignore"
 apply = ["defer"]
-hooks.post = 'alias gi="git-ignore"'
+# _git-ignore lives in functions/, not the repo root, so the built-in `fpath`
+# template (which only adds {{ dir }} itself) doesn't cover it — add it directly.
+# compinit runs before sheldon, so it's never auto-discovered either way;
+# register it manually (see kubernetes-helpers above for the same pattern).
+hooks.pre = 'fpath+=("$HOME/.local/share/sheldon/repos/github.com/laggardkernel/git-ignore/functions")'
+hooks.post = 'alias gi="git-ignore"; autoload -Uz _git-ignore; compdef _git-ignore git-ignore; compdef _git-ignore gi'
 
 [plugins.oh-my-zsh]
 github = "ohmyzsh/ohmyzsh"

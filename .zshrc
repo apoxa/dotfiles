@@ -1,3 +1,18 @@
+# oh-my-zsh's lib/completion.zsh (loaded via sheldon) reads this for its cache-path
+# zstyle, and our own plugins (kubernetes-helpers) cache rebuilt completions here too.
+# Not set by anything else since we only load individual oh-my-zsh libs, not its full init.
+export ZSH_CACHE_DIR="${ZSH_CACHE_DIR:-$HOME/.cache/zsh}"
+mkdir -p "$ZSH_CACHE_DIR"
+
+# Cached third-party completions (kubectl/kind/kubebuilder/clusterctl via mise
+# postinstall, op/kubecm/ngrok via periodic refresh — see
+# ~/.config/zsh/comp-cache.zsh). Must be in fpath BEFORE compinit runs so a
+# full (-i) compinit pass auto-discovers and registers them with no manual
+# compdef/autoload bookkeeping.
+export ZSH_COMPLETIONS_CACHE_DIR="${ZSH_CACHE_DIR}/completions"
+mkdir -p "$ZSH_COMPLETIONS_CACHE_DIR"
+fpath=("$ZSH_COMPLETIONS_CACHE_DIR" $fpath)
+
 # Load The Prompt System And Completion System And Initilize Them.
 autoload -Uz compinit promptinit
 
@@ -166,9 +181,29 @@ fi
 (( $+commands[ip] )) && alias ip='ip -c'
 (( $+commands[hub] )) && eval "$(hub alias -s)"
 (( $+commands[stern] )) && alias capilogs='stern -n capi-extension-system,capi-kubeadm-bootstrap-system,capi-kubeadm-control-plane-system,capi-system,capvcd-system . '
-[[ -o interactive && -t 1 ]] && (( $+commands[op] )) && eval "$(op completion zsh)" && compdef _op op # only on interactive shells, this fixes a popup in claude desktop
 (( $+commands[mise] )) && eval "$(mise activate zsh)"
-(( $+commands[ngrok] )) && eval "$(ngrok completion)"
+
+# Group B: ad-hoc tools with no version manager (op, ngrok, kubecm) whose
+# `completion` output we cache via ~/.config/zsh/comp-cache.zsh instead of
+# eval-ing fresh on every shell startup. Add new tools here as needed.
+[[ -f "$HOME/.config/zsh/comp-cache.zsh" ]] && source "$HOME/.config/zsh/comp-cache.zsh"
+typeset -gA COMP_CACHE_GROUP_B=(
+    op      "op completion zsh"
+    ngrok   "ngrok completion"
+    kubecm  "kubecm completion zsh"
+)
+# `-o interactive && -t 1` guard kept from the old op-completion line: running
+# op's completion generation outside a real interactive tty triggers a Touch
+# ID/1Password popup in Claude Desktop.
+if [[ -o interactive && -t 1 ]] && (( $+functions[comp-cache-refresh] )); then
+    _cc_stamp="$ZSH_CACHE_DIR/.completions-last-refresh"
+    _cc_stale=("$_cc_stamp"(Nmh+24))
+    if [[ ! -e "$_cc_stamp" ]] || (( $#_cc_stale )); then
+        comp-cache-refresh && touch "$_cc_stamp"
+    fi
+    unset _cc_stamp _cc_stale
+fi
+
 (( $+commands[nvim] )) && alias vi='nvim' && alias vim='nvim' && alias vimdiff='nvim -d'
 (( $+commands[openstack] )) && alias os='openstack'
 
