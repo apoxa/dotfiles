@@ -7,4 +7,5 @@ just = "latest"
 kind = { version = "latest", postinstall = 'zsh -c "source $HOME/.config/zsh/comp-cache.zsh && comp-cache-write $MISE_TOOL_NAME -- $MISE_TOOL_NAME completion zsh"' }
 kubebuilder = { version = "4.16.0", postinstall = 'zsh -c "source $HOME/.config/zsh/comp-cache.zsh && comp-cache-write $MISE_TOOL_NAME -- $MISE_TOOL_NAME completion zsh"' }
 kubectl = { version = "1.37.0", postinstall = 'zsh -c "source $HOME/.config/zsh/comp-cache.zsh && comp-cache-write $MISE_TOOL_NAME -- $MISE_TOOL_NAME completion zsh"' }
+pnpm = "12.6.0"
 uv = "latest"
