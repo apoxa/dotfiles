@@ -47,12 +47,19 @@ hooks.post = 'ZVM_INSERT_MODE_CURSOR=$ZVM_CURSOR_BLOCK'
 github = "yzdann/kctl"
 apply = ["defer"]
 
-[plugins.kubernetes-helpers]
-local = "~/scratch/kubernetes-helpers"
-apply = ["fpath", "defer"]
+# Inline instead of `local`: the checkout only exists on some machines, and
+# sheldon fails on a missing local plugin directory. Same effect as
+# apply = ["fpath", "defer"] when it exists.
 # compinit runs before sheldon in .zshrc, so it never sees this plugin's _* files;
 # register them manually.
-hooks.post = 'autoload -Uz _fremctl_download _fremctl_switch; compdef _fremctl_download fremctl_download; compdef _fremctl_switch fremctl_switch'
+[plugins.kubernetes-helpers]
+inline = """
+if [[ -d "$HOME/scratch/kubernetes-helpers" ]]; then
+  fpath+=("$HOME/scratch/kubernetes-helpers")
+  zsh-defer source "$HOME/scratch/kubernetes-helpers/kubernetes_helpers.plugin.zsh"
+  zsh-defer eval 'autoload -Uz _fremctl_download _fremctl_switch; compdef _fremctl_download fremctl_download; compdef _fremctl_switch fremctl_switch'
+fi
+"""
 
 [plugins.zsh-autopair]
 github = "hlissner/zsh-autopair"
