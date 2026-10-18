@@ -1,0 +1,3 @@
+address "oreo.unpatched.de:39843"
+nickname "apoca"
+password-cmd /opt/homebrew/bin/op --account my read "op://Private/soju/password"
