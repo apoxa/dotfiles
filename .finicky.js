@@ -20,6 +20,7 @@ const apps = {
   spotify: "com.spotify.client",
   teams: "com.microsoft.teams2",
   zoom: "us.zoom.xos",
+  mattermost: "Mattermost.Desktop",
 };
 
 export default {
@@ -121,6 +122,18 @@ export default {
       },
     },
     {
+      // Teams links open in Teams via msteams:// (handled in handlers)
+      match: (url) =>
+        url.protocol === "https:" && url.hostname === "teams.microsoft.com",
+      url: (url) => url.href.replace(/^https:/, "msteams:"),
+    },
+    {
+      // Mattermost.app only accepts deep links with mattermost:// scheme
+      match: (url) =>
+        url.protocol === "https:" && url.hostname === "chat.levigo.de",
+      url: (url) => url.href.replace(/^https:/, "mattermost:"),
+    },
+    {
       // Bypass Medium Paywalls
       match: /medium.com/,
       url: ({ url }) => {
@@ -135,14 +148,18 @@ export default {
   handlers: [
     {
       // Teams links open in Teams
-      match: finicky.matchHostnames(["teams.microsoft.com"]),
+      match: (url) => url.protocol === "msteams:",
       browser: apps.teams,
-      url: ({ url }) => ({ ...url, protocol: "msteams" }),
     },
     {
       // Zoom links open in Zoom app
       match: /zoom\.us\/join/,
       browser: apps.zoom,
+    },
+    {
+      // Mattermost links open in Mattermost.app (rewritten to mattermost:// in rewrite)
+      match: (url) => url.protocol === "mattermost:",
+      browser: apps.mattermost,
     },
     {
       // Links FROM Outlook always open in work browser
