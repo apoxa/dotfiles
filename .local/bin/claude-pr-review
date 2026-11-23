@@ -1,0 +1,118 @@
+#!/usr/bin/env bash
+# claude-pr-review <pr> [low|medium(default)|high|xhigh] [extra /code-review args]
+#
+# Reviews a GitHub PR of the current repo in a throwaway worktree under $TMPDIR,
+# with a Claude session that loads no user settings (so no plugins, user hooks),
+# no MCP servers and no auto-memory. Repo AGENTS.md/CLAUDE.md still apply.
+# The session only gets a read-only GitHub App token and writes its findings to .review.json.
+# This script renders, validates and shows them, and after confirmation posts ONE review as the app.
+# On exit the worktree, the temp dir and Claude's project folder (transcript) are deleted.
+set -euo pipefail
+
+usage() { echo "usage: ${0##*/} <pr-number> [low|medium|high|xhigh] [extra /code-review args]" >&2; exit 2; }
+[[ ${1:-} =~ ^[0-9]+$ ]] || usage
+pr=$1; shift
+level=medium
+if [[ ${1:-} =~ ^(low|medium|high|xhigh|max)$ ]]; then level=$1; shift; fi
+for a in "$@"; do [[ $a == --comment ]] && { echo "--comment is not needed: the script posts after you confirm" >&2; exit 2; }; done
+
+repo=$(git rev-parse --show-toplevel)
+tmp=$(mktemp -d "${TMPDIR:-/tmp}/claude-pr-review.XXXXXX")
+tmp=$(cd "$tmp" && pwd -P) # macOS /var -> /private/var; Claude keys projects by the real path
+wt="$tmp/pr-$pr"
+findings="$wt/.review.json"
+# Claude stores transcripts under ~/.claude/projects/<path, every non-alphanumeric char as "->
+project_dir="$HOME/.claude/projects/$(printf %s "$wt" | sed 's/[^A-Za-z0-9]/-/g')"
+
+cleanup() {
+  git -C "$repo" worktree remove --force "$wt" 2>/dev/null || true
+  git -C "$repo" worktree prune
+  rm -rf "$tmp" "$project_dir"
+}
+trap cleanup EXIT
+
+# GitHub App tokens. 1Password item needs fields "app id" and "private key" (whole PEM file as
+# one-line base64, because concealed fields are single-line): base64 -i app.private-key.pem | pbcopy
+op_item=${CLAUDE_REVIEW_OP_ITEM:-op://Homelab/Claude Review}
+nwo=$(gh repo view --json nameWithOwner -q .nameWithOwner)
+app_id=$(op read "$op_item/app id")
+b64url() { openssl base64 -A | tr '+/' '-_' | tr -d '='; }
+gh_app() { # JWT lives 9 min, so build a fresh one per call
+  local now body
+  now=$(date +%s)
+  body="$(printf '{"alg":"RS256","typ":"JWT"}' | b64url).$(printf '{"iat":%d,"exp":%d,"iss":"%s"}' \
+    $((now - 60)) $((now + 540)) "$app_id" | b64url)"
+  curl -fsS -H "Authorization: Bearer $body.$(printf %s "$body" | openssl dgst -sha256 \
+    -sign <(op read "$op_item/private key" | base64 -d) | b64url)" \
+    -H "Accept: application/vnd.github+json" "$@"
+}
+installation=$(gh_app "https://api.github.com/repos/$nwo/installation" | jq -r .id) ||
+  { echo "No app installation for $nwo: check the 'app id' field (App ID from the app's About section, not the installation or client ID) and that the app is installed on the repo" >&2; exit 1; }
+app_token() { # $1: pull_requests permission (read|write); token is limited to this repo
+  gh_app -X POST -d "{\"repositories\":[\"${nwo#*/}\"],\"permissions\":{\"contents\":\"read\",\"pull_requests\":\"$1\"}}" \
+    "https://api.github.com/app/installations/$installation/access_tokens" | jq -r .token
+}
+
+git -C "$repo" fetch -q origin "pull/$pr/head"
+head=$(git -C "$repo" rev-parse FETCH_HEAD)
+git -C "$repo" worktree add -q --detach "$wt" "$head"
+echo "Reviewing PR #$pr ($(git -C "$wt" log -1 --format='%h %s')) in $wt"
+cd "$wt"
+
+rules="You cannot post to GitHub: your token is read-only, so never try to comment or review on GitHub.
+Scope: report only real bugs (something breaks, misbehaves, leaks or loses data when used as written) and violations of the repo rules in AGENTS.md. \
+Drop nitpicks: wording, style, docs completeness, missing explanations, and risks that need an unlikely chain of events. When unsure whether it is a real bug, leave it out. No findings is a fine result.
+When the review is done, write the findings to $findings as a JSON array of objects {path, line, priority, title, body, rule}:
+- path: relative to the repo root; line: line number in the new version of the file, on a line that is part of the PR diff
+- priority: P0 (data loss, outage, security hole), P1 (wrong behaviour) or P2 (rule violation or latent risk)
+- title: the consequence in at most 6 words, ending with a period
+- body: at most 2 sentences, the condition and what breaks, then the fix in prose; no code blocks, no restating the code, no filler
+- rule: true only if an AGENTS.md rule is the reason
+'**<priority>** **<title>** <body>' must stay within 350 characters. Write [] when there are no findings.
+Example: {\"path\":\"docs/restore.md\",\"line\":165,\"priority\":\"P1\",\"title\":\"Exported ZIPs can land in git.\",\"body\":\"live.zip and copy.zip hold secrets and are written to the repo root, and .gitignore has no *.zip. Write them to a mktemp -d directory and remove it in the same block.\",\"rule\":false}
+Then tell the user to exit the session; the script validates the file, shows it and posts one review after the user confirms."
+
+run_claude() { # no exec: the trap must run after claude exits
+  GH_TOKEN=$(app_token read) CLAUDE_CODE_DISABLE_AUTO_MEMORY=1 claude \
+    --setting-sources project,local \
+    --strict-mcp-config \
+    --model "${CLAUDE_REVIEW_MODEL:-opus}" \
+    --append-system-prompt "$rules" \
+    "$@"
+}
+
+text='"**\(.priority)** **\(.title)** \(.body)"'
+invalid() { # prints one line per finding that breaks the format
+  jq -r ".[] | select((.path|type) != \"string\" or (.line|type) != \"number\"
+    or (.priority|tostring|test(\"^P[0-2]$\")|not) or ((.title|tostring|split(\" \")|length) > 6)
+    or (($text)|length) > 350) | \"  \(.path):\(.line) (\(($text)|length) chars) \(.title)\"" "$findings"
+}
+
+run_claude "/code-review $level $pr $*"
+while :; do
+  if ! jq -e 'type == "array"' "$findings" >/dev/null 2>&1; then
+    problem="$findings is missing or not a JSON array"
+  elif bad=$(invalid) && [[ -n $bad ]]; then
+    problem=$'These findings break the format (P0-P2, title <= 6 words, <= 350 chars, path + line):\n'"$bad"
+  else
+    break
+  fi
+  echo "$problem" >&2
+  read -rp "[f]ix in the session / [a]bort: " choice
+  [[ $choice == f ]] || exit 1
+  run_claude --continue "Fix $findings. $problem"
+done
+
+count=$(jq length "$findings")
+if ((count == 0)); then echo "No findings, nothing posted."; exit 0; fi
+review=$(jq --arg commit "$head" ". as \$in | {
+  commit_id: \$commit, event: \"COMMENT\",
+  body: \"Claude review: \" + ([\"P0\",\"P1\",\"P2\"] | map(. as \$p | \"\(\$p): \([\$in[] | select(.priority == \$p)] | length)\") | join(\", \")),
+  comments: \$in | map({path, line, side: \"RIGHT\",
+    body: ($text + (if .rule then \"\n\n**Context Used:** AGENTS.md\" else \"\" end))})
+}" "$findings")
+
+echo; printf "%s\n" "$review" | jq -r '.body, "", (.comments[] | "\(.path):\(.line)\n\(.body)\n")'
+read -rp "Post this as ONE review on PR #$pr as the app? [y/N] " ok
+[[ $ok == y ]] || { echo "Not posted."; exit 0; }
+printf "%s\n" "$review" | GH_TOKEN=$(app_token write) gh api "repos/$nwo/pulls/$pr/reviews" --input - --jq .html_url
