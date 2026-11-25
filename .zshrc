@@ -66,6 +66,9 @@ disable r
 # installed separately and only initialized below when present.
 if (( $+commands[sheldon] )); then
     eval "$(sheldon source)"
+    # Deferred loads above use -mp (no precmd/reset-prompt) to avoid ~15 prompt
+    # redraws (visible flicker in tmux); redraw once after they all finish.
+    zsh-defer true
 else
     print -P "%F{160}sheldon missing%f — run 'brew install sheldon' and 'sheldon lock'"
 fi
@@ -89,16 +92,13 @@ if (( $+commands[starship] )); then
     autoload -Uz add-zsh-hook
     add-zsh-hook precmd transient-prompt-precmd
 
-    TRANSIENT_PROMPT="${PROMPT// prompt / prompt --profile transient }"
-    TRANSIENT_RPROMPT="${PROMPT// prompt / prompt --profile rtransient }"
+    # Native zsh equivalent of starship's [character] (catppuccin_mocha green/red),
+    # so no starship processes are spawned per prompt just for the transient version.
+    TRANSIENT_PROMPT='%B%(?.%F{#a6e3a1}.%F{#f38ba8})❯%f%b '
 
     function transient-prompt-precmd {
         # Fix ctrl+c behavior
         TRAPINT() { transient-prompt; return $(( 128 + $1 )) }
-
-        # Save transient prompt
-        SAVED_PROMPT="$(eval "printf '%s' \"${TRANSIENT_PROMPT}\"")"
-        SAVED_RPROMPT="$(eval "printf '%s' \"${TRANSIENT_RPROMPT}\"")"
     }
 
     autoload -Uz add-zle-hook-widget
@@ -109,7 +109,7 @@ if (( $+commands[starship] )); then
         # TRAPINT fires on Ctrl+C during a running command ZLE is not active, so
         # bail out to avoid "widgets can only be called when ZLE is active".
         zle || return
-        PROMPT="$SAVED_PROMPT" RPROMPT="$SAVED_RPROMPT" zle .reset-prompt
+        PROMPT="$TRANSIENT_PROMPT" RPROMPT="" zle .reset-prompt
     }
 
 fi

@@ -9,7 +9,7 @@
 shell = "zsh"
 
 [templates]
-defer = "{{ hooks?.pre | nl }}{% for file in files %}zsh-defer source \"{{ file }}\"\n{% endfor %}{% if hooks?.post %}zsh-defer eval '{{ hooks?.post }}'\n{% endif %}"
+defer = "{{ hooks?.pre | nl }}{% for file in files %}zsh-defer -mp source \"{{ file }}\"\n{% endfor %}{% if hooks?.post %}zsh-defer -mp eval '{{ hooks?.post }}'\n{% endif %}"
 # Source immediately, then run hooks.post inline (for plugins that must not defer).
 source_post = "{% for file in files %}source \"{{ file }}\"\n{% endfor %}{{ hooks?.post | nl }}"
 
@@ -57,8 +57,8 @@ apply = ["defer"]
 inline = """
 if [[ -d "$HOME/scratch/kubernetes-helpers" ]]; then
   fpath+=("$HOME/scratch/kubernetes-helpers")
-  zsh-defer source "$HOME/scratch/kubernetes-helpers/kubernetes_helpers.plugin.zsh"
-  zsh-defer eval 'autoload -Uz _fremctl_download _fremctl_switch; compdef _fremctl_download fremctl_download; compdef _fremctl_switch fremctl_switch'
+  zsh-defer -mp source "$HOME/scratch/kubernetes-helpers/kubernetes_helpers.plugin.zsh"
+  zsh-defer -mp eval 'autoload -Uz _fremctl_download _fremctl_switch; compdef _fremctl_download fremctl_download; compdef _fremctl_switch fremctl_switch'
 fi
 """
 
